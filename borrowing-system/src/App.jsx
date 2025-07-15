@@ -9,11 +9,12 @@ import RequestAdminPage from "./pages/RequestAdminPage";
 import RequestInstructorPage from "./pages/RequestInstructorPage";
 import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 import Sidebar from "./components/Sidebar";
+import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
 
 function App() {
     return (
         <div>
-            <Sidebar />
+            <RequestApprovedAdmin />
         </div>
     );
 }
