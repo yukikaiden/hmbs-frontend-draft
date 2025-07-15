@@ -41,7 +41,7 @@ function Header() {
     const linkStyle = {
         color: 'white',
         textDecoration: 'none',
-        fontWeight: '700',
+        fontWeight: '600',
         fontSize: '16px',
     };
 
