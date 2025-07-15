@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaSignOutAlt } from 'react-icons/fa';
 import hmbsLogoWhite from '../assets/hmbs-logo-white.png';
 
-const Sidebar = ({ activePage, onLogout }) => {
+const Sidebar = ({ activePage }) => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutModal(true);
+  };
+
+  const handleCancel = () => {
+    setShowLogoutModal(false);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutModal(false);
+    // Redirect or perform logout logic
+    alert('Logged out!');
+  };
+
   const styles = {
     sidebar: {
       position: 'fixed',
@@ -66,6 +82,39 @@ const Sidebar = ({ activePage, onLogout }) => {
       cursor: 'pointer',
       fontSize: '1.5rem',
     },
+    modalOverlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 2000,
+    },
+    modalContent: {
+      backgroundColor: 'white',
+      padding: '2rem',
+      borderRadius: '10px',
+      textAlign: 'center',
+      width: '300px',
+    },
+    modalButton: {
+      margin: '1rem 0.5rem 0 0.5rem',
+      padding: '0.5rem 1.2rem',
+      borderRadius: '5px',
+      border: 'none',
+      cursor: 'pointer',
+    },
+    cancelBtn: {
+      backgroundColor: '#ccc',
+    },
+    confirmBtn: {
+      backgroundColor: '#8A1F2B',
+      color: 'white',
+    },
   };
 
   const navItems = [
@@ -75,43 +124,69 @@ const Sidebar = ({ activePage, onLogout }) => {
   ];
 
   return (
-    <aside style={styles.sidebar}>
-      <div style={styles.navContainer}>
-        <img src={hmbsLogoWhite} alt="HMBS Logo" style={styles.logo} />
+    <>
+      <aside style={styles.sidebar}>
+        <div style={styles.navContainer}>
+          <img src={hmbsLogoWhite} alt="HMBS Logo" style={styles.logo} />
 
-        {navItems.map((item) => (
-          <button
-            key={item.id}
-            style={{
-              ...styles.navButton,
-              ...(activePage === item.id ? styles.navActive : {}),
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')}
-            onMouseLeave={(e) => {
-              if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
-            }}
-          >
-            {item.icon}
-            {item.name}
-          </button>
-        ))}
-      </div>
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              style={{
+                ...styles.navButton,
+                ...(activePage === item.id ? styles.navActive : {}),
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')
+              }
+              onMouseLeave={(e) => {
+                if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              {item.icon}
+              {item.name}
+            </button>
+          ))}
+        </div>
 
-      <div style={styles.sidebarBottom}>
-        <div style={styles.userInfo}>
-          <FaUserCircle size={30} />
-          <div>
-            <div>Staff</div>
-            <div style={{ fontSize: '0.85rem' }}>Admin</div>
+        <div style={styles.sidebarBottom}>
+          <div style={styles.userInfo}>
+            <FaUserCircle size={30} />
+            <div>
+              <div>Staff</div>
+              <div style={{ fontSize: '0.85rem' }}>Admin</div>
+            </div>
+          </div>
+          <FaSignOutAlt
+            style={styles.logoutIcon}
+            onClick={handleLogoutClick}
+            title="Logout"
+          />
+        </div>
+      </aside>
+
+      {showLogoutModal && (
+        <div style={styles.modalOverlay}>
+          <div style={styles.modalContent}>
+            <p>Are you sure you want to logout?</p>
+            <div>
+              <button
+                style={{ ...styles.modalButton, ...styles.cancelBtn }}
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+              <button
+                style={{ ...styles.modalButton, ...styles.confirmBtn }}
+                onClick={handleConfirmLogout}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
-        <FaSignOutAlt
-          style={styles.logoutIcon}
-          onClick={onLogout}
-          title="Logout"
-        />
-      </div>
-    </aside>
+      )}
+    </>
   );
 };
 
