@@ -12,7 +12,7 @@ import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 function App() {
     return (
         <div>
-            <RequestDetailsAdmin />
+            <RequestInstructorPage />
         </div>
     );
 }
