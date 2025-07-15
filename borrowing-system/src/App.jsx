@@ -7,11 +7,12 @@ import LoginPage from './pages/Log-in';  // Adjust path as needed
 import Homepage from './pages/Homepage';
 import RequestAdminPage from "./pages/RequestAdminPage";
 import RequestInstructorPage from "./pages/RequestInstructorPage";
+import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 
 function App() {
     return (
         <div>
-            <RequestInstructorPage />
+            <RequestDetailsAdmin />
         </div>
     );
 }
