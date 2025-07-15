@@ -6,11 +6,12 @@ import React from 'react';
 import LoginPage from './pages/Log-in';  // Adjust path as needed
 import Homepage from './pages/Homepage';
 import RequestAdminPage from "./pages/RequestAdminPage";
+import RequestInstructorPage from "./pages/RequestInstructorPage";
 
 function App() {
     return (
         <div>
-            <RequestAdminPage />
+            <RequestInstructorPage />
         </div>
     );
 }
