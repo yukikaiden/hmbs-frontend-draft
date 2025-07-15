@@ -11,7 +11,11 @@ import RequestInstructorPage from "./pages/RequestInstructorPage";
 function App() {
     return (
         <div>
+<<<<<<< Updated upstream
             <RequestInstructorPage />
+=======
+            <Homepage />
+>>>>>>> Stashed changes
         </div>
     );
 }
