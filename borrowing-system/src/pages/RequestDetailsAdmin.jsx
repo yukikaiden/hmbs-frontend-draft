@@ -136,6 +136,12 @@ const RequestDetailsAdmin = () => {
       padding: '1rem',
       textAlign: 'center',
     },
+    thmembers:{
+      backgroundColor: '#cacacaff',
+      color: 'black',
+      padding: '1rem',
+      textAlign: 'center',
+    },
     td: {
       padding: '1rem',
       textAlign: 'center',
@@ -287,9 +293,9 @@ const RequestDetailsAdmin = () => {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.th}>#</th>
-              <th style={styles.th}>Name</th>
-              <th style={styles.th}>Course ID</th>
+              <th style={styles.thmembers}>#</th>
+              <th style={styles.thmembers}>Name</th>
+              <th style={styles.thmembers}>Course ID</th>
             </tr>
           </thead>
           <tbody>

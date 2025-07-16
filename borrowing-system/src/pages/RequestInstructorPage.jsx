@@ -180,23 +180,7 @@ const RequestInstructorPage = () => {
             Requests
           </button>
 
-          <button
-            style={styles.navButton}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-          >
-            <FaBoxOpen />
-            Inventory
-          </button>
-
-          <button
-            style={styles.navButton}
-            onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')}
-            onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-          >
-            <FaClipboardList />
-            Registry
-          </button>
+          
         </div>
 
         <div style={styles.sidebarBottom}>
