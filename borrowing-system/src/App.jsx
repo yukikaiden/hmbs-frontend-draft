@@ -11,11 +11,12 @@ import RequestInstructorPage from "./pages/RequestInstructorPage";
 import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 import Sidebar from "./components/Sidebar";
 import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
+import EquipmentsPage from "./pages/EquipmentPage";
 
 function App() {
     return (
         <div>
-            <LoginPage />
+            <EquipmentsPage />
         </div>
     );
 }

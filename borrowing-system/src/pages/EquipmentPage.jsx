@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
+import ItemDetail from '../components/ItemDetail';
 import equipmentHeaderBg from '../assets/equipment-header-bg.png';
+import tempItemImg from '../assets/temp-item-img.png';
 import { FiSearch } from 'react-icons/fi';
 
 const CATEGORY_MAP = {
@@ -42,6 +44,7 @@ function EquipmentsPage() {
   const [sort, setSort] = useState('Recommended');
   const [category, setCategory] = useState('All Products');
   const [type, setType] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   let filteredList = equipmentList
     .filter(item => CATEGORY_MAP[category] ? CATEGORY_MAP[category](item) : true)
@@ -66,7 +69,7 @@ function EquipmentsPage() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1, // ✅ Important fix
+    zIndex: 1,
   };
 
   const headerImageStyle = {
@@ -126,7 +129,6 @@ function EquipmentsPage() {
     fontSize: '16px',
     fontWeight: '600',
     marginBottom: '5px',
-
   };
 
   const hrStyle = {
@@ -144,7 +146,7 @@ function EquipmentsPage() {
     fontSize: '14px',
   };
 
-  const listItemStyle = (active) => ({
+  const listItemStyle = active => ({
     cursor: 'pointer',
     color: active ? '#861111' : '#333',
     fontWeight: active ? 600 : 400,
@@ -155,9 +157,7 @@ function EquipmentsPage() {
     transition: 'color 0.2s',
   });
 
-  const gridSectionStyle = {
-    flex: 1,
-  };
+  const gridSectionStyle = { flex: 1 };
 
   const topBarStyle = {
     display: 'flex',
@@ -203,7 +203,6 @@ function EquipmentsPage() {
   return (
     <>
       <Header />
-
       <div style={containerStyle}>
         <div style={headerImageWrapperStyle}>
           <img src={equipmentHeaderBg} alt="Equipment Header" style={headerImageStyle} />
@@ -280,18 +279,21 @@ function EquipmentsPage() {
               {sortedList.map((item, i) => (
                 <ItemCard
                   key={i}
-                  name={
-                    <span style={cardNameStyle} title={item.name}>
-                      {item.name}
-                    </span>
-                  }
+                  name={<span style={cardNameStyle} title={item.name}>{item.name}</span>}
                   qty={item.qty}
+                  onClick={() =>
+                    setSelectedItem({ ...item, image: tempItemImg, price: 100 })
+                  }
                 />
               ))}
             </div>
           </div>
         </div>
       </div>
+
+      {selectedItem && (
+        <ItemDetail item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
 
       <Footer />
     </>
