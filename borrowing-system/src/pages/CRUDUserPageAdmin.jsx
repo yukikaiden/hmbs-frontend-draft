@@ -136,12 +136,12 @@ const CRUDUserPageAdmin = () => {
     <div style={styles.layout}>
       <Sidebar
         activePage="registry"
-        userRole="Custodian"
+        userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests' },
-          { id: 'inventory', name: 'Inventory' },
-          { id: 'registry', name: 'Registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
         ]}
       />
 
