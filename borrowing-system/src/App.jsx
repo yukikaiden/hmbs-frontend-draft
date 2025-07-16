@@ -16,11 +16,12 @@ import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";
 import RequestProgHeadPage from "./pages/RequestProgHeadPage";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 import CRUDInventoryPage from "./pages/CRUDInventoryPage";
+import AddNewItemAdmin from "./pages/AddNewItemAdmin";
 
 function App() {
     return (
         <div>
-            <CRUDInventoryPage />
+            <AddNewItemAdmin />
         </div>
     );
 }

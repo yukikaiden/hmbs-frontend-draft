@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import SpoonImage from '../assets/images/spoon.png'; // ✅ Imported spoon image
 
 const RequestDetailsAdmin = () => {
   const styles = {
@@ -23,66 +24,6 @@ const RequestDetailsAdmin = () => {
       justifyContent: 'space-between',
       paddingTop: '2rem',
       zIndex: 1000,
-    },
-    logo: {
-      width: '120px',
-      marginBottom: '2rem',
-    },
-    navSection: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      gap: '1rem',
-    },
-    navButton: {
-      backgroundColor: '#A4373F',
-      border: 'none',
-      padding: '1rem 1rem',
-      borderRadius: '10px',
-      color: 'white',
-      textAlign: 'left',
-      cursor: 'pointer',
-      fontSize: '1.2rem',
-      display: 'flex',
-      gap: '1rem',
-      width: '90%',
-      margin: '0 auto',
-    },
-    navStatic: {
-      backgroundColor: 'transparent',
-      border: 'none',
-      padding: '1rem 1rem',
-      borderRadius: '10px',
-      color: 'white',
-      textAlign: 'left',
-      fontSize: '1.2rem',
-      display: 'flex',
-      gap: '1rem',
-      width: '90%',
-      margin: '0 auto',
-      cursor: 'default',
-    },
-    sidebarBottom: {
-      backgroundColor: '#FCD34D',
-      color: 'black',
-      padding: '0.75rem 1rem',
-      borderRadius: '12px 12px 0 0',
-      display: 'flex',
-      alignItems: 'center',
-      width: '100%',
-      justifyContent: 'space-between',
-    },
-    userInfo: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.5rem',
-    },
-    logoutButton: {
-      background: 'none',
-      border: 'none',
-      color: 'black',
-      cursor: 'pointer',
-      fontSize: '1.2rem',
     },
     main: {
       marginLeft: '240px',
@@ -120,7 +61,7 @@ const RequestDetailsAdmin = () => {
       padding: '1rem',
       textAlign: 'center',
     },
-    thmembers:{
+    thmembers: {
       backgroundColor: '#cacacaff',
       color: 'black',
       padding: '1rem',
@@ -153,43 +94,6 @@ const RequestDetailsAdmin = () => {
       borderRadius: '10px',
       cursor: 'pointer',
     },
-    modalOverlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 9999,
-    },
-    modalContent: {
-      backgroundColor: 'white',
-      padding: '2rem',
-      borderRadius: '12px',
-      textAlign: 'center',
-      maxWidth: '400px',
-      width: '90%',
-    },
-    modalButton: {
-      padding: '0.75rem 1.5rem',
-      margin: '1rem 0.5rem 0 0.5rem',
-      borderRadius: '8px',
-      fontSize: '1rem',
-      cursor: 'pointer',
-    },
-    confirmButton: {
-      backgroundColor: '#8A1F2B',
-      color: 'white',
-      border: 'none',
-    },
-    cancelButton: {
-      backgroundColor: '#ccc',
-      color: '#333',
-      border: 'none',
-    },
   };
 
   return (
@@ -200,9 +104,9 @@ const RequestDetailsAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => {} },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => {} },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => {} },
         ]}
       />
 
@@ -288,7 +192,11 @@ const RequestDetailsAdmin = () => {
               <tr key={i}>
                 <td style={styles.td}>{i}</td>
                 <td style={styles.td}>
-                  <img src="https://via.placeholder.com/50" alt="Item" style={{ borderRadius: '8px' }} />
+                  <img
+                    src={SpoonImage}
+                    alt="Spoon"
+                    style={{ borderRadius: '8px', width: '50px', height: '50px', objectFit: 'cover' }}
+                  />
                 </td>
                 <td style={styles.td}>Spoon</td>
                 <td style={styles.td}>Pantry Tools</td>
@@ -305,8 +213,6 @@ const RequestDetailsAdmin = () => {
           <button style={styles.approveButton}>Approve Request</button>
         </div>
       </main>
-
-      
     </div>
   );
 };
