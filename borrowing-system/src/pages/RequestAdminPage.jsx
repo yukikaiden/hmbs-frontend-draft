@@ -1,93 +1,11 @@
 import React from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 
 const RequestAdminPage = () => {
-  return (
-    <div style={styles.adminPage}>
-      <Sidebar activePage="Requests" />
-
-      <main style={styles.content}>
-        <div style={styles.header}>
-          <h2 style={styles.headerTitle}>Lists of Requests</h2>
-          <p style={styles.headerSubtitle}>List of all borrowing requests submitted by students</p>
-          <div style={styles.legend}>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> Processing Requests</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#4caf50' }}></span> Successful Requests</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#e53935' }}></span> Unsuccessful Requests</div>
-          </div>
-        </div>
-
-        <div style={styles.requestsTable}>
-          <div style={styles.tableHeader}>
-            <div>
-              <h3 style={{ margin: 0, fontSize: '25px' }}>All Requests</h3>
-              <p style={styles.totalRequests}>Total Requests: 100</p>
-            </div>
-            <button style={styles.sortBtn}>
-              Sort by <ChevronDown size={14} style={{ marginLeft: '5px', color: '#861818' }} />
-            </button>
-          </div>
-
-          <div style={styles.tableWrapper}>
-            {/* Table Head */}
-            <table style={styles.table}>
-              <thead style={styles.tableHead}>
-                <tr>
-                  <th style={{ ...styles.tableHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
-                  <th style={styles.tableHeaderCell}>Request ID</th>
-                  <th style={styles.tableHeaderCell}>Name</th>
-                  <th style={styles.tableHeaderCell}>Course ID</th>
-                  <th style={styles.tableHeaderCell}>Request Date</th>
-                  <th style={styles.tableHeaderCell}>Status</th>
-                  <th style={{ ...styles.tableHeaderCell, borderTopRightRadius: '10px' }}></th>
-                </tr>
-              </thead>
-            </table>
-
-            {/* Scrollable Body */}
-            <div style={styles.scrollBody}>
-              <table style={styles.table}>
-                <tbody>
-                  {Array.from({ length: 20 }, (_, index) => (
-                    <tr key={index} style={styles.tableRow}>
-                      <td style={styles.tableCell}>{index + 1}</td>
-                      <td style={styles.tableCell}>0000001234</td>
-                      <td style={styles.tableCell}>Juan Dela Cruz</td>
-                      <td style={styles.tableCell}>HM 001</td>
-                      <td style={styles.tableCell}>July 02, 2025</td>
-                      <td style={styles.tableCell}>
-                        <span style={{
-                          ...styles.statusTag,
-                          backgroundColor:
-                            index < 3 ? '#209cee' :
-                              index < 5 ? '#e53935' :
-                                index < 7 ? '#f2c744' :
-                                  '#4caf50'
-                        }}>
-                          {index < 3 ? 'To be reviewed' :
-                            index < 5 ? 'Declined' :
-                              index < 7 ? 'On-going' :
-                                'Approved'}
-                        </span>
-                      </td>
-                      <td style={styles.tableCell}>
-                        <SquarePen size={16} style={{ cursor: 'pointer', color: '#333' }} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-const styles = {
+  const styles = {
   adminPage: {
     display: 'flex',
     fontFamily: 'Poppins, sans-serif',
@@ -177,5 +95,102 @@ const styles = {
     textOverflow: 'ellipsis'
   }
 };
+
+  return (
+    <div style={styles.adminPage}>
+      {/* Sidebar */}
+      <Sidebar
+        activePage="requests"
+        userRole="Staff"
+        userSubrole="Admin"
+        navItems={[
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+        ]}
+      />
+
+      {/* Main Content */}
+      <main style={styles.content}>
+        <div style={styles.header}>
+          <h2 style={styles.headerTitle}>Lists of Requests</h2>
+          <p style={styles.headerSubtitle}>List of all borrowing requests submitted by students</p>
+          <div style={styles.legend}>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> Processing Requests</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#4caf50' }}></span> Successful Requests</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#e53935' }}></span> Unsuccessful Requests</div>
+          </div>
+        </div>
+
+        <div style={styles.requestsTable}>
+          <div style={styles.tableHeader}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '25px' }}>All Requests</h3>
+              <p style={styles.totalRequests}>Total Requests: 100</p>
+            </div>
+            <button style={styles.sortBtn}>
+              Sort by <ChevronDown size={14} style={{ marginLeft: '5px', color: '#861818' }} />
+            </button>
+          </div>
+
+          <div style={styles.tableWrapper}>
+            {/* Table Head */}
+            <table style={styles.table}>
+              <thead style={styles.tableHead}>
+                <tr>
+                  <th style={{ ...styles.tableHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
+                  <th style={styles.tableHeaderCell}>Request ID</th>
+                  <th style={styles.tableHeaderCell}>Name</th>
+                  <th style={styles.tableHeaderCell}>Course ID</th>
+                  <th style={styles.tableHeaderCell}>Request Date</th>
+                  <th style={styles.tableHeaderCell}>Status</th>
+                  <th style={{ ...styles.tableHeaderCell, borderTopRightRadius: '10px' }}></th>
+                </tr>
+              </thead>
+            </table>
+
+            {/* Scrollable Body */}
+            <div style={styles.scrollBody}>
+              <table style={styles.table}>
+                <tbody>
+                  {Array.from({ length: 20 }, (_, index) => (
+                    <tr key={index} style={styles.tableRow}>
+                      <td style={styles.tableCell}>{index + 1}</td>
+                      <td style={styles.tableCell}>0000001234</td>
+                      <td style={styles.tableCell}>Juan Dela Cruz</td>
+                      <td style={styles.tableCell}>HM 001</td>
+                      <td style={styles.tableCell}>July 02, 2025</td>
+                      <td style={styles.tableCell}>
+                        <span style={{
+                          ...styles.statusTag,
+                          backgroundColor:
+                            index < 3 ? '#209cee' :
+                              index < 5 ? '#e53935' :
+                                index < 7 ? '#f2c744' :
+                                  '#4caf50'
+                        }}>
+                          {index < 3 ? 'To be reviewed' :
+                            index < 5 ? 'Declined' :
+                              index < 7 ? 'On-going' :
+                                'Approved'}
+                        </span>
+                      </td>
+                      <td style={styles.tableCell}>
+                        <SquarePen size={16} style={{ cursor: 'pointer', color: '#333' }} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+
 
 export default RequestAdminPage;

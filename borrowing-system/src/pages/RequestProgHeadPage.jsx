@@ -11,13 +11,8 @@ const initialRequests = Array(9).fill({
   status: 'Pending',
 });
 
-const RequestInstructorPage = () => {
+const RequestProgHeadPage = () => {
   const [requests, setRequests] = useState(initialRequests);
-
-  const handleApprove = (idx) => {
-    // Placeholder: Add your logic here
-    // Example: setRequests to update status, open modal, etc.
-  };
 
   const styles = {
     layout: {
@@ -121,9 +116,9 @@ const RequestInstructorPage = () => {
         <Sidebar
             activePage="requests"
             userRole="Staff"
-            userSubrole="Instructor"
+            userSubrole="Program Head"
             navItems={[
-                { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestInstructorPage') }
+                { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestProgHeadPage') }
             ]}
         />
 
@@ -175,9 +170,8 @@ const RequestInstructorPage = () => {
         </table>
       </main>
 
-
     </div>
   );
 };
 
-export default RequestInstructorPage;
+export default RequestProgHeadPage;

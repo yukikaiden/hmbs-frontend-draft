@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 
 const RequestApprovedAdmin = () => {
   const styles = {
@@ -80,7 +81,17 @@ const RequestApprovedAdmin = () => {
 
   return (
     <div style={styles.layout}>
-      <Sidebar activePage="requests" onLogout={() => console.log("Logout clicked")} />
+      {/* Sidebar */}
+      <Sidebar
+        activePage="requests"
+        userRole="Staff"
+        userSubrole="Admin"
+        navItems={[
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+        ]}
+      />
 
       <main style={styles.main}>
         <div style={styles.header}>
@@ -158,6 +169,9 @@ const RequestApprovedAdmin = () => {
               <td style={styles.td}>
                 <select style={styles.input} defaultValue="Reserved">
                   <option>Reserved</option>
+                  <option>In Use</option>
+                  <option>Returned</option>
+                  <option>To be Replaced</option>
                 </select>
               </td>
               <td style={styles.td}><input style={styles.input} /></td>

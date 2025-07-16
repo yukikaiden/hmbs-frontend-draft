@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaSignOutAlt } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 import hmbsLogoWhite from '../assets/hmbs-logo-white.png';
 
-const Sidebar = ({ activePage }) => {
+const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin' }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
-  const handleLogoutClick = () => {
-    setShowLogoutModal(true);
-  };
-
-  const handleCancel = () => {
-    setShowLogoutModal(false);
-  };
-
+  const handleLogoutClick = () => setShowLogoutModal(true);
+  const handleCancel = () => setShowLogoutModal(false);
   const handleConfirmLogout = () => {
     setShowLogoutModal(false);
-    // Redirect or perform logout logic
     alert('Logged out!');
   };
 
@@ -28,17 +22,21 @@ const Sidebar = ({ activePage }) => {
       height: '100vh',
       backgroundColor: '#8A1F2B',
       color: 'white',
+      zIndex: 1000,
       display: 'flex',
       flexDirection: 'column',
+    },
+    sidebarInner: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
       justifyContent: 'space-between',
-      padding: '2rem 0rem 0rem 0rem',
-      zIndex: 1000,
     },
     logo: {
       width: '120px',
-      marginBottom: '2rem',
+      margin: '2rem 0',
     },
-    navContainer: {
+    navSection: {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -47,18 +45,18 @@ const Sidebar = ({ activePage }) => {
     navButton: {
       backgroundColor: 'transparent',
       border: 'none',
-      padding: '1rem',
-      borderRadius: '10px',
       color: 'white',
-      textAlign: 'left',
-      cursor: 'pointer',
-      fontSize: '1.2rem',
       display: 'flex',
       alignItems: 'center',
       gap: '1rem',
       width: '90%',
-      justifyContent: 'left',
+      padding: '1rem',
       marginBottom: '0.5rem',
+      borderRadius: '10px',
+      fontSize: '1.1rem',
+      fontWeight: 'bold',
+      justifyContent: 'flex-start',
+      cursor: 'pointer',
       transition: 'background-color 0.2s ease',
     },
     navActive: {
@@ -78,9 +76,12 @@ const Sidebar = ({ activePage }) => {
       alignItems: 'center',
       gap: '0.5rem',
     },
-    logoutIcon: {
+    logoutButton: {
+      background: 'none',
+      border: 'none',
       cursor: 'pointer',
       fontSize: '1.5rem',
+      color: 'black',
     },
     modalOverlay: {
       position: 'fixed',
@@ -117,51 +118,45 @@ const Sidebar = ({ activePage }) => {
     },
   };
 
-  const navItems = [
-    { name: 'Requests', icon: <FaFileAlt />, id: 'requests' },
-    { name: 'Inventory', icon: <FaBoxOpen />, id: 'inventory' },
-    { name: 'Registry', icon: <FaClipboardList />, id: 'registry' },
-  ];
-
   return (
     <>
       <aside style={styles.sidebar}>
-        <div style={styles.navContainer}>
-          <img src={hmbsLogoWhite} alt="HMBS Logo" style={styles.logo} />
-
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              style={{
-                ...styles.navButton,
-                ...(activePage === item.id ? styles.navActive : {}),
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')
-              }
-              onMouseLeave={(e) => {
-                if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
-              }}
-            >
-              {item.icon}
-              {item.name}
-            </button>
-          ))}
-        </div>
-
-        <div style={styles.sidebarBottom}>
-          <div style={styles.userInfo}>
-            <FaUserCircle size={30} />
-            <div>
-              <div>Staff</div>
-              <div style={{ fontSize: '0.85rem' }}>Admin</div>
-            </div>
+        <div style={styles.sidebarInner}>
+          <div style={styles.navSection}>
+            <img src={hmbsLogoWhite} alt="HMBS Logo" style={styles.logo} />
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                style={{
+                  ...styles.navButton,
+                  ...(activePage === item.id ? styles.navActive : {}),
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')
+                }
+                onMouseLeave={(e) => {
+                  if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
+                }}
+                onClick={item.onClick}
+              >
+                {item.icon}
+                {item.name}
+              </button>
+            ))}
           </div>
-          <FaSignOutAlt
-            style={styles.logoutIcon}
-            onClick={handleLogoutClick}
-            title="Logout"
-          />
+
+          <div style={styles.sidebarBottom}>
+            <div style={styles.userInfo}>
+              <FaUserCircle size={30} />
+              <div>
+                <strong>{userRole}</strong>
+                <div style={{ fontSize: '0.85rem' }}>{userSubrole}</div>
+              </div>
+            </div>
+            <button style={styles.logoutButton} onClick={handleLogoutClick}>
+              <FiLogOut />
+            </button>
+          </div>
         </div>
       </aside>
 
