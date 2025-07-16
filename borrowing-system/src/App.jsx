@@ -5,17 +5,17 @@ import "slick-carousel/slick/slick-theme.css";
 import React from 'react';
 import LoginPage from './pages/Log-in';  // Adjust path as needed
 import Homepage from './pages/Homepage';
+import Footer from "./components/Footer";
 import RequestAdminPage from "./pages/RequestAdminPage";
 import RequestInstructorPage from "./pages/RequestInstructorPage";
+import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
+import Sidebar from "./components/Sidebar";
+import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
 
 function App() {
     return (
         <div>
-<<<<<<< Updated upstream
-            <RequestInstructorPage />
-=======
-            <Homepage />
->>>>>>> Stashed changes
+            <LoginPage />
         </div>
     );
 }
