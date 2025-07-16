@@ -15,7 +15,7 @@ import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
 function App() {
     return (
         <div>
-            <RequestApprovedAdmin />
+            <LoginPage />
         </div>
     );
 }
