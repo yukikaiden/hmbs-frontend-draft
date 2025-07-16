@@ -1,7 +1,11 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
+import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { FiLogOut, FiPlus } from 'react-icons/fi';
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import { FiPlus } from 'react-icons/fi';
+
+// ✅ Import the local spoon image
+import SpoonImage from '../assets/images/spoon.png';
 
 const CRUDInventoryPage = () => {
   const styles = {
@@ -122,7 +126,17 @@ const CRUDInventoryPage = () => {
 
   return (
     <div style={styles.layout}>
-      <Sidebar activePage="inventory" onLogout={() => console.log("Logout clicked")} />
+      <Sidebar
+        activePage="inventory"
+        userRole="Staff"
+        userSubrole="Admin"
+        navItems={[
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+        ]}
+      />
+
       <main style={styles.main}>
         <div style={styles.headerSection}>
           <div>
@@ -161,7 +175,9 @@ const CRUDInventoryPage = () => {
               {inventoryData.map((item, idx) => (
                 <tr key={item.id}>
                   <td style={styles.td}>{idx + 1}</td>
-                  <td style={styles.td}><img src="https://via.placeholder.com/40" alt="item" /></td>
+                  <td style={styles.td}>
+                    <img src={SpoonImage} alt="Spoon" style={{ width: '40px', height: '40px' }} />
+                  </td>
                   <td style={styles.td}>{item.name}</td>
                   <td style={styles.td}>{item.category}</td>
                   <td style={styles.td}>{item.location}</td>
