@@ -17,11 +17,12 @@ import RequestProgHeadPage from "./pages/RequestProgHeadPage";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 import CRUDInventoryPage from "./pages/CRUDInventoryPage";
 import AddNewItemAdmin from "./pages/AddNewItemAdmin";
+import CRUDUserPageAdmin from "./pages/CRUDUserPageAdmin";
 
 function App() {
     return (
         <div>
-            <AddNewItemAdmin />
+            <CRUDUserPageAdmin />
         </div>
     );
 }
