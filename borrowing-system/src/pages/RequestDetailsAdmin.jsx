@@ -1,35 +1,44 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
-import SpoonImage from '../assets/images/spoon.png'; // ✅ Imported spoon image
+import { FiLogOut, FiPlus } from 'react-icons/fi';
+import SpoonImage from '../assets/images/spoon.png';
 
 const RequestDetailsAdmin = () => {
+  const borrowedItems = [1, 2, 3]; // Sample data
+  const groupMembers = [1, 2, 3]; // Sample data
+
   const styles = {
     layout: {
       display: 'flex',
       minHeight: '100vh',
       fontFamily: 'Poppins, sans-serif',
     },
-    sidebar: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '240px',
-      height: '100vh',
-      backgroundColor: '#8A1F2B',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      paddingTop: '2rem',
-      zIndex: 1000,
-    },
     main: {
       marginLeft: '240px',
       flex: 1,
       backgroundColor: '#f5f5f5',
       padding: '2rem',
+    },
+    topHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    goBackBtn: {
+      backgroundColor: '#8A1F2B',
+      color: 'white',
+      border: 'none',
+      padding: '0.5rem 1rem',
+      borderRadius: '8px',
+      cursor: 'pointer',
+      fontWeight: 500,
+    },
+    status: {
+      backgroundColor: '#23a6f0',
+      color: 'white',
+      padding: '0.2rem 1rem',
+      borderRadius: '1rem',
     },
     formGroup: {
       marginBottom: '1.5rem',
@@ -43,7 +52,7 @@ const RequestDetailsAdmin = () => {
       width: '100%',
       padding: '1rem',
       borderRadius: '12px',
-      border: '1px solid #ccc',
+      border: '1px solid #000', // Black border
       fontSize: '1rem',
     },
     table: {
@@ -58,12 +67,6 @@ const RequestDetailsAdmin = () => {
     th: {
       backgroundColor: '#8A1F2B',
       color: 'white',
-      padding: '1rem',
-      textAlign: 'center',
-    },
-    thmembers: {
-      backgroundColor: '#cacacaff',
-      color: 'black',
       padding: '1rem',
       textAlign: 'center',
     },
@@ -94,37 +97,36 @@ const RequestDetailsAdmin = () => {
       borderRadius: '10px',
       cursor: 'pointer',
     },
+    itemCountContainer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      marginBottom: '0.5rem',
+      fontWeight: 'bold',
+    },
   };
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar */}
       <Sidebar
         activePage="requests"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => {} },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => {} },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => {} },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> },
         ]}
       />
 
-      {/* Main content */}
       <main style={styles.main}>
-        <h1>Request No. 000001234</h1>
+        {/* Header with Go Back */}
+        <div style={styles.topHeader}>
+          <h1>Request No. 000001234</h1>
+          <button style={styles.goBackBtn}>Go Back</button>
+        </div>
+
         <p>
-          Status:{' '}
-          <span
-            style={{
-              backgroundColor: '#23a6f0',
-              color: 'white',
-              padding: '0.2rem 1rem',
-              borderRadius: '1rem',
-            }}
-          >
-            Pending
-          </span>
+          Status: <span style={styles.status}>Pending</span>
         </p>
 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
@@ -158,13 +160,13 @@ const RequestDetailsAdmin = () => {
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.thmembers}>#</th>
-              <th style={styles.thmembers}>Name</th>
-              <th style={styles.thmembers}>Course ID</th>
+              <th style={styles.th}>#</th>
+              <th style={styles.th}>Name</th>
+              <th style={styles.th}>Course ID</th>
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3].map((i) => (
+            {groupMembers.map((i) => (
               <tr key={i}>
                 <td style={styles.td}>{i}</td>
                 <td style={styles.td}>Juan Dela Cruz</td>
@@ -174,8 +176,9 @@ const RequestDetailsAdmin = () => {
           </tbody>
         </table>
 
-        {/* Borrowed Items Table */}
+        {/* List of Borrowed Items Table */}
         <h3 style={{ marginTop: '2rem' }}>List of Borrowed Items</h3>
+        <div style={styles.itemCountContainer}>Total: {borrowedItems.length} item(s)</div>
         <table style={styles.table}>
           <thead>
             <tr>
@@ -188,7 +191,7 @@ const RequestDetailsAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3].map((i) => (
+            {borrowedItems.map((i) => (
               <tr key={i}>
                 <td style={styles.td}>{i}</td>
                 <td style={styles.td}>

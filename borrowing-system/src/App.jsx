@@ -22,7 +22,7 @@ import CRUDUserPageAdmin from "./pages/CRUDUserPageAdmin";
 function App() {
     return (
         <div>
-            <CRUDUserPageAdmin />
+            <RequestDetailsAdmin />
         </div>
     );
 }
