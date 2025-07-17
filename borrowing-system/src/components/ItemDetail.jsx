@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import tempItemImg from '../assets/temp-item-img.png';
+import ItemAddedModal from './ItemAddedModal'; // Import the modal
 
 function ItemDetail({ item, onClose }) {
   if (!item) return null;
 
   const [quantity, setQuantity] = useState(1);
+  const [showModal, setShowModal] = useState(false);
 
   const handleIncrement = () => {
     if (quantity < item.qty) setQuantity(prev => prev + 1);
@@ -12,6 +14,10 @@ function ItemDetail({ item, onClose }) {
 
   const handleDecrement = () => {
     if (quantity > 1) setQuantity(prev => prev - 1);
+  };
+
+  const handleAddToRequest = () => {
+    setShowModal(true);
   };
 
   const modalOverlay = {
@@ -118,32 +124,44 @@ function ItemDetail({ item, onClose }) {
   };
 
   return (
-    <div style={modalOverlay} onClick={onClose}>
-      <div style={modalContent} onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} style={closeButton}>×</button>
+    <>
+      <div style={modalOverlay} onClick={onClose}>
+        <div style={modalContent} onClick={e => e.stopPropagation()}>
+          <button onClick={onClose} style={closeButton}>×</button>
 
-        <img src={tempItemImg} alt={item.name} style={imageStyle} />
+          <img src={tempItemImg} alt={item.name} style={imageStyle} />
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <h2 style={{ fontWeight: 600, fontSize: '30px', marginBottom: '5px' , lineHeight: '1.2', textAlign: 'left'}}>{item.name}</h2>
-          <p style={{ fontSize: '16px', color: '#555', marginBottom: '12px' }}>Available Qty: {item.qty}</p>
-          <p style={{ color: '#991F1F', fontWeight: 600, fontSize: '25px', marginBottom: '20px' }}>$100.00</p>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <h2 style={{ fontWeight: 600, fontSize: '30px', marginBottom: '5px', lineHeight: '1.2', textAlign: 'left' }}>{item.name}</h2>
+            <p style={{ fontSize: '16px', color: '#555', marginBottom: '12px' }}>Available Qty: {item.qty}</p>
+            <p style={{ color: '#991F1F', fontWeight: 600, fontSize: '25px', marginBottom: '20px' }}>$100.00</p>
 
-          <div style={qtyControlsContainer}>
-            <label style={qtyLabel}>Quantity</label>
-            <div style={qtyControls}>
-              <div style={qtyBox} onClick={handleDecrement}>−</div>
-              <div style={qtyDisplayBox}>{quantity}</div>
-              <div style={qtyBox} onClick={handleIncrement}>+</div>
+            <div style={qtyControlsContainer}>
+              <label style={qtyLabel}>Quantity</label>
+              <div style={qtyControls}>
+                <div style={qtyBox} onClick={handleDecrement}>−</div>
+                <div style={qtyDisplayBox}>{quantity}</div>
+                <div style={qtyBox} onClick={handleIncrement}>+</div>
+              </div>
             </div>
-          </div>
 
-          <button style={addToRequestBtn}>
-            Add To Request
-          </button>
+            <button style={addToRequestBtn} onClick={handleAddToRequest}>
+              Add To Request
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {showModal && (
+        <ItemAddedModal
+          onClose={() => {
+            setShowModal(false);
+            onClose(); // ← this will close ItemDetail too
+          }}
+        />
+    )}
+
+    </>
   );
 }
 
