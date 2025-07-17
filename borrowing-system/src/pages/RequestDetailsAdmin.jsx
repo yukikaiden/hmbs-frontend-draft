@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut, FiPlus } from 'react-icons/fi';
+import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import SpoonImage from '../assets/images/spoon.png';
 
 const RequestDetailsAdmin = () => {
-  const borrowedItems = [1, 2, 3]; // Sample data
-  const groupMembers = [1, 2, 3]; // Sample data
+  const borrowedItems = [1, 2, 3];
+  const groupMembers = [1, 2, 3];
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState('');
 
   const styles = {
     layout: {
@@ -52,7 +53,7 @@ const RequestDetailsAdmin = () => {
       width: '100%',
       padding: '1rem',
       borderRadius: '12px',
-      border: '1px solid #000', // Black border
+      border: '1px solid #000',
       fontSize: '1rem',
     },
     table: {
@@ -119,7 +120,6 @@ const RequestDetailsAdmin = () => {
       />
 
       <main style={styles.main}>
-        {/* Header with Go Back */}
         <div style={styles.topHeader}>
           <h1>Request No. 000001234</h1>
           <button style={styles.goBackBtn}>Go Back</button>
@@ -155,7 +155,6 @@ const RequestDetailsAdmin = () => {
           </div>
         </div>
 
-        {/* Group Members Table */}
         <h3>Group Members</h3>
         <table style={styles.table}>
           <thead>
@@ -176,7 +175,6 @@ const RequestDetailsAdmin = () => {
           </tbody>
         </table>
 
-        {/* List of Borrowed Items Table */}
         <h3 style={{ marginTop: '2rem' }}>List of Borrowed Items</h3>
         <div style={styles.itemCountContainer}>Total: {borrowedItems.length} item(s)</div>
         <table style={styles.table}>
@@ -210,11 +208,100 @@ const RequestDetailsAdmin = () => {
           </tbody>
         </table>
 
-        {/* Action Buttons */}
         <div style={styles.actionButtons}>
-          <button style={styles.rejectButton}>Reject Request</button>
+          <button
+            style={styles.rejectButton}
+            onClick={() => setShowRejectModal(true)}
+          >
+            Reject Request
+          </button>
           <button style={styles.approveButton}>Approve Request</button>
         </div>
+
+        {showRejectModal && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 1000,
+          }}>
+            <div style={{
+              backgroundColor: 'white',
+              padding: '2rem',
+              borderRadius: '10px',
+              width: '650px',
+              fontFamily: 'Poppins, sans-serif',
+            }}>
+              <h2 style={{ marginTop: 0 }}>Reject Request</h2>
+              <p>Please provide a reason for rejecting this request. The student will be notified with your feedback.</p>
+              <textarea
+                placeholder="Enter reason for rejection..."
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                style={{
+                  width: '100%',
+                  height: '280px',
+                  padding: '1rem',
+                  fontSize: '1rem',
+                  border: '1px solid #8A1F2B',
+                  borderRadius: '10px',
+                  resize: 'none',
+                  marginTop: '1rem',
+                  fontFamily: 'Poppins, sans-serif',
+                }}
+              />
+              <div style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '1.5rem',
+                gap: '1rem',
+              }}>
+                <button
+                  onClick={() => setShowRejectModal(false)}
+                  style={{
+                    backgroundColor: 'white',
+                    color: '#8A1F2B',
+                    border: '2px solid #8A1F2B',
+                    padding: '0.6rem 1.5rem',
+                    borderRadius: '2rem',
+                    fontWeight: 500,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (!rejectionReason.trim()) {
+                      alert('Please enter a reason for rejection.');
+                      return;
+                    }
+                    console.log('Rejected with reason:', rejectionReason);
+                    setShowRejectModal(false);
+                    setRejectionReason('');
+                  }}
+                  style={{
+                    backgroundColor: '#8A1F2B',
+                    color: 'white',
+                    padding: '0.6rem 1.5rem',
+                    border: 'none',
+                    borderRadius: '2rem',
+                    fontWeight: 500,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
