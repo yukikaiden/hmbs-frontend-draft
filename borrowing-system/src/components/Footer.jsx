@@ -13,7 +13,7 @@ function Footer() {
     alignItems: 'center',
     fontSize: '14px',
     flexDirection: 'column',
-    position: 'relative',
+    width: '100%',
   };
 
   const logoContainerWrapperStyle = {
@@ -44,14 +44,13 @@ function Footer() {
     zIndex: '1',
   };
 
-const logoStyle = {
-  height: '65px',
-  width: 'auto',
-  border: '5px solid #861111',       // adds a thin white border
-  borderRadius: '100px',             // optional: makes the corners rounded
-  backgroundColor: '#861111',  // keeps it clean
-};
-
+  const logoStyle = {
+    height: '65px',
+    width: 'auto',
+    border: '5px solid #861111',
+    borderRadius: '100px',
+    backgroundColor: '#861111',
+  };
 
   const textContainerStyle = {
     textAlign: 'center',
@@ -81,7 +80,6 @@ const logoStyle = {
 
   return (
     <footer style={footerStyle}>
-      {/* Logos with white line behind */}
       <div style={logoContainerWrapperStyle}>
         <hr style={hrStyle} />
         <div style={logoContainerStyle}>
@@ -90,7 +88,6 @@ const logoStyle = {
         </div>
       </div>
 
-      {/* Text and Links */}
       <div style={textContainerStyle}>
         <p style={mainTextStyle}>
           University of Southeastern Philippines • College of Business Administration

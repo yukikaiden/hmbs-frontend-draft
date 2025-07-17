@@ -15,14 +15,11 @@ import RequestInstructorPage from "./pages/RequestInstructorPage";
 import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";
 import RequestProgHeadPage from "./pages/RequestProgHeadPage";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
-import CRUDInventoryPage from "./pages/CRUDInventoryPage";
-import AddNewItemAdmin from "./pages/AddNewItemAdmin";
-import CRUDUserPageAdmin from "./pages/CRUDUserPageAdmin";
 
 function App() {
     return (
         <div>
-            <RequestDetailsAdmin />
+            <EquipmentsPage />
         </div>
     );
 }
