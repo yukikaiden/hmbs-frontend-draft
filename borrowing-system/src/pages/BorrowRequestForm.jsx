@@ -3,9 +3,11 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import tempItemImg from '../assets/temp-item-img.png';
 import { FiTrash2 } from 'react-icons/fi';
+import RequestSubmittedModal from '../components/RequestSubmittedModal';
 
 function BorrowRequestForm() {
   const [groupMembers, setGroupMembers] = useState(['']);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleAddMember = () => {
     setGroupMembers([...groupMembers, '']);
@@ -175,7 +177,18 @@ function BorrowRequestForm() {
               {groupMembers.length > 1 && (
                 <button
                   onClick={() => handleRemoveMember(idx)}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40px', width: '40px', borderRadius: '6px', border: 'none', background: 'none', cursor: 'pointer', color: '#991F1F', marginBottom: '6px' }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '40px',
+                    width: '40px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    background: 'none',
+                    cursor: 'pointer',
+                    color: '#991F1F'
+                  }}
                 >
                   <FiTrash2 size={20} />
                 </button>
@@ -185,7 +198,15 @@ function BorrowRequestForm() {
 
           <button
             onClick={handleAddMember}
-            style={{ ...submitBtn, backgroundColor: '#fff', color: '#991F1F', border: '1px solid #991F1F' , fontSize: '14px', padding: '10px 15px', marginTop: '1px'}}
+            style={{
+              ...submitBtn,
+              backgroundColor: '#fff',
+              color: '#991F1F',
+              border: '1px solid #991F1F',
+              fontSize: '14px',
+              padding: '10px 15px',
+              marginTop: '1px'
+            }}
           >
             + Add New Member
           </button>
@@ -206,12 +227,13 @@ function BorrowRequestForm() {
           ))}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-            <button style={submitBtn}>Submit Borrow Request</button>
+            <button style={submitBtn} onClick={() => setIsModalOpen(true)}>Submit Borrow Request</button>
           </div>
         </div>
       </div>
 
       <Footer />
+      {isModalOpen && <RequestSubmittedModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 }
