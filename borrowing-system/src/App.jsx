@@ -27,7 +27,7 @@ import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 function App() {
     return (
         <div>
-            <BorrowRequestForm />
+            <RequestAdminPage />
         </div>
     );
 }

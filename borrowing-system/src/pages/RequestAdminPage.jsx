@@ -2,115 +2,159 @@ import React from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
 
 const RequestAdminPage = () => {
+  const data = Array.from({ length: 20 }, (_, index) => {
+    const status =
+      index < 3
+        ? 'To be reviewed'
+        : index < 6
+        ? 'Declined'
+        : index < 10
+        ? 'On-going'
+        : 'Completed';
+
+    return {
+      id: index + 1,
+      requestId: `00000${1234 + index}`,
+      name: 'Juan Dela Cruz',
+      courseId: 'HM 001',
+      requestDate: 'July 02, 2025',
+      status
+    };
+  });
+
+  const requestsList = data.filter((_, index) => index < 10);
+  const pastTransactions = data.filter(entry => entry.status === 'Completed');
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'To be reviewed':
+        return '#209cee';
+      case 'Declined':
+        return '#e53935';
+      case 'On-going':
+        return '#f2c744';
+      case 'Completed':
+        return '#4caf50';
+      default:
+        return '#999';
+    }
+  };
+
   const styles = {
-  adminPage: {
-    display: 'flex',
-    fontFamily: 'Poppins, sans-serif',
-    minHeight: '100vh',
-    width: '100vw',
-    overflow: 'hidden'
-  },
-  content: {
-    flex: 1,
-    padding: '30px',
-    marginTop: 0,
-    marginLeft: '240px',
-    overflowY: 'auto',
-    height: '100vh',
-    backgroundColor: '#f9f9f9'
-  },
-  header: { marginBottom: '20px' },
-  headerTitle: { margin: 0 },
-  headerSubtitle: { margin: '-4px 0 15px', fontSize: '18px' },
-  legend: { display: 'flex', gap: '20px', marginBottom: '10px', flexWrap: 'wrap' },
-  legendItem: { display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: 'bold', gap: '10px' },
-  legendCircle: { width: '28px', height: '27px', borderRadius: '50%', display: 'inline-block' },
-  requestsTable: {
-    backgroundColor: '#fff',
-    padding: '27px 30px',
-    borderRadius: '10px',
-    border: '1px solid #861818'
-  },
-  tableHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '15px' },
-  totalRequests: { fontSize: '24px', marginBottom: '5px', color: '#333' },
-  sortBtn: {
-    background: 'transparent',
-    border: '1px solid #861818',
-    borderRadius: '5px',
-    padding: '10px 12px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    color: '#861818',
-    fontSize: '18px',
-    marginBottom: '12px'
-  },
-  tableWrapper: {
-    borderLeft: '1px solid #861818',
-    borderRight: '1px solid #861818',
-    borderBottom: '1px solid #861818',
-    borderTop: 'none',
-    borderRadius: '14px 14px 10px 10px'
-  },
-  scrollBody: {
-    maxHeight: '400px',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-  },
-  table: {
-    width: '100%',
-    borderCollapse: 'collapse',
-    backgroundColor: 'transparent',
-    tableLayout: 'fixed' // keeps columns aligned
-  },
-  tableHead: { backgroundColor: '#a52a2a', color: '#fff' },
-  tableHeaderCell: {
-    padding: '15px 8px',
-    fontSize: '19px',
-    textAlign: 'center',
-    verticalAlign: 'middle'
-  },
-  tableRow: { textAlign: 'center' },
-  tableCell: {
-    padding: '10px 20px 31px 20px',
-    fontSize: '18px',
-    textAlign: 'center',
-    verticalAlign: 'middle',
-    backgroundColor: 'transparent'
-  },
-  statusTag: {
-    width: '138px',
-    height: '33px',
-    lineHeight: '32px',
-    textAlign: 'center',
-    borderRadius: '15px',
-    color: '#fff',
-    fontSize: '15px',
-    display: 'inline-block',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  }
-};
+    adminPage: {
+      display: 'flex',
+      fontFamily: 'Poppins, sans-serif',
+      minHeight: '100vh',
+      width: '100vw',
+      overflow: 'hidden'
+    },
+    content: {
+      flex: 1,
+      padding: '30px',
+      marginTop: 0,
+      marginLeft: '240px',
+      overflowY: 'auto',
+      height: '100vh',
+    },
+    header: { marginBottom: '20px' },
+    headerTitle: { margin: 0 },
+    headerSubtitle: { margin: '-4px 0 15px', fontSize: '18px' },
+    legend: { display: 'flex', gap: '20px', marginBottom: '10px', flexWrap: 'wrap' },
+    legendItem: { display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: '600', gap: '10px' },
+    legendCircle: { width: '28px', height: '27px', borderRadius: '50%', display: 'inline-block' },
+    requestsTable: {
+      backgroundColor: 'transparent',
+      padding: '27px 30px',
+      borderRadius: '10px',
+      border: '1px solid #861818',
+      marginBottom: '35px'
+    },
+    tableHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '15px' },
+    totalRequests: { fontSize: '18px', marginBottom: '5px', color: '#333' },
+    sortBtn: {
+      background: 'transparent',
+      border: '1px solid #861818',
+      borderRadius: '5px',
+      padding: '5px 10px',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      color: '#861818',
+      fontSize: '14px',
+      marginBottom: '12px',
+      fontFamily: 'Poppins, sans-serif',
+    },
+    tableWrapper: {
+      borderLeft: '1px solid #861818',
+      borderRight: '1px solid #861818',
+      borderBottom: '1px solid #861818',
+      borderTop: 'none',
+      borderRadius: '14px 14px 10px 10px'
+    },
+    table: {
+      width: '100%',
+      borderCollapse: 'collapse',
+      backgroundColor: 'transparent',
+      tableLayout: 'fixed'
+    },
+    tableHead: { backgroundColor: '#a52a2a', color: '#fff' },
+    tableHeaderCell: {
+      padding: '15px 15px',
+      fontSize: '15px',
+      textAlign: 'center',
+      verticalAlign: 'middle'
+    },
+    tableRow: { textAlign: 'center' },
+    tableCell: {
+      padding: '10px 5px',
+      fontSize: '16px',
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      backgroundColor: 'transparent'
+    },
+    statusTag: {
+      width: '120px',
+      height: '30px',
+      lineHeight: '30px',
+      textAlign: 'center',
+      borderRadius: '15px',
+      color: '#fff',
+      fontSize: '14px',
+      display: 'inline-block',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    },
+    exportBtn: {
+      background: '#861818',
+      border: '1px solid #861818',
+      borderRadius: '999px',
+      padding: '7px 15px',
+      cursor: 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      color: '#ffffff',
+      fontSize: '14px',
+      marginBottom: '12px',
+      fontFamily: 'Poppins, sans-serif',
+    },
+  };
 
   return (
     <div style={styles.adminPage}>
-      {/* Sidebar */}
       <Sidebar
         activePage="requests"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> }
         ]}
       />
 
-      {/* Main Content */}
       <main style={styles.content}>
         <div style={styles.header}>
           <h2 style={styles.headerTitle}>Lists of Requests</h2>
@@ -123,19 +167,17 @@ const RequestAdminPage = () => {
           </div>
         </div>
 
+        {/* All Requests */}
         <div style={styles.requestsTable}>
           <div style={styles.tableHeader}>
             <div>
-              <h3 style={{ margin: 0, fontSize: '25px' }}>All Requests</h3>
-              <p style={styles.totalRequests}>Total Requests: 100</p>
+              <h3 style={{ margin: 0, fontSize: '22px' }}>All Requests</h3>
+              <p style={styles.totalRequests}>Total Requests: {requestsList.length}</p>
             </div>
-            <button style={styles.sortBtn}>
-              Sort by <ChevronDown size={14} style={{ marginLeft: '5px', color: '#861818' }} />
-            </button>
+            <button style={styles.sortBtn}>Sort by <ChevronDown size={14} style={{ marginLeft: '5px' }} /></button>
           </div>
 
           <div style={styles.tableWrapper}>
-            {/* Table Head */}
             <table style={styles.table}>
               <thead style={styles.tableHead}>
                 <tr>
@@ -148,42 +190,62 @@ const RequestAdminPage = () => {
                   <th style={{ ...styles.tableHeaderCell, borderTopRightRadius: '10px' }}></th>
                 </tr>
               </thead>
+              <tbody>
+                {requestsList.map((item, index) => (
+                  <tr key={index} style={styles.tableRow}>
+                    <td style={styles.tableCell}>{index + 1}</td>
+                    <td style={styles.tableCell}>{item.requestId}</td>
+                    <td style={styles.tableCell}>{item.name}</td>
+                    <td style={styles.tableCell}>{item.courseId}</td>
+                    <td style={styles.tableCell}>{item.requestDate}</td>
+                    <td style={styles.tableCell}>
+                      <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
+                    </td>
+                    <td style={styles.tableCell}><SquarePen size={16} style={{ cursor: 'pointer', color: '#333' }} /></td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
+          </div>
+        </div>
 
-            {/* Scrollable Body */}
-            <div style={styles.scrollBody}>
-              <table style={styles.table}>
-                <tbody>
-                  {Array.from({ length: 20 }, (_, index) => (
-                    <tr key={index} style={styles.tableRow}>
-                      <td style={styles.tableCell}>{index + 1}</td>
-                      <td style={styles.tableCell}>0000001234</td>
-                      <td style={styles.tableCell}>Juan Dela Cruz</td>
-                      <td style={styles.tableCell}>HM 001</td>
-                      <td style={styles.tableCell}>July 02, 2025</td>
-                      <td style={styles.tableCell}>
-                        <span style={{
-                          ...styles.statusTag,
-                          backgroundColor:
-                            index < 3 ? '#209cee' :
-                              index < 5 ? '#e53935' :
-                                index < 7 ? '#f2c744' :
-                                  '#4caf50'
-                        }}>
-                          {index < 3 ? 'To be reviewed' :
-                            index < 5 ? 'Declined' :
-                              index < 7 ? 'On-going' :
-                                'Approved'}
-                        </span>
-                      </td>
-                      <td style={styles.tableCell}>
-                        <SquarePen size={16} style={{ cursor: 'pointer', color: '#333' }} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Past Transactions */}
+        <div style={styles.requestsTable}>
+          <div style={styles.tableHeader}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '22px' }}>Past Transactions</h3>
+              <p style={styles.totalRequests}>Track completed borrow request transactions</p>
             </div>
+            <button style={styles.exportBtn}>Export CSV</button>
+          </div>
+
+          <div style={styles.tableWrapper}>
+            <table style={styles.table}>
+              <thead style={{ ...styles.tableHead, backgroundColor: '#861818' }}>
+                <tr>
+                  <th style={{ ...styles.tableHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
+                  <th style={styles.tableHeaderCell}>Request ID</th>
+                  <th style={styles.tableHeaderCell}>Name</th>
+                  <th style={styles.tableHeaderCell}>Course ID</th>
+                  <th style={styles.tableHeaderCell}>Request Date</th>
+                  <th style={{ ...styles.tableHeaderCell, borderTopRightRadius: '10px' }}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pastTransactions.map((item, index) => (
+                  <tr key={index} style={styles.tableRow}>
+                    <td style={styles.tableCell}>{index + 1}</td>
+                    <td style={styles.tableCell}>{item.requestId}</td>
+                    <td style={styles.tableCell}>{item.name}</td>
+                    <td style={styles.tableCell}>{item.courseId}</td>
+                    <td style={styles.tableCell}>{item.requestDate}</td>
+                    <td style={styles.tableCell}>
+                      <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </main>
@@ -191,7 +253,4 @@ const RequestAdminPage = () => {
   );
 };
 
-
-
 export default RequestAdminPage;
-

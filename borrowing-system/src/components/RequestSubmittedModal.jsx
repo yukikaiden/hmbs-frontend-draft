@@ -44,6 +44,7 @@ function RequestSubmittedModal({ onClose }) {
     fontSize: '16px',
     marginBottom: '26px',
     lineHeight: '1.6',
+    
   };
 
   const btnStyle = {
