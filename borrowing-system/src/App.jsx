@@ -8,13 +8,12 @@ import Homepage from './pages/Homepage';
 import RequestAdminPage from "./pages/RequestAdminPage";
 import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
-import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";    
-import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
+import CRUDInventoryPage from "./pages/CRUDInventoryPage";
 
 function App() {
     return (
         <div>
-            <RequestDetailsProgHead />
+            <CRUDInventoryPage />
         </div>
     );
 }

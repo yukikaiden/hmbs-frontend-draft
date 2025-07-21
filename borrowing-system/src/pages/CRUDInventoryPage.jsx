@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut, FiPlus } from 'react-icons/fi';
-import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-
-// ✅ Import the local spoon image
+import { FaFileAlt, FaBoxOpen, FaClipboardList, FaEdit, FaTrash } from 'react-icons/fa';
+import { FiPlus } from 'react-icons/fi';
 import SpoonImage from '../assets/images/spoon.png';
+import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryAdminModal';
+import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
+import InventoryItemDeletedModal from '../components/AdminModal/InventoryItemDeletedModal';
 
 const CRUDInventoryPage = () => {
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showItemDeletedModal, setShowItemDeletedModal] = useState(false);
 
   const styles = {
     layout: {
@@ -133,9 +135,9 @@ const CRUDInventoryPage = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => {} },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => {} },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => {} },
         ]}
       />
 
@@ -181,7 +183,7 @@ const CRUDInventoryPage = () => {
                 <tr key={item.id}>
                   <td style={styles.td}>{idx + 1}</td>
                   <td style={styles.td}>
-                    <img src={SpoonImage} alt="Spoon" style={{ width: '40px', height: '40px' }} />
+                    <img src={SpoonImage} alt="Item" style={{ width: '40px', height: '40px' }} />
                   </td>
                   <td style={styles.td}>{item.name}</td>
                   <td style={styles.td}>{item.category}</td>
@@ -195,9 +197,8 @@ const CRUDInventoryPage = () => {
                   </td>
                   <td style={styles.td}>
                     <div style={styles.actionIcons}>
-                      <FaEye title="View" />
-                      <FaEdit title="Edit" onClick={() => setShowAddModal(true)} />
-                      <FaTrash title="Delete" />
+                      <FaEdit title="Edit" onClick={() => setShowEditModal(true)} />
+                      <FaTrash title="Delete" onClick={() => setShowDeleteModal(true)} />
                     </div>
                   </td>
                 </tr>
@@ -206,114 +207,31 @@ const CRUDInventoryPage = () => {
           </table>
         </div>
 
-        {/* 📌 Modal Code Starts Here */}
-        {showAddModal && (
-  <div style={{
-    position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-    fontFamily: "'Poppins', sans-serif"
-  }}>
-    <div style={{
-      backgroundColor: '#fff',
-      padding: '40px 30px 28px',
-      borderRadius: '16px',
-      textAlign: 'left',
-      width: '600px',
-      minHeight: '450px',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      position: 'relative'
-    }}>
-      <h2 style={{ marginBottom: '0.25rem' }}>Edit Item</h2>
-      <p style={{ marginTop: 0, marginBottom: '1rem', fontSize: '14px', color: '#333' }}>Edit item details below</p>
+        {/* Modals */}
+        {showEditModal && (
+          <UpdateInventoryAdminModal
+            onClose={() => setShowEditModal(false)}
+            onSave={() => {
+              setShowEditModal(false);
+            }}
+          />
+        )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <div>
-          <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Item Name</label>
-          <input placeholder="Item Name" defaultValue="Spoon" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }} />
-        </div>
+        {showDeleteModal && (
+          <InventoryDeletionModal
+            onCancel={() => setShowDeleteModal(false)}
+            onDelete={() => {
+              setShowDeleteModal(false);
+              setShowItemDeletedModal(true);
+            }}
+          />
+        )}
 
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Category</label>
-            <select defaultValue="Pantry Tools" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }}>
-              <option>Pantry Tools</option>
-            </select>
-          </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Location</label>
-            <input placeholder="Location" defaultValue="CBA 404" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }} />
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Available Quantity</label>
-            <input placeholder="Available Quantity" defaultValue="20" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }} />
-          </div>
-          <div style={{ flex: 1 }}>
-            <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Unit</label>
-            <select defaultValue="Pcs" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }}>
-              <option>Pcs</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label style={{ fontSize: '14px', marginBottom: '4px', display: 'block', fontWeight: '600' }}>Status</label>
-          <select defaultValue="Available" style={{ padding: '12px', borderRadius: '8px', border: '1px solid #ccc', width: '100%' }}>
-            <option>Available</option>
-            <option>Unavailable</option>
-          </select>
-        </div>
-      </div>
-
-      {/* ✅ Buttons */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '2rem' }}>
-        <button onClick={() => setShowAddModal(false)} style={{
-          padding: '10px 20px',
-          borderRadius: '20px',
-          border: '1px solid #8A1F2B',
-          backgroundColor: '#fff',
-          color: '#8A1F2B',
-          fontWeight: 500,
-          cursor: 'pointer'
-        }}>Cancel</button>
-
-        <button style={{
-          padding: '10px 20px',
-          borderRadius: '20px',
-          border: 'none',
-          backgroundColor: '#8A1F2B',
-          color: '#fff',
-          fontWeight: 500,
-          cursor: 'pointer'
-        }}>Save Changes</button>
-      </div>
-
-      {/* ❌ Close Icon */}
-      <button onClick={() => setShowAddModal(false)} style={{
-        position: 'absolute',
-        top: '20px',
-        right: '20px',
-        fontSize: '24px',
-        border: 'none',
-        background: 'none',
-        cursor: 'pointer'
-      }}>×</button>
-    </div>
-  </div>
-)}
-
-
-        {/* 📌 Modal Code Ends Here */}
+        {showItemDeletedModal && (
+          <InventoryItemDeletedModal
+            onDone={() => setShowItemDeletedModal(false)}
+          />
+        )}
       </main>
     </div>
   );
