@@ -3,11 +3,14 @@ import Sidebar from '../components/Sidebar';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import SpoonImage from '../assets/images/spoon.png';
 
+
 const RequestDetailsAdmin = () => {
   const borrowedItems = [1, 2, 3];
   const groupMembers = [1, 2, 3];
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [rejectionReason, setRejectionReason] = useState('');
+  const [showDeniedModal, setShowDeniedModal] = useState(false);
+
 
   const styles = {
     layout: {
@@ -277,32 +280,80 @@ const RequestDetailsAdmin = () => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    if (!rejectionReason.trim()) {
-                      alert('Please enter a reason for rejection.');
-                      return;
-                    }
-                    console.log('Rejected with reason:', rejectionReason);
-                    setShowRejectModal(false);
-                    setRejectionReason('');
-                  }}
-                  style={{
-                    backgroundColor: '#8A1F2B',
-                    color: 'white',
-                    padding: '0.6rem 1.5rem',
-                    border: 'none',
-                    borderRadius: '2rem',
-                    fontWeight: 500,
-                    cursor: 'pointer'
-                  }}
-                >
-                  Submit
-                </button>
+                    onClick={() => {
+                      if (!rejectionReason.trim()) {
+                        alert('Please enter a reason for rejection.');
+                        return;
+                      }
+                      console.log('Rejected with reason:', rejectionReason);
+                      setShowRejectModal(false);
+                      setShowDeniedModal(true); // Show new modal
+                      setRejectionReason('');
+                    }}
+                    style={{
+                      backgroundColor: '#8A1F2B',
+                      color: 'white',
+                      padding: '0.6rem 1.5rem',
+                      border: 'none',
+                      borderRadius: '2rem',
+                      fontWeight: 500,
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Submit
+                  </button>
+
               </div>
             </div>
           </div>
         )}
       </main>
+      {showDeniedModal && (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+    fontFamily: 'Poppins, sans-serif'
+  }}>
+    <div style={{
+      backgroundColor: 'white',
+      padding: '2.5rem 2rem',
+      borderRadius: '12px',
+      textAlign: 'center',
+      width: '400px',
+    }}>
+      <h2 style={{ fontWeight: '600', fontSize: '1.5rem', color: '#000' }}>Request Denied</h2>
+      <p style={{ marginTop: '0.5rem', color: '#555', fontSize: '1rem' }}>
+        You have denied this borrow request. <br />
+        The student will be notified accordingly.
+      </p>
+      <button
+        onClick={() => setShowDeniedModal(false)}
+        style={{
+          marginTop: '2rem',
+          padding: '0.6rem 2rem',
+          borderRadius: '25px',
+          backgroundColor: 'white',
+          border: '2px solid #8A1F2B',
+          color: '#8A1F2B',
+          fontWeight: 500,
+          fontSize: '1rem',
+          cursor: 'pointer',
+        }}
+      >
+        Done
+      </button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };
