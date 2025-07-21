@@ -9,10 +9,10 @@ const RequestAdminPage = () => {
       index < 3
         ? 'To be reviewed'
         : index < 6
-        ? 'Declined'
-        : index < 10
-        ? 'On-going'
-        : 'Completed';
+          ? 'Declined'
+          : index < 10
+            ? 'On-going'
+            : 'Completed';
 
     return {
       id: index + 1,
@@ -36,7 +36,7 @@ const RequestAdminPage = () => {
       case 'On-going':
         return '#f2c744';
       case 'Completed':
-        return '#4caf50';
+        return '#27ae60';
       default:
         return '#999';
     }
@@ -97,16 +97,16 @@ const RequestAdminPage = () => {
       width: '100%',
       borderCollapse: 'collapse',
       backgroundColor: 'transparent',
-      tableLayout: 'fixed'
+
     },
     tableHead: { backgroundColor: '#a52a2a', color: '#fff' },
     tableHeaderCell: {
-      padding: '15px 15px',
+      padding: '15px 22px',
       fontSize: '15px',
       textAlign: 'center',
       verticalAlign: 'middle'
     },
-    tableRow: { textAlign: 'center' },
+
     tableCell: {
       padding: '10px 5px',
       fontSize: '16px',
@@ -114,8 +114,21 @@ const RequestAdminPage = () => {
       verticalAlign: 'middle',
       backgroundColor: 'transparent'
     },
+    narrowHeaderCell: {
+      padding: '0 25px 0 18PX',
+      fontSize: '15px',
+      textAlign: 'center',
+      verticalAlign: 'middle'
+    },
+    narrowCell: {
+      padding: '0px 26px 0 16px',
+      fontSize: '16px',
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      backgroundColor: 'transparent'
+    },
     statusTag: {
-      width: '120px',
+      width: '130px',
       height: '30px',
       lineHeight: '30px',
       textAlign: 'center',
@@ -131,7 +144,7 @@ const RequestAdminPage = () => {
       background: '#861818',
       border: '1px solid #861818',
       borderRadius: '999px',
-      padding: '7px 15px',
+      padding: '7px 25px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
@@ -162,7 +175,7 @@ const RequestAdminPage = () => {
           <div style={styles.legend}>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> Processing Requests</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#4caf50' }}></span> Successful Requests</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#27ae60' }}></span> Successful Requests</div>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#e53935' }}></span> Unsuccessful Requests</div>
           </div>
         </div>
@@ -181,7 +194,7 @@ const RequestAdminPage = () => {
             <table style={styles.table}>
               <thead style={styles.tableHead}>
                 <tr>
-                  <th style={{ ...styles.tableHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
+                  <th style={{ ...styles.narrowHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
                   <th style={styles.tableHeaderCell}>Request ID</th>
                   <th style={styles.tableHeaderCell}>Name</th>
                   <th style={styles.tableHeaderCell}>Course ID</th>
@@ -193,7 +206,7 @@ const RequestAdminPage = () => {
               <tbody>
                 {requestsList.map((item, index) => (
                   <tr key={index} style={styles.tableRow}>
-                    <td style={styles.tableCell}>{index + 1}</td>
+                    <td style={styles.narrowCell}>{index + 1}</td>
                     <td style={styles.tableCell}>{item.requestId}</td>
                     <td style={styles.tableCell}>{item.name}</td>
                     <td style={styles.tableCell}>{item.courseId}</td>
@@ -209,8 +222,8 @@ const RequestAdminPage = () => {
           </div>
         </div>
 
-        {/* Past Transactions */}
-        <div style={styles.requestsTable}>
+        {/* Past Transactions - Border Removed */}
+        <div style={{ ...styles.requestsTable, border: 'none' }}>
           <div style={styles.tableHeader}>
             <div>
               <h3 style={{ margin: 0, fontSize: '22px' }}>Past Transactions</h3>
@@ -223,7 +236,7 @@ const RequestAdminPage = () => {
             <table style={styles.table}>
               <thead style={{ ...styles.tableHead, backgroundColor: '#861818' }}>
                 <tr>
-                  <th style={{ ...styles.tableHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
+                  <th style={{ ...styles.narrowHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
                   <th style={styles.tableHeaderCell}>Request ID</th>
                   <th style={styles.tableHeaderCell}>Name</th>
                   <th style={styles.tableHeaderCell}>Course ID</th>
@@ -234,7 +247,7 @@ const RequestAdminPage = () => {
               <tbody>
                 {pastTransactions.map((item, index) => (
                   <tr key={index} style={styles.tableRow}>
-                    <td style={styles.tableCell}>{index + 1}</td>
+                    <td style={styles.narrowCell}>{index + 1}</td>
                     <td style={styles.tableCell}>{item.requestId}</td>
                     <td style={styles.tableCell}>{item.name}</td>
                     <td style={styles.tableCell}>{item.courseId}</td>
