@@ -53,8 +53,8 @@ const RejectRequestModal = ({ onClose, onSubmit }) => {
         <div style={{
           display: 'flex',
           justifyContent: 'flex-end',
-          marginTop: '1.5rem',
-          gap: '1rem',
+          marginTop: '0.7rem',
+          gap: '0.5rem',
         }}>
           <button
             onClick={onClose}
@@ -62,10 +62,11 @@ const RejectRequestModal = ({ onClose, onSubmit }) => {
               backgroundColor: 'white',
               color: '#8A1F2B',
               border: '2px solid #8A1F2B',
-              padding: '0.6rem 1.5rem',
+              padding: '0.5rem 1.0rem',
               borderRadius: '2rem',
               fontWeight: 500,
               cursor: 'pointer',
+              fontFamily: 'Poppins, sans-serif',
             }}
           >
             Cancel
@@ -75,11 +76,12 @@ const RejectRequestModal = ({ onClose, onSubmit }) => {
             style={{
               backgroundColor: '#8A1F2B',
               color: 'white',
-              padding: '0.6rem 1.5rem',
+              padding: '0.1rem 1.5rem',
               border: 'none',
               borderRadius: '2rem',
               fontWeight: 500,
               cursor: 'pointer',
+              fontFamily: 'Poppins, sans-serif',
             }}
           >
             Submit

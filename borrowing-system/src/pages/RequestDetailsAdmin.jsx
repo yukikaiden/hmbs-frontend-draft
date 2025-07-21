@@ -192,14 +192,13 @@ const RequestDetailsAdmin = () => {
 
         <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
         <table style={{ ...styles.table, marginBottom: '1rem' }}>
-<thead>
-  <tr>
-    <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
-    <th style={styles.th}>Name</th>
-    <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
-  </tr>
-</thead>
-
+        <thead>
+          <tr>
+            <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
+            <th style={styles.th}>Name</th>
+            <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
+          </tr>
+        </thead>
           <tbody>
             {groupMembers.map((i) => (
               <tr key={i}>
