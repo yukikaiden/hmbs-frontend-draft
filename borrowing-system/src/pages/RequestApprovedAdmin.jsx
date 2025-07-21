@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
@@ -78,6 +79,8 @@ const RequestApprovedAdmin = () => {
       cursor: 'pointer',
     },
   };
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div style={styles.layout}>
@@ -201,7 +204,56 @@ const RequestApprovedAdmin = () => {
           </tbody>
         </table>
 
-        <button style={styles.completedButton}>Transaction Completed</button>
+        {/* Modal Trigger Button */}
+        <button style={styles.completedButton} onClick={() => setShowModal(true)}>Transaction Completed</button>
+
+        {/* Modal */}
+        {showModal && (
+          <div style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+          }}>
+            <div style={{
+              backgroundColor: '#fff',
+              padding: '40px 30px 28px',
+              borderRadius: '16px',
+              textAlign: 'center',
+              width: '460px',
+              minHeight: '280px', // adjusted height
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <img src="/mnt/data/9b9f0fd4-434a-45f4-ad1a-dfc75bbec65a.png" alt="Transaction Icon" style={{ width: '80px', marginBottom: '1rem' }} />
+              <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Transaction Completed</h2>
+              <p style={{ color: '#555', marginBottom: '1.5rem' }}>
+                The transaction has been successfully processed. <br />
+                The student will be notified accordingly.
+              </p>
+              <button
+                onClick={() => setShowModal(false)}
+                style={{
+                  border: '1px solid #8A1F2B',
+                  backgroundColor: '#fff',
+                  color: '#8A1F2B',
+                  fontWeight: 'bold',
+                  padding: '0.5rem 1.5rem',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                }}
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
