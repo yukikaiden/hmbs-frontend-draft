@@ -67,8 +67,8 @@ const RequestDetailsAdmin = () => {
     },
   table: {
       width: '100%',
-      borderCollapse: 'separate', // change from 'collapse'
-      borderSpacing: 0,            // add this
+      borderCollapse: 'separate', 
+      borderSpacing: 0,            
       marginTop: '0.5rem',
       backgroundColor: 'white',
       borderRadius: '10px',
@@ -79,8 +79,6 @@ const RequestDetailsAdmin = () => {
       color: 'white',
       padding: '1rem',
       textAlign: 'center',
-      // For top-left and top-right radius:
-      // We'll override inline for first and last th on the header row
     },
     td: {
       padding: '1rem',

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import SpoonImage from '../assets/images/spoon.png';
 import Sidebar from '../components/Sidebar';
 import RejectRequestModal from '../components/RejectRequestModal.jsx';
 import DeniedRequestModal from '../components/DeniedRequestModal.jsx';  
 
 const RequestDetailsInstructor = () => {
+    const borrowedItems = [1, 2, 3];
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showDeniedModal, setShowDeniedModal] = useState(false);
 
@@ -52,22 +54,16 @@ const RequestDetailsInstructor = () => {
     },
     table: {
       width: '100%',
-      borderCollapse: 'collapse',
-      marginTop: '1.5rem',
+      borderCollapse: 'separate', 
+      borderSpacing: 0,            
+      marginTop: '0.5rem',
       backgroundColor: 'white',
       borderRadius: '10px',
-      overflow: 'hidden',
       border: '1px solid #8A1F2B',
     },
     th: {
       backgroundColor: '#8A1F2B',
       color: 'white',
-      padding: '1rem',
-      textAlign: 'center',
-    },
-    thmembers: {
-      backgroundColor: '#cacacaff',
-      color: 'black',
       padding: '1rem',
       textAlign: 'center',
     },
@@ -80,7 +76,11 @@ const RequestDetailsInstructor = () => {
       display: 'flex',
       justifyContent: 'flex-end',
       marginTop: '2rem',
-      gap: '1rem',
+      gap: '0.5rem',
+    },
+    itemCountContainer: {
+      fontWeight: '600',
+      fontSize: '18px',
     },
     approveButton: {
       backgroundColor: '#8A1F2B',
@@ -156,13 +156,13 @@ const RequestDetailsInstructor = () => {
         </div>
 
         {/* Group Members Table */}
-        <h3>Group Members</h3>
-        <table style={styles.table}>
+        <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
+        <table style={{ ...styles.table, marginBottom: '1rem' }}>
           <thead>
             <tr>
-              <th style={styles.thmembers}>#</th>
-              <th style={styles.thmembers}>Name</th>
-              <th style={styles.thmembers}>Course ID</th>
+              <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
+              <th style={styles.th}>Name</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
             </tr>
           </thead>
           <tbody>
@@ -177,24 +177,40 @@ const RequestDetailsInstructor = () => {
         </table>
 
         {/* Borrowed Items Table */}
-        <h3 style={{ marginTop: '2rem' }}>List of Borrowed Items</h3>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '2rem',
+            marginBottom: '0.1rem',
+          }}
+        >
+          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '22px' }}>List of Borrowed Items</h3>
+          <div style={styles.itemCountContainer}>Total ({borrowedItems.length})</div>
+        </div>
+
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.th}>#</th>
+              <th style={{ ...styles.th, borderTopLeftRadius: '8px' }}>#</th>
               <th style={styles.th}>Image</th>
               <th style={styles.th}>Item Name</th>
               <th style={styles.th}>Category</th>
               <th style={styles.th}>Quantity</th>
-              <th style={styles.th}>Unit</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '8px' }}>Unit</th>
             </tr>
           </thead>
           <tbody>
-            {[1, 2, 3].map((i) => (
+            {borrowedItems.map((i) => (
               <tr key={i}>
                 <td style={styles.td}>{i}</td>
                 <td style={styles.td}>
-                  <img src="https://via.placeholder.com/50" alt="Item" style={{ borderRadius: '8px' }} />
+                  <img
+                    src={SpoonImage}
+                    alt="Spoon"
+                    style={{ borderRadius: '8px', width: '50px', height: '50px', objectFit: 'cover' }}
+                  />
                 </td>
                 <td style={styles.td}>Spoon</td>
                 <td style={styles.td}>Pantry Tools</td>
