@@ -158,24 +158,24 @@ const CRUDUserPageAdmin = () => {
         </div>
 
         {/* Staffs Section */}
-<div style={styles.groupedSection}>
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-    <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Staffs</p>
-    <button style={styles.importButton}>Import CSV File</button>
-  </div>
-  <div style={{ marginTop: '-1rem' }}>{renderTable('Custodians')}</div>
-  {renderTable('Program Heads')}
-  {renderTable('Instructors')}
-</div>
+        <div style={styles.groupedSection}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Staffs</p>
+            <button style={styles.importButton}>Import CSV File</button>
+          </div>
+          <div style={{ marginTop: '-1rem' }}>{renderTable('Custodians')}</div>
+          {renderTable('Program Heads')}
+          {renderTable('Instructors')}
+        </div>
 
-{/* Students Section */}
-<div style={styles.groupedSection}>
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-    <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Students</p>
-    <button style={styles.importButton}>Import CSV File</button>
-  </div>
-  {renderTable('Students')}
-</div>
+        {/* Students Section */}
+        <div style={styles.groupedSection}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Students</p>
+            <button style={styles.importButton}>Import CSV File</button>
+          </div>
+          {renderTable('Students')}
+        </div>
 
       </main>
     </div>

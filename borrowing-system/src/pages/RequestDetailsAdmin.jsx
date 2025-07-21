@@ -10,7 +10,6 @@ const RequestDetailsAdmin = () => {
   const borrowedItems = [1, 2, 3];
   const groupMembers = [1, 2, 3];
   const [showRejectModal, setShowRejectModal] = useState(false);
-  const [rejectionReason, setRejectionReason] = useState('');
   const [showDeniedModal, setShowDeniedModal] = useState(false);
 
 
