@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
+import RejectRequestModal from '../components/RejectRequestModal.jsx';
+import DeniedRequestModal from '../components/DeniedRequestModal.jsx';  
 
 const RequestDetailsInstructor = () => {
+    const [showRejectModal, setShowRejectModal] = useState(false);
+    const [showDeniedModal, setShowDeniedModal] = useState(false);
+
   const styles = {
     layout: {
       display: 'flex',
@@ -202,11 +207,30 @@ const RequestDetailsInstructor = () => {
 
         {/* Action Buttons */}
         <div style={styles.actionButtons}>
-          <button style={styles.rejectButton}>Reject Request</button>
+          <button 
+            style={styles.rejectButton}
+            onClick={() => setShowRejectModal(true)}
+          >
+            Reject Request</button>
           <button style={styles.approveButton}>Approve Request</button>
         </div>
       </main>
+        {showRejectModal && (
+          <RejectRequestModal
+            onClose={() => setShowRejectModal(false)}
+            onSubmit={(reason) => {
+              console.log('Rejected with reason:', reason);
+              setShowRejectModal(false);
+              setShowDeniedModal(true);
+            }}
+          />
+        )}
 
+        {showDeniedModal && (
+          <DeniedRequestModal
+            onClose={() => setShowDeniedModal(false)}
+          />
+        )}
       
     </div>
   );

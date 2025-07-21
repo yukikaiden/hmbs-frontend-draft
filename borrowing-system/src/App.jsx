@@ -8,11 +8,13 @@ import Homepage from './pages/Homepage';
 import RequestAdminPage from "./pages/RequestAdminPage";
 import RequestDetailsAdmin from "./pages/RequestDetailsAdmin";
 import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
+import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";    
+import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 
 function App() {
     return (
         <div>
-            <RequestDetailsAdmin />
+            <RequestDetailsProgHead />
         </div>
     );
 }
