@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import tempItemImg from '../assets/temp-item-img.png';
+import { useNavigate } from 'react-router-dom';
 
 function CartPage() {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([
     { id: 1, name: 'Metal Tray', qty: 14, selectedQty: 1, price: 100 },
     { id: 2, name: 'Dinner Fork', qty: 10, selectedQty: 2, price: 30 },
@@ -13,6 +15,10 @@ function CartPage() {
 
   const [hoveredBtn, setHoveredBtn] = useState(null);
   const [hoveredRemove, setHoveredRemove] = useState(null);
+
+  const handleProceedRequest = () => {
+    navigate('/borrow-request');  // Navigate to the request form 
+  };
 
   const handleIncrement = (id) => {
     setCartItems(prev =>
@@ -269,7 +275,7 @@ function CartPage() {
               <div style={buttonWrapperStyle}>
                 <button
                   style={proceedButtonStyle}
-                  onClick={() => alert('Proceeding with request...')}
+                  onClick={handleProceedRequest}
                 >
                   Proceed with Request
                 </button>

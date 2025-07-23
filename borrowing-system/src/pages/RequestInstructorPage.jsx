@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
+import { useNavigate } from 'react-router-dom';
 
 const initialRequests = Array(9).fill({
   requestId: '0000001236',
@@ -12,12 +13,9 @@ const initialRequests = Array(9).fill({
 });
 
 const RequestInstructorPage = () => {
+  const navigate = useNavigate();
   const [requests, setRequests] = useState(initialRequests);
-
-  const handleApprove = (idx) => {
-    // Placeholder: Add your logic here
-    // Example: setRequests to update status, open modal, etc.
-  };
+  const handleNavigate = (id) => navigate(`/request-details-instructor/${id}`);
 
   const styles = {
     layout: {
@@ -118,14 +116,14 @@ const RequestInstructorPage = () => {
   return (
     <div style={styles.layout}>
       {/* Sidebar */}
-        <Sidebar
-            activePage="requests"
-            userRole="Staff"
-            userSubrole="Instructor"
-            navItems={[
-                { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestInstructorPage') }
-            ]}
-        />
+      <Sidebar
+          activePage="requests"
+          userRole="Staff"
+          userSubrole="Instructor"
+          navItems={[
+            { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-instructor' }
+          ]}
+      />
 
       {/* Main content */}
       <main style={styles.main}>
@@ -148,7 +146,7 @@ const RequestInstructorPage = () => {
             {requests.map((req, idx) => (
               <tr
                 key={idx}
-                onClick={() => handleApprove(idx)}
+                onClick={() => handleNavigate(req.requestId)}
                 style={{
                   ...styles.rowHover,
                   backgroundColor: idx % 2 === 0 ? 'white' : '#f9f9f9',

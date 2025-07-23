@@ -2,10 +2,22 @@ import React, { useState } from 'react';
 import hmbsLogo from '../assets/hmbs-logo-white.png';
 import handcartIcon from '../assets/handcart.png';
 import userIcon from '../assets/user.png';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Header() {
+  const navigate = useNavigate();
   const [cartCount, setCartCount] = useState(0);
-  const [showLogout, setShowLogout] = useState(false);
+  const [showStaffLogin, setStaffLogin] = useState(false);
+
+  const handleStaffLogin = () => {
+    navigate('/staff-login');
+    setStaffLogin(false); // Close the dropdown after navigating
+  };
+
+  const handleCartClick = () => {
+    navigate('/cart');  // Navigate to the cart page
+  };
 
   const wrapperStyle = {
     position: 'relative',
@@ -79,7 +91,7 @@ function Header() {
     justifyContent: 'center',
   };
 
-  const logoutBoxStyle = {
+  const StaffLoginBoxStyle = {
     position: 'absolute',
     top: '45px',
     right: '0',
@@ -98,10 +110,6 @@ function Header() {
     zIndex: 9999, // ✅ Makes sure dropdown appears above everything
   };
 
-  const handleLogout = () => {
-    alert('Logging out...');
-    // Add your logout logic here
-  };
 
   return (
     <div style={wrapperStyle}>
@@ -113,10 +121,9 @@ function Header() {
         <div style={navContainerStyle}>
           <nav>
             <ul style={navStyle}>
-              <li><a href="#" style={linkStyle}>Home</a></li>
-              <li><a href="#" style={linkStyle}>About</a></li>
-              <li><a href="#" style={linkStyle}>Inventory</a></li>
-              <li><a href="#" style={linkStyle}>Transaction</a></li>
+              <Link to="/" style={linkStyle}>Home</Link>
+              <Link to="/about" style={linkStyle}>About</Link>
+              <Link to="/" style={linkStyle}>Transaction</Link>
             </ul>
           </nav>
         </div>
@@ -124,7 +131,7 @@ function Header() {
         {/* Right: Icons */}
         <div style={rightIconsStyle}>
           {/* Cart Icon with Badge */}
-          <div style={{ position: 'relative' }} onClick={() => setCartCount(cartCount + 1)}>
+          <div style={{ position: 'relative' }} onClick={() => handleCartClick()}>
             <img src={handcartIcon} alt="Cart" style={iconStyle} />
             <div style={badgeStyle}>{cartCount}</div>
           </div>
@@ -135,12 +142,12 @@ function Header() {
               src={userIcon}
               alt="User"
               style={iconStyle}
-              onClick={() => setShowLogout(!showLogout)}
+              onClick={() => setStaffLogin(!showStaffLogin)}
             />
-            {showLogout && (
+            {showStaffLogin && (
               <div
-                style={logoutBoxStyle}
-                onClick={handleLogout}
+                style={StaffLoginBoxStyle}
+                onClick={handleStaffLogin}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = '#f2f2f2';
                 }}
@@ -148,7 +155,7 @@ function Header() {
                   e.currentTarget.style.backgroundColor = '#ffffff';
                 }}
               >
-                Log out
+                Login as Staff
               </div>
             )}
           </div>

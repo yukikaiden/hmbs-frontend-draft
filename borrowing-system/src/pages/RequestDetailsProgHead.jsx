@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import SpoonImage from '../assets/images/spoon.png';
@@ -7,6 +8,7 @@ import RejectRequestModal from '../components/RejectRequestModal.jsx';
 import DeniedRequestModal from '../components/DeniedRequestModal.jsx';  
 
 const RequestDetailsProgHead = () => {
+    const navigate = useNavigate();
     const borrowedItems = [1, 2, 3];
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showDeniedModal, setShowDeniedModal] = useState(false);
@@ -30,6 +32,13 @@ const RequestDetailsProgHead = () => {
       justifyContent: 'space-between',
       paddingTop: '2rem',
       zIndex: 1000,
+    },
+    topHeader: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: '0.2rem',
+      fontSize: '14px',
     },
     main: {
       marginLeft: '240px',
@@ -98,36 +107,51 @@ const RequestDetailsProgHead = () => {
       borderRadius: '10px',
       cursor: 'pointer',
     },
+    goBackBtn: {
+      background: 'none',
+      border: 'none',
+      color: '#8A1F2B',
+      textDecoration: 'underline',
+      cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
+      fontSize: '17px',
+      fontWeight: 600,
+    },
   };
 
   return (
     <div style={styles.layout}>
         {/* Sidebar */}
         <Sidebar
-            activePage="requests"
-            userRole="Staff"
-            userSubrole="Program Head"
-            navItems={[
-                { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestDetailsProgHead') }
-            ]}
+          activePage="requests"
+          userRole="Staff"
+          userSubrole="Program Head"
+          navItems={[
+            { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-programhead' }
+          ]}
         />
 
       {/* Main content */}
       <main style={styles.main}>
-        <h1>Request No. 000001234</h1>
-        <p>
-          Status:{' '}
-          <span
-            style={{
-              backgroundColor: '#23a6f0',
-              color: 'white',
-              padding: '0.2rem 1rem',
-              borderRadius: '1rem',
-            }}
-          >
-            Pending
-          </span>
-        </p>
+        <div style={styles.topHeader}>
+          <div>
+            <h1>Request No. 000001234</h1>
+            <p>
+              Status:{' '}
+              <span
+                style={{
+                  backgroundColor: '#23a6f0',
+                  color: 'white',
+                  padding: '0.2rem 1rem',
+                  borderRadius: '1rem',
+                }}
+              >
+                Pending
+              </span>
+            </p>
+          </div>
+          <button style={styles.goBackBtn} onClick={() => navigate('/requests-programhead')}>Go Back</button>
+        </div>
 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, ...styles.formGroup }}>

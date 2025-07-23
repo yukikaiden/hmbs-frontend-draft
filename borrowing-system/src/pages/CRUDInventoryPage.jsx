@@ -6,8 +6,10 @@ import SpoonImage from '../assets/images/spoon.png';
 import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryAdminModal';
 import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
 import InventoryItemDeletedModal from '../components/AdminModal/InventoryItemDeletedModal';
+import { useNavigate } from 'react-router-dom';
 
 const CRUDInventoryPage = () => {
+  const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showItemDeletedModal, setShowItemDeletedModal] = useState(false);
@@ -59,6 +61,7 @@ const CRUDInventoryPage = () => {
       cursor: 'pointer',
     },
     addButton: {
+      fontfamily: 'Poppins, sans-serif',
       backgroundColor: '#8A1F2B',
       color: 'white',
       border: 'none',
@@ -130,14 +133,15 @@ const CRUDInventoryPage = () => {
 
   return (
     <div style={styles.layout}>
+      {/* Sidebar*/}
       <Sidebar
         activePage="inventory"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => {} },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => {} },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => {} },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
@@ -158,9 +162,9 @@ const CRUDInventoryPage = () => {
         <div style={styles.roundedCard}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
             <strong>List of Inventory Items</strong>
-            <button style={styles.addButton}>
-  <FiPlus /> Add New Item
-</button>
+            <button style={styles.addButton} onClick={() => navigate('/add-to-inventory')}>
+              <FiPlus /> Add New Item
+            </button>
 
           </div>
 

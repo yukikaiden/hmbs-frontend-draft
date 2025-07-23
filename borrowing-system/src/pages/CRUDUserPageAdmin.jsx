@@ -2,8 +2,10 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiLogOut, FiPlus } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const CRUDUserPageAdmin = () => {
+  const navigate = useNavigate();
   const styles = {
     layout: {
       display: 'flex',
@@ -43,6 +45,7 @@ const CRUDUserPageAdmin = () => {
       fontWeight: 500,
       cursor: 'pointer',
       whiteSpace: 'nowrap',
+      fontFamily: 'Poppins, sans-serif',
     },
     addButton: {
       backgroundColor: '#8A1F2B',
@@ -52,6 +55,7 @@ const CRUDUserPageAdmin = () => {
       borderRadius: '20px',
       fontWeight: 500,
       cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
     },
     groupedSection: {
       border: '1.5px solid #8A1F2B',
@@ -123,7 +127,7 @@ const CRUDUserPageAdmin = () => {
                 <td style={styles.td}>{user.userId}</td>
                 <td style={styles.td}>{user.name}</td>
                 <td style={styles.td}>{user.email}</td>
-                <td style={styles.td}>{user.role}</td>
+                <td style={styles.td}>{roleName}</td>
               </tr>
             ))}
           </tbody>
@@ -134,14 +138,15 @@ const CRUDUserPageAdmin = () => {
 
   return (
     <div style={styles.layout}>
+      {/* Sidebar*/}
       <Sidebar
         activePage="registry"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
@@ -153,7 +158,7 @@ const CRUDUserPageAdmin = () => {
             <p style={styles.subtitle}>View the list of all registered users in the system and their roles</p>
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <button style={styles.addButton}>Add New User</button>
+            <button style={styles.addButton}>Add New User</button> {/* Modal to add user */}
           </div>
         </div>
 
@@ -163,19 +168,12 @@ const CRUDUserPageAdmin = () => {
             <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Staffs</p>
             <button style={styles.importButton}>Import CSV File</button>
           </div>
-          <div style={{ marginTop: '-1rem' }}>{renderTable('Custodians')}</div>
+          <div style={{ marginTop: '-1rem' , justifyContent: 'space-evenly'}}>{renderTable('Custodians')}</div>
           {renderTable('Program Heads')}
           {renderTable('Instructors')}
         </div>
 
-        {/* Students Section */}
-        <div style={styles.groupedSection}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Students</p>
-            <button style={styles.importButton}>Import CSV File</button>
-          </div>
-          {renderTable('Students')}
-        </div>
+        
 
       </main>
     </div>

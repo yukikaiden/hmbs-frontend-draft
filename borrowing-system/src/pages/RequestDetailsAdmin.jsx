@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import SpoonImage from '../assets/images/spoon.png';
 import RejectRequestModal from '../components/RejectRequestModal.jsx';
 import DeniedRequestModal from '../components/DeniedRequestModal.jsx';
 
 
 const RequestDetailsAdmin = () => {
+  const navigate = useNavigate();
+  const [requestId, setRequestId] = useState('000001234'); // Example request ID
   const borrowedItems = [1, 2, 3];
   const groupMembers = [1, 2, 3];
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [showDeniedModal, setShowDeniedModal] = useState(false);
+
+  const handleNavigate = (id) => navigate(`/request-approved-admin/${id}`);
 
   const styles = {
     layout: {
@@ -65,7 +70,7 @@ const RequestDetailsAdmin = () => {
       fontSize: '1rem',
       fontFamily: 'Poppins, sans-serif',
     },
-  table: {
+     table: {
       width: '100%',
       borderCollapse: 'separate', 
       borderSpacing: 0,            
@@ -138,16 +143,16 @@ const RequestDetailsAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
       <main style={styles.main}>
         <div style={styles.topHeader}>
           <h1>Request No. 000001234</h1>
-          <button style={styles.goBackBtn}>Go Back</button>
+          <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
         </div>
 
         <p>
@@ -256,7 +261,7 @@ const RequestDetailsAdmin = () => {
           <button className="rejectButton" onClick={() => setShowRejectModal(true)}>
             Reject Request
           </button>
-          <button className="approveButton">Approve Request</button>
+          <button className="approveButton" onClick={() => handleNavigate(setRequestId)}>Approve Request</button>
         </div>
 
         {showRejectModal && (

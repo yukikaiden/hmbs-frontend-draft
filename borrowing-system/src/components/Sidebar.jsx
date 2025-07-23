@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import hmbsLogoWhite from '../assets/hmbs-logo-white.png';
+import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin' }) => {
+  const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleLogoutClick = () => setShowLogoutModal(true);
   const handleCancel = () => setShowLogoutModal(false);
   const handleConfirmLogout = () => {
-    setShowLogoutModal(false);
-    alert('Logged out!');
+    navigate('/staff-login');
   };
 
   const styles = {
@@ -101,6 +102,7 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       borderRadius: '10px',
       textAlign: 'center',
       width: '300px',
+      fontfamily: 'Poppins, sans-serif',
     },
     modalButton: {
       margin: '1rem 0.5rem 0 0.5rem',
@@ -137,7 +139,7 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
                 onMouseLeave={(e) => {
                   if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
                 }}
-                onClick={item.onClick}
+                onClick={() => navigate(item.path)}
               >
                 {item.icon}
                 {item.name}

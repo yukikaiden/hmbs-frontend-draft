@@ -2,8 +2,10 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiLogOut, FiPlus } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const AddNewItemAdmin = () => {
+  const navigate = useNavigate();
   const styles = {
     layout: {
       display: 'flex',
@@ -110,14 +112,15 @@ const AddNewItemAdmin = () => {
 
   return (
     <div style={styles.layout}>
+      {/* Sidebar*/}
       <Sidebar
         activePage="inventory"
-        userRole="Custodian"
+        userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
@@ -220,6 +223,7 @@ const AddNewItemAdmin = () => {
                 e.currentTarget.style.backgroundColor = 'white';
                 e.currentTarget.style.color = '#8A1F2B';
               }}
+              onClick={() => navigate('/inventory')}
             >
               Cancel
             </button>
@@ -228,6 +232,7 @@ const AddNewItemAdmin = () => {
               style={{ ...styles.buttonPrimary, transition: '0.3s' }}
               onMouseEnter={e => e.currentTarget.style.backgroundColor = '#6f1a22'}
               onMouseLeave={e => e.currentTarget.style.backgroundColor = '#8A1F2B'}
+              //onClick function -> show feedback modal 
             >
               Submit Item
             </button>

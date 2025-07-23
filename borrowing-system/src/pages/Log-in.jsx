@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
 import hmbsLogo from '../assets/hmbs-logo-maroon.png';
 import backgroundImage from '../assets/building-background1.png';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
   /* ===== state & handlers ===== */
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogIn = () => {
+    // Logic for handling login can be added here
+    navigate('/requests-admin'); // Redirect to admin requests page after login
+  };
+
+  const handleHomepageClick = () => {
+    navigate('/');  // Navigate to Student Homepage
+  };  
 
   /* ===== layout styles ===== */
   const pageStyle = {
@@ -114,7 +126,7 @@ function LoginPage() {
     <div style={pageStyle}>
       <div style={formContainerStyle}>
         <img src={hmbsLogo} alt="HMBS Logo" style={logoStyle} />
-        <h2 style={headingStyle}>Hello, Student!</h2>
+        <h2 style={headingStyle}>Hello, Staff!</h2>
         <p style={subTextStyle}>Enter your credentials to proceed</p>
 
         {/* Student ID field */}
@@ -131,10 +143,10 @@ function LoginPage() {
           </span>
         </div>
 
-        <button style={buttonStyle}>Log In</button>
+        <button style={buttonStyle} onClick={handleLogIn}>Log In</button>
 
         <p style={footerStyle}>
-          Not a student? <a href="/staff-login" style={linkStyle}>Log in as staff.</a>
+          Not part of staff? <Link to="/"><a href="" style={linkStyle}>Go to Student Homepage.</a></Link>
         </p>
       </div>
     </div>

@@ -3,8 +3,12 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const RequestApprovedAdmin = () => {
+  const navigate = useNavigate(); 
+  const handleNavigate = (id) => navigate(`/request-details-admin/${id}`);
+
   const styles = {
     layout: {
       display: 'flex',
@@ -40,6 +44,7 @@ const RequestApprovedAdmin = () => {
       padding: '0.6rem',
       border: '1px solid #ccc',
       borderRadius: '6px',
+      fontfamily: 'Poppins, sans-serif',
     },
     grid2: {
       display: 'grid',
@@ -78,6 +83,16 @@ const RequestApprovedAdmin = () => {
       marginTop: '1rem',
       cursor: 'pointer',
     },
+    goBackBtn: {
+      background: 'none',
+      border: 'none',
+      color: '#8A1F2B',
+      textDecoration: 'underline',
+      cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
+      fontSize: '17px',
+      fontWeight: 600,
+    },
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -90,9 +105,9 @@ const RequestApprovedAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, onClick: () => navigate('/RequestAdminPage') },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, onClick: () => navigate('/RequestAdminPage') },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
@@ -102,7 +117,7 @@ const RequestApprovedAdmin = () => {
             <h2 style={{ marginBottom: 0 }}>Request No. 000001234</h2>
             <span style={styles.statusBadge}>Approved</span>
           </div>
-          <a href="#" style={styles.goBack}>Go Back</a>
+          <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
         </div>
 
         {/* Request Details */}

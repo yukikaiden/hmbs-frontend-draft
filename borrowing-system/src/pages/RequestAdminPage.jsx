@@ -2,8 +2,10 @@ import React from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const RequestAdminPage = () => {
+  const navigate = useNavigate();
   const data = Array.from({ length: 20 }, (_, index) => {
     const status =
       index < 3
@@ -23,6 +25,8 @@ const RequestAdminPage = () => {
       status
     };
   });
+  
+  const handleNavigate = (id) => navigate(`/request-details-admin/${id}`);
 
   const requestsList = data.filter((_, index) => index < 10);
   const pastTransactions = data.filter(entry => entry.status === 'Completed');
@@ -162,9 +166,9 @@ const RequestAdminPage = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> }
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 
@@ -214,7 +218,12 @@ const RequestAdminPage = () => {
                     <td style={styles.tableCell}>
                       <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
                     </td>
-                    <td style={styles.tableCell}><SquarePen size={16} style={{ cursor: 'pointer', color: '#333' }} /></td>
+                    <td style={styles.tableCell}>
+                      <SquarePen 
+                        size={16} 
+                        style={{ cursor: 'pointer', color: '#333' }} 
+                        onClick={() => handleNavigate(item.requestId)}
+                      /></td>
                   </tr>
                 ))}
               </tbody>
