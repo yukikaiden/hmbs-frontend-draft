@@ -1,159 +1,226 @@
-import { useState } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
+import TransactionModal from '../components/TransactionModal';
+import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import sampleImage1 from '../assets/images/plates.jpg';
+import sampleImage2 from '../assets/images/spoon.png';
+import sampleImage3 from '../assets/images/wine.jpg';
 import { useNavigate } from 'react-router-dom';
 
 const RequestApprovedAdmin = () => {
-  const navigate = useNavigate(); 
-  const handleNavigate = (id) => navigate(`/request-details-admin/${id}`);
-
   const styles = {
     layout: {
       display: 'flex',
+      minHeight: '100vh',
       fontFamily: 'Poppins, sans-serif',
     },
     main: {
       marginLeft: '240px',
-      padding: '2rem',
       flex: 1,
-      backgroundColor: '#fff',
-      minHeight: '100vh',
+      backgroundColor: '#ffffff',
+      padding: '2rem',
     },
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      marginBottom: '1rem',
+      marginBottom: '0.2rem',
+      fontSize: '14px',
     },
-    statusBadge: {
-      backgroundColor: '#f5c518',
-      padding: '0.25rem 0.8rem',
-      borderRadius: '20px',
-      fontWeight: 'bold',
-      fontSize: '0.9rem',
-      color: '#000',
+    status: {
+      backgroundColor: '#ffa500',
+      color: 'white',
+      padding: '0.2rem 0.7rem',
+      borderRadius: '1rem',
+      fontSize: '15px',
+      marginLeft: '0.5rem',
+    },
+    goBack: {
+      color: '#DC2626',
+      textDecoration: 'none',
+      fontWeight: 500,
+      cursor: 'pointer',
+      fontSize: '17px',
+    },
+    formGroup: {
+      marginBottom: '1.4rem',
     },
     label: {
-      fontWeight: 600,
-      marginBottom: '0.25rem',
+      display: 'block',
+      marginBottom: '0.1rem',
+      fontWeight: 500,
     },
     input: {
       width: '100%',
-      padding: '0.6rem',
-      border: '1px solid #ccc',
-      borderRadius: '6px',
-      fontfamily: 'Poppins, sans-serif',
-    },
-    grid2: {
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: '1rem',
-      marginBottom: '1rem',
+      padding: '0.8rem',
+      borderRadius: '8px',
+      border: '0.5px solid #1A1A1A',
+      fontSize: '1rem',
+      fontFamily: 'Poppins, sans-serif',
     },
     table: {
       width: '100%',
-      borderCollapse: 'collapse',
-      marginTop: '1rem',
+      borderCollapse: 'separate',
+      borderSpacing: 0,
+      marginTop: '0.5rem',
+      backgroundColor: 'white',
+      borderRadius: '10px',
+      border: '1px solid #8A1F2B',
     },
     th: {
       backgroundColor: '#8A1F2B',
       color: 'white',
-      padding: '0.75rem',
-      textAlign: 'left',
+      padding: '1rem',
+      textAlign: 'center',
     },
     td: {
-      padding: '0.75rem',
-      borderBottom: '1px solid #ccc',
+      padding: '1rem', // For group members table
+      textAlign: 'center',
+      borderBottom: '1px solid #ddd',
     },
-    goBack: {
-      color: '#8A1F2B',
-      textDecoration: 'none',
-      fontWeight: 500,
+    tdBorrowed: {
+      padding: '1.6rem', // For borrowed items table
+      textAlign: 'center',
+      borderBottom: '1px solid #ddd',
+    },
+    tdLeftBorrowed: {
+      padding: '1.6rem',
+      textAlign: 'left',
+      borderBottom: '1px solid #ddd',
+    },
+    image: {
+      width: '45px',
+      height: '45px',
+      objectFit: 'contain',
+      display: 'block',
+      margin: '0 auto',
+    },
+    select: {
+      width: '100%',
+      padding: '6px 12px',
+      border: '2px solid #FFA500',
+      color: '#FFA500',
+      borderRadius: '8px',
+      fontWeight: 'bold',
+      fontFamily: 'inherit',
+      backgroundColor: '#fff',
+      appearance: 'none',
+      backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFA500'><path d='M7 10l5 5 5-5z'/></svg>")`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'right 10px center',
+      backgroundSize: '18px',
+      cursor: 'pointer',
+    },
+    remarksInput: {
+      width: '90%',
+      padding: '0.5rem',
+      fontSize: '1rem',
+      borderRadius: '6px',
+      border: '1px solid #ccc',
+      fontFamily: 'Poppins, sans-serif',
     },
     completedButton: {
       backgroundColor: '#8A1F2B',
       color: 'white',
-      padding: '0.8rem 1.5rem',
-      borderRadius: '20px',
+      padding: '14px 24px',
+      borderRadius: '50px',
       border: 'none',
-      fontWeight: 'bold',
       float: 'right',
-      marginTop: '1rem',
+      marginTop: '2rem',
       cursor: 'pointer',
-    },
-    goBackBtn: {
-      background: 'none',
-      border: 'none',
-      color: '#8A1F2B',
-      textDecoration: 'underline',
-      cursor: 'pointer',
-      fontFamily: 'Poppins, sans-serif',
-      fontSize: '17px',
-      fontWeight: 600,
+      fontFamily: 'inherit',
     },
   };
 
   const [showModal, setShowModal] = useState(false);
+  const [hoveringBack, setHoveringBack] = useState(false);
+
+  const borrowedItems = [
+    {
+      img: sampleImage1,
+      name: 'Stone 27cm Granite Dinner Plate',
+      quantity: '12 Pcs',
+    },
+    {
+      img: sampleImage2,
+      name: 'Silver 14cm Tea Spoon',
+      quantity: '12 Pcs',
+    },
+    {
+      img: sampleImage3,
+      name: 'Stone 27cm Granite Dinner Plate',
+      quantity: '6 Pcs',
+    },
+  ];
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar */}
       <Sidebar
         activePage="requests"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> },
         ]}
       />
 
       <main style={styles.main}>
         <div style={styles.header}>
-          <div>
-            <h2 style={{ marginBottom: 0 }}>Request No. 000001234</h2>
-            <span style={styles.statusBadge}>Approved</span>
-          </div>
-          <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
+          <h1>Request No. 000001234</h1>
+          <a
+            href="#"
+            style={{
+              ...styles.goBack,
+              ...(hoveringBack ? { textDecoration: 'underline' } : {}),
+            }}
+            onMouseOver={() => setHoveringBack(true)}
+            onMouseOut={() => setHoveringBack(false)}
+          >
+            Go Back
+          </a>
         </div>
 
-        {/* Request Details */}
-        <div style={styles.grid2}>
-          <div>
-            <div style={styles.label}>Date Requested</div>
+        <p>
+          Status: <span style={styles.status}>Approved</span>
+        </p>
+
+        <hr style={{ border: 'none', borderTop: '2px solid rgba(97, 97, 97, 0.3)', marginTop: '1rem', marginBottom: '-0.6rem' }} />
+
+        <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
+            <label style={styles.label}>Date Requested</label>
             <input type="text" value="July 02, 2025" style={styles.input} readOnly />
           </div>
-          <div>
-            <div style={styles.label}>Date Use</div>
+          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
+            <label style={styles.label}>Date Use</label>
             <input type="text" value="July 08, 2025" style={styles.input} readOnly />
+          </div>
+          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
+            <label style={styles.label}>Time</label>
+            <input type="text" value="8:00 AM" style={styles.input} readOnly />
           </div>
         </div>
 
-        <div style={styles.grid2}>
-          <div>
-            <div style={styles.label}>Time</div>
-            <input type="text" value="8:00 AM" style={styles.input} readOnly />
+        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
+            <label style={styles.label}>Group Leader</label>
+            <input type="text" value="Student 1" style={styles.input} readOnly />
           </div>
-          <div>
-            <div style={styles.label}>Course</div>
+          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
+            <label style={styles.label}>Course</label>
             <input type="text" value="HM 001" style={styles.input} readOnly />
           </div>
         </div>
 
-        <div style={styles.label}>Group Leader</div>
-        <input type="text" value="Student 1" style={{ ...styles.input, marginBottom: '1rem' }} readOnly />
-
-        {/* Group Members */}
-        <div style={styles.label}>Group Members</div>
-        <table style={styles.table}>
+        <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
+        <table style={{ ...styles.table, marginBottom: '1rem' }}>
           <thead>
             <tr>
-              <th style={styles.th}>#</th>
+              <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
               <th style={styles.th}>Name</th>
-              <th style={styles.th}>Course ID</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
             </tr>
           </thead>
           <tbody>
@@ -167,110 +234,47 @@ const RequestApprovedAdmin = () => {
           </tbody>
         </table>
 
-        {/* Borrowed Items */}
-        <h3 style={{ marginTop: '2rem' }}>List of Borrowed Items <span style={{ float: 'right', fontSize: '0.9rem', color: '#8A1F2B' }}>Total (3)</span></h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4rem', marginBottom: '0.1rem' }}>
+          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '22px' }}>List of Borrowed Items</h3>
+          <div style={{ fontWeight: '600', fontSize: '18px', color: '#5A67D8' }}>Total ({borrowedItems.length})</div>
+        </div>
+
         <table style={styles.table}>
           <thead>
             <tr>
-              <th style={styles.th}>Image</th>
-              <th style={styles.th}>Item Name</th>
+              <th style={{ ...styles.th, borderTopLeftRadius: '8px', minWidth: '50px' }}>Image</th>
+              <th style={{ ...styles.th, textAlign: 'left', width: '306px' }}>Item Name</th>
               <th style={styles.th}>Quantity</th>
-              <th style={styles.th}>Status</th>
-              <th style={styles.th}>Remarks</th>
+              <th style={{ ...styles.th, width: '160px' }}>Status</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '8px', textAlign: 'left', paddingLeft: '24px' }}>Remarks</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td style={styles.td}><img src="https://via.placeholder.com/50" alt="item" /></td>
-              <td style={styles.td}>Stone 27cm Granite Dinner Plate</td>
-              <td style={styles.td}>12 Pcs</td>
-              <td style={styles.td}>
-                <select style={styles.input} defaultValue="Reserved">
-                  <option>Reserved</option>
-                  <option>In Use</option>
-                  <option>Returned</option>
-                  <option>To be Replaced</option>
-                </select>
-              </td>
-              <td style={styles.td}><input style={styles.input} /></td>
-            </tr>
-            <tr>
-              <td style={styles.td}><img src="https://via.placeholder.com/50" alt="item" /></td>
-              <td style={styles.td}>Silver 14cm Tea Spoon</td>
-              <td style={styles.td}>12 Pcs</td>
-              <td style={styles.td}>
-                <select style={styles.input} defaultValue="Reserved">
-                  <option>Reserved</option>
-                </select>
-              </td>
-              <td style={styles.td}><input style={styles.input} /></td>
-            </tr>
-            <tr>
-              <td style={styles.td}><img src="https://via.placeholder.com/50" alt="item" /></td>
-              <td style={styles.td}>Stone 27cm Granite Dinner Plate</td>
-              <td style={styles.td}>6 Pcs</td>
-              <td style={styles.td}>
-                <select style={styles.input} defaultValue="Reserved">
-                  <option>Reserved</option>
-                </select>
-              </td>
-              <td style={styles.td}><input style={styles.input} /></td>
-            </tr>
+            {borrowedItems.map((item, idx) => (
+              <tr key={idx}>
+                <td style={styles.tdBorrowed}><img src={item.img} alt="item" style={styles.image} /></td>
+                <td style={styles.tdLeftBorrowed}>{item.name}</td>
+                <td style={styles.tdBorrowed}>{item.quantity}</td>
+                <td style={styles.tdBorrowed}>
+                  <select style={styles.select} defaultValue="Reserved">
+                    <option>Reserved</option>
+                    <option>In Use</option>
+                    <option>Returned</option>
+                    <option>To be Replaced</option>
+                  </select>
+                </td>
+                <td style={{ ...styles.tdLeftBorrowed }}><input type="text" style={styles.remarksInput} /></td>
+              </tr>
+            ))}
           </tbody>
         </table>
 
-        {/* Modal Trigger Button */}
-        <button style={styles.completedButton} onClick={() => setShowModal(true)}>Transaction Completed</button>
-
-        {/* Modal */}
-        {showModal && (
-          <div style={{
-            position: 'fixed',
-            top: 0, left: 0, right: 0, bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 9999,
-          }}>
-            <div style={{
-              backgroundColor: '#fff',
-              padding: '40px 30px 28px',
-              borderRadius: '16px',
-              textAlign: 'center',
-              width: '460px',
-              minHeight: '280px', // adjusted height
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-              <img src="/mnt/data/9b9f0fd4-434a-45f4-ad1a-dfc75bbec65a.png" alt="Transaction Icon" style={{ width: '80px', marginBottom: '1rem' }} />
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Transaction Completed</h2>
-              <p style={{ color: '#555', marginBottom: '1.5rem' }}>
-                The transaction has been successfully processed. <br />
-                The student will be notified accordingly.
-              </p>
-              <button
-                onClick={() => setShowModal(false)}
-                style={{
-                  border: '1px solid #8A1F2B',
-                  backgroundColor: '#fff',
-                  color: '#8A1F2B',
-                  fontWeight: 'bold',
-                  padding: '0.5rem 1.5rem',
-                  borderRadius: '20px',
-                  cursor: 'pointer',
-                }}
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        )}
+        <button style={styles.completedButton} onClick={() => setShowModal(true)}>
+          Transaction Completed
+        </button>
+        {showModal && <TransactionModal onClose={() => setShowModal(false)} />}
       </main>
-    </div>
+    </div >
   );
 };
 
