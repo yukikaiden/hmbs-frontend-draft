@@ -13,6 +13,14 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     onClose();
   };
 
+  const handleHover = (target, hoverStyle) => {
+    Object.assign(target.style, hoverStyle);
+  };
+
+  const handleLeave = (target, baseStyle) => {
+    Object.assign(target.style, baseStyle);
+  };
+
   return (
     <>
       {!showUpdatedModal && (
@@ -71,14 +79,21 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             <div style={styles.buttonRow}>
               <button
                 style={styles.cancelBtn}
-                onMouseEnter={(e) => Object.assign(e.target.style, styles.cancelBtnHover)}
-                onMouseLeave={(e) => Object.assign(e.target.style, styles.cancelBtn)}
+                onMouseEnter={(e) => handleHover(e.target, styles.cancelBtnHover)}
+                onMouseLeave={(e) => handleLeave(e.target, styles.cancelBtn)}
                 onClick={onClose}
               >
                 Cancel
               </button>
 
-              <button onClick={handleSave} style={styles.saveBtn}>Save Changes</button>
+              <button
+                onClick={handleSave}
+                style={styles.saveBtn}
+                onMouseEnter={(e) => handleHover(e.target, styles.saveBtnHover)}
+                onMouseLeave={(e) => handleLeave(e.target, styles.saveBtn)}
+              >
+                Save Changes
+              </button>
             </div>
           </div>
         </div>
@@ -181,14 +196,19 @@ const styles = {
   },
   saveBtn: {
     padding: '10px 26px',
-    backgroundColor: '#8A1F2B',
+    backgroundColor: '#991F1F',
     color: '#fff',
     border: 'none',
     borderRadius: '999px',
     fontWeight: '500',
     fontSize: '16px',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
     fontFamily: "'Poppins', sans-serif",
+  },
+  saveBtnHover: {
+    backgroundColor: '#701923',
+    color: '#fff',
   },
 };
 

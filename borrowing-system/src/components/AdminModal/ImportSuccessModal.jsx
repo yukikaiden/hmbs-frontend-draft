@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircleCheck } from 'lucide-react';
+import ApprovedCircle from '../../assets/approved-circle.svg'; // Adjust the path as needed
 
 function ImportSuccessModal({ onClose }) {
   const modalStyle = {
@@ -9,7 +9,7 @@ function ImportSuccessModal({ onClose }) {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 999,
     fontFamily: "'Poppins', sans-serif",
   };
 
@@ -18,26 +18,27 @@ function ImportSuccessModal({ onClose }) {
     padding: '40px 30px 28px',
     borderRadius: '16px',
     textAlign: 'center',
-    width: '450px',
-    minHeight: '350px',
+    width: '480px',
+    minHeight: '400px',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: '20px'
   };
 
   const iconStyle = {
-    color: '#991F1F',
-    width: '84px',
-    height: '84px',
-    marginBottom: '24px',
+    width: '100px',
+    height: '100px',
+    objectFit: 'contain',
+    marginBottom: '20px',
   };
 
   const titleStyle = {
     fontWeight: 700,
-    fontSize: '24px',
-    marginBottom: '10px',
+    fontSize: '28px',
+    //marginBottom: '10px',
   };
 
   const textStyle = {
@@ -50,35 +51,37 @@ function ImportSuccessModal({ onClose }) {
   const btnStyle = {
     backgroundColor: '#fff',
     color: '#991F1F',
-    padding: '8px 26px',
+    padding: '8px 30px',
     borderRadius: '999px',
     border: '1.5px solid #991F1F',
-    fontWeight: 500,
-    fontSize: '17px',
+    fontWeight: 'bold',
+    fontSize: '16px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     fontFamily: "'Poppins', sans-serif",
   };
 
   const btnHover = {
-    ...btnStyle,
     backgroundColor: '#991F1F',
     color: '#fff',
   };
 
+  const handleMouseEnter = (e) => Object.assign(e.target.style, btnHover);
+  const handleMouseLeave = (e) => Object.assign(e.target.style, btnStyle);
+
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <CircleCheck style={iconStyle} />
+        <img src={ApprovedCircle} alt="Approved" style={iconStyle} />
         <div style={titleStyle}>Import Successful</div>
         <p style={textStyle}>
-          The file was successfully imported.<br />
-          All valid records have been added.
+          The file was successfully imported. All valid<br />
+          records have been added.
         </p>
         <button
           style={btnStyle}
-          onMouseEnter={(e) => Object.assign(e.target.style, btnHover)}
-          onMouseLeave={(e) => Object.assign(e.target.style, btnStyle)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onClick={onClose}
         >
           Done

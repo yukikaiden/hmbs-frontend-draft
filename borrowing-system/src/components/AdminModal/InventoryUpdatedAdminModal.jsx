@@ -35,7 +35,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 9999,
+    zIndex: 999,
     fontFamily: 'Poppins, sans-serif',
   },
   modal: {
@@ -43,7 +43,6 @@ const styles = {
     borderRadius: '16px',
     padding: '40px 30px 28px',
     width: '460px',
-    minheight: '350px',
     textAlign: 'center',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     display: 'flex',
@@ -60,7 +59,6 @@ const styles = {
   title: {
     fontSize: '28px',
     fontWeight: '700',
-    //marginBottom: '10px'
   },
   message: {
     color: '#555555',
@@ -71,26 +69,24 @@ const styles = {
   doneBtn: {
     backgroundColor: '#ffffff',
     color: '#991F1F',
-    padding: '8px 30px',
+    padding: '8px 28px',
     border: '1.5px solid #991F1F',
     borderRadius: '999px',
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontSize: '16px',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: "'Poppins', sans-serif",
+    transition: 'all 0.3s ease',
   },
   doneBtnHover: {
     backgroundColor: '#991F1F',
     color: '#ffffff',
-    padding: '8px 26px',
+    padding: '8px 28px',
     border: '1.5px solid #991F1F',
     borderRadius: '999px',
     fontWeight: '500',
-    fontSize: '17px',
+    fontSize: '16px',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: "'Poppins', sans-serif",
+    transition: 'all 0.3s ease',
   },
 };
 

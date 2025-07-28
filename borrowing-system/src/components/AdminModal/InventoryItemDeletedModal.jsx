@@ -11,10 +11,10 @@ const InventoryItemDeletedModal = ({ onDone }) => {
           The item was successfully deleted from<br />the inventory
         </p>
         <button style={styles.doneButton} onClick={onDone}
-          onMouseEnter={e => e.target.style.backgroundColor = '#8A1F2B'}
+          onMouseEnter={e => e.target.style.backgroundColor = '#991F1F'}
           onMouseLeave={e => e.target.style.backgroundColor = '#fff'}
           onMouseOver={e => e.target.style.color = '#fff'}
-          onMouseOut={e => e.target.style.color = '#8A1F2B'}
+          onMouseOut={e => e.target.style.color = '#991F1F'}
         >
           Done
         </button>
@@ -68,8 +68,8 @@ const styles = {
   },
   doneButton: {
     backgroundColor: '#fff',
-    color: '#8A1F2B',
-    border: '1.5px solid #8A1F2B',
+    color: '#991F1F',
+    border: '1.5px solid #991F1F',
     padding: '8px 30px',
     borderRadius: '20px',
     fontWeight: 'bold',

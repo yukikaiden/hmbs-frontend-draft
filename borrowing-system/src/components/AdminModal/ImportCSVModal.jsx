@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { HiOutlineDocumentArrowUp } from 'react-icons/hi2';
 import { X } from 'lucide-react';
-import ImportSuccessModal from './ImportSuccessModal'; // Make sure the path is correct
+import ImportSuccessModal from './ImportSuccessModal'; // Ensure this path is correct
+import ApprovedIcon from '../../assets/import-file.svg'; // Adjust path if needed
 
 const ImportCSVModal = ({ onClose }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -12,7 +12,7 @@ const ImportCSVModal = ({ onClose }) => {
 
   const handleSuccessClose = () => {
     setShowSuccessModal(false);
-    onClose(); // close the parent modal too
+    onClose(); // Close the parent modal too
   };
 
   const modalStyle = {
@@ -22,13 +22,13 @@ const ImportCSVModal = ({ onClose }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 999,
     fontFamily: "'Poppins', sans-serif",
   };
 
   const boxStyle = {
     backgroundColor: '#fff',
-    borderRadius: '14px',
+    borderRadius: '16px',
     width: '550px',
     minHeight: '460px',
     display: 'flex',
@@ -41,7 +41,7 @@ const ImportCSVModal = ({ onClose }) => {
     padding: '24px 24px 16px',
     fontSize: '20px',
     fontWeight: 600,
-    borderBottom: '1px solid #eee',
+    borderBottom: '1.5px solid #eee',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -57,8 +57,8 @@ const ImportCSVModal = ({ onClose }) => {
   };
 
   const iconStyle = {
-    fontSize: '45px',
-    color: '#333',
+    width: '55px',
+    height: '55px',
     marginBottom: '5px',
     marginTop: '30px',
   };
@@ -85,13 +85,14 @@ const ImportCSVModal = ({ onClose }) => {
   const cancelBtn = {
     backgroundColor: '#fff',
     color: '#991F1F',
-    border: '2px solid #991F1F',
+    border: '1.5px solid #991F1F',
     borderRadius: '999px',
-    padding: '7px 20px',
-    fontSize: '14px',
-    fontWeight: 500,
+    padding: '8px 26px',
+    fontSize: '16px',
+    fontWeight: 700,
     cursor: 'pointer',
     fontFamily: "'Poppins', sans-serif",
+    transition: 'all 0.3s ease',
   };
 
   const importBtn = {
@@ -100,10 +101,11 @@ const ImportCSVModal = ({ onClose }) => {
     border: 'none',
     borderRadius: '999px',
     padding: '7px 20px',
-    fontSize: '14px',
-    fontWeight: 500,
+    fontSize: '16px',
+    fontWeight: 700,
     cursor: 'pointer',
     fontFamily: "'Poppins', sans-serif",
+    transition: 'all 0.3s ease',
   };
 
   const closeBtnStyle = {
@@ -126,7 +128,7 @@ const ImportCSVModal = ({ onClose }) => {
           </div>
 
           <div style={dropZoneStyle}>
-            <HiOutlineDocumentArrowUp style={iconStyle} />
+            <img src={ApprovedIcon} alt="Upload Icon" style={iconStyle} />
             <div style={textStyle}>Select a CSV file to Import</div>
             <div style={subTextStyle}>or drag and drop it here</div>
           </div>
@@ -148,8 +150,8 @@ const ImportCSVModal = ({ onClose }) => {
             </button>
             <button
               style={importBtn}
-              onMouseEnter={(e) => (e.target.style.opacity = 0.9)}
-              onMouseLeave={(e) => (e.target.style.opacity = 1)}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = '#701923')}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = '#991F1F')}
               onClick={handleImportClick}
             >
               Import File
