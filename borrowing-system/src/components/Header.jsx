@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import hmbsLogo from '../assets/site-images/hmbs-logo.png';
+import hmbsLogo from '../assets/site-images/hmbs-logo-white.png';
 import handcartIcon from '../assets/handcart.png';
 import userIcon from '../assets/user.png';
 import { useNavigate } from 'react-router-dom';
@@ -123,7 +123,7 @@ function Header() {
             <ul style={navStyle}>
               <Link to="/" style={linkStyle}>Home</Link>
               <Link to="/about" style={linkStyle}>About</Link>
-              <Link to="/" style={linkStyle}>Transaction</Link>
+              <Link to="/transaction" style={linkStyle}>Transaction</Link>
             </ul>
           </nav>
         </div>

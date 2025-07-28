@@ -26,6 +26,7 @@ import RequeststoInstructor from "./pages/RequestInstructorPage";
 import RequeststoProgHead from "./pages/RequestProgHeadPage";
 import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
+import TransactionPage from './pages/TransactionPage'; 
 
 
 // Optional: import Homepage if needed
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/borrow-request" element={<BorrowRequestForm />} />
                 <Route path="/student-login" element={<StudentLoginPage />} />
+                <Route path="/transaction" element={<TransactionPage />} />
 
                 {/* Admin Pages */}
                 <Route path="/staff-login" element={<StaffLoginPage />} />
