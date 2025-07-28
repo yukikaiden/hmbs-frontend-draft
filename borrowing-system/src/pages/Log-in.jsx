@@ -11,7 +11,7 @@ function LoginPage() {
 
   const handleLogIn = () => {
     // Logic for handling login can be added here
-    navigate('/requests-admin'); // Redirect to admin requests page after login
+    navigate('/requests-instructor'); // Redirect to admin requests page after login
   };
 
   const handleHomepageClick = () => {
