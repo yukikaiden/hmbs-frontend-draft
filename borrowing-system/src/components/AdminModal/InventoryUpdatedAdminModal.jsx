@@ -1,14 +1,27 @@
-import React from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
+import React, { useState } from 'react';
+import approvedIcon from '../../assets/update-approved.svg';
 
 const InventoryUpdatedAdminModal = ({ onDone }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div style={styles.modalOverlay}>
       <div style={styles.modal}>
-        <FaCheckCircle style={styles.icon} />
-        <h2>Item Updated</h2>
-        <p>The item was successfully updated</p>
-        <button style={styles.doneBtn} onClick={onDone}>Done</button>
+        <img
+          src={approvedIcon}
+          alt="Item Updated Icon"
+          style={styles.icon}
+        />
+        <h2 style={styles.title}>Item Updated</h2>
+        <p style={styles.message}>The item was successfully updated</p>
+        <button
+          style={isHovered ? styles.doneBtnHover : styles.doneBtn}
+          onClick={onDone}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          Done
+        </button>
       </div>
     </div>
   );
@@ -22,29 +35,56 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 999,
+    zIndex: 9999,
+    fontFamily: 'Poppins, sans-serif',
   },
   modal: {
     background: '#fff',
-    borderRadius: '12px',
-    padding: '40px',
-    width: '400px',
+    borderRadius: '16px',
+    padding: '40px 30px 28px',
+    width: '460px',
     textAlign: 'center',
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
   },
   icon: {
-    fontSize: '60px',
-    color: '#8A1F2B',
-    marginBottom: '20px',
+    width: '100px',
+    height: '100px',
+    objectFit: 'contain',
+  },
+  title: {
+    fontSize: '24px',
+    fontWeight: '700',
+    marginBottom: '10px'
+  },
+  message: {
+    color: '#555555',
+    fontSize: '16px',
+    lineHeight: '1.6',
+    marginBottom: '26px',
   },
   doneBtn: {
-    marginTop: '20px',
-    backgroundColor: '#8A1F2B',
-    color: '#fff',
-    padding: '0.5rem 1.5rem',
-    border: 'none',
-    borderRadius: '10px',
+    backgroundColor: '#ffffff',
+    color: '#991F1F',
+    padding: '8px 26px',
+    border: '1.5px solid #991F1F',
+    borderRadius: '999px',
+    fontWeight: '500',
+    fontSize: '17px',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    fontFamily: "'Poppins', sans-serif",
+  },
+  doneBtnHover: {
+    backgroundColor: '#991F1F',
+    color: '#ffffff',
+    padding: '8px 26px',
+    border: '1.5px solid #991F1F',
+    borderRadius: '999px',
+    fontWeight: '500',
+    fontSize: '17px',
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    fontFamily: "'Poppins', sans-serif",
   },
 };
 
