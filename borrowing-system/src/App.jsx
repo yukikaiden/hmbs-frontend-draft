@@ -24,6 +24,7 @@ import RequestApprovedAdmin from "./pages/RequestApprovedAdmin";
 import RequeststoInstructor from "./pages/RequestInstructorPage";
 import RequeststoProgHead from "./pages/RequestProgHeadPage";
 import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";
+import RequeststoProgHead from "./pages/RequestProgHeadPage";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 
 // Optional: import Homepage if needed
