@@ -1,5 +1,5 @@
 import React from 'react';
-import docucheck from '../assets/document-checked.svg'; 
+import docucheck from '../assets/document-checked.svg';
 
 const TransactionModal = ({ onClose }) => {
   const modalStyle = {
@@ -71,8 +71,8 @@ const TransactionModal = ({ onClose }) => {
         </div>
         <div style={titleStyle}>Transaction Completed</div>
         <p style={textStyle}>
-            The transaction has been successfully processed.<br />
-            The student will be notified accordingly.
+          The transaction has been successfully processed.<br />
+          The student will be notified accordingly.
         </p>
         <button
           style={btnStyle}
