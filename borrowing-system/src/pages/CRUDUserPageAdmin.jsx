@@ -1,103 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
-import { FiLogOut, FiPlus } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import AddUserModal from '../components/AdminModal/AddUserModal';
+import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 
 const CRUDUserPageAdmin = () => {
-  const navigate = useNavigate();
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const handleOpenAddUser = () => setShowAddUserModal(true);
+  const handleCloseAddUser = () => setShowAddUserModal(false);
+
   const styles = {
-    layout: {
-      display: 'flex',
-      fontFamily: 'Poppins, sans-serif',
-    },
-    main: {
-      marginLeft: '240px',
-      padding: '2rem',
-      flex: 1,
-      backgroundColor: '#fff',
-      minHeight: '100vh',
-    },
-    topSection: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: '2rem',
-    },
-    titleGroup: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    title: {
-      fontSize: '1.6rem',
-      fontWeight: 600,
-    },
-    subtitle: {
-      color: '#666',
-      fontSize: '1rem',
-    },
+    layout: { display: 'flex', fontFamily: 'Poppins, sans-serif' },
+    main: { marginLeft: '240px', padding: '2rem', flex: 1, backgroundColor: '#fff', minHeight: '100vh' },
+    topSection: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' },
+    titleGroup: { display: 'flex', flexDirection: 'column' },
+    title: { fontSize: '1.6rem', fontWeight: 600 },
+    subtitle: { color: '#666', fontSize: '1rem' },
     importButton: {
-      backgroundColor: '#8A1F2B',
-      color: '#fff',
-      border: 'none',
-      padding: '0.6rem 1.25rem',
-      borderRadius: '20px',
-      fontWeight: 500,
-      cursor: 'pointer',
-      whiteSpace: 'nowrap',
-      fontFamily: 'Poppins, sans-serif',
+      backgroundColor: '#8A1F2B', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
+      borderRadius: '20px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Poppins, sans-serif',
     },
     addButton: {
-      backgroundColor: '#8A1F2B',
-      color: '#fff',
-      border: 'none',
-      padding: '0.6rem 1.25rem',
-      borderRadius: '20px',
-      fontWeight: 500,
-      cursor: 'pointer',
-      fontFamily: 'Poppins, sans-serif',
+      backgroundColor: '#8A1F2B', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
+      borderRadius: '20px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Poppins, sans-serif',
     },
     groupedSection: {
-      border: '1.5px solid #8A1F2B',
-      borderRadius: '12px',
-      padding: '1rem 1.25rem',
-      marginBottom: '2rem',
+      border: '1.5px solid #8A1F2B', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '2rem',
     },
-    groupedSectionTitle: {
-      fontWeight: 700,
-      fontSize: '1.4rem',
-      marginBottom: '1.5rem',
-      color: '#8A1F2B',
-    },
-    sectionTitle: {
-      fontWeight: 400,
-      fontSize: '1rem',
-      marginBottom: '1rem',
-      color: '#333',
-    },
-    tableContainer: {
-      marginBottom: '1.5rem',
-      border: '1.5px solid #8A1F2B',
-      borderRadius: '10px',
-      overflow: 'hidden',
-    },
-    tableHeader: {
-      backgroundColor: '#8A1F2B',
-      color: '#fff',
-      fontWeight: 500,
-    },
-    table: {
-      width: '100%',
-      borderCollapse: 'collapse',
-    },
-    th: {
-      padding: '0.75rem',
-      textAlign: 'left',
-    },
-    td: {
-      padding: '0.75rem',
-      borderTop: '1px solid #ddd',
-    },
+    groupedSectionTitle: { fontWeight: 700, fontSize: '1.4rem', marginBottom: '1.5rem', color: '#8A1F2B' },
+    sectionTitle: { fontWeight: 400, fontSize: '1rem', marginBottom: '1rem', color: '#333' },
+    tableContainer: { marginBottom: '1.5rem', border: '1.5px solid #8A1F2B', borderRadius: '10px', overflow: 'hidden' },
+    tableHeader: { backgroundColor: '#8A1F2B', color: '#fff', fontWeight: 500 },
+    table: { width: '100%', borderCollapse: 'collapse' },
+    th: { padding: '0.75rem', textAlign: 'left' },
+    td: { padding: '0.75rem', borderTop: '1px solid #ddd' },
   };
 
   const dummyUsers = [
@@ -138,44 +73,47 @@ const CRUDUserPageAdmin = () => {
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar*/}
       <Sidebar
         activePage="registry"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, path: '/registry' },
         ]}
       />
-
       <main style={styles.main}>
-        {/* Title and Buttons */}
         <div style={styles.topSection}>
           <div style={styles.titleGroup}>
             <h2 style={styles.title}>Registered Users</h2>
             <p style={styles.subtitle}>View the list of all registered users in the system and their roles</p>
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <button style={styles.addButton}>Add New User</button> {/* Modal to add user */}
+            <button style={styles.addButton} onClick={handleOpenAddUser}>Add New User</button>
           </div>
         </div>
 
-        {/* Staffs Section */}
         <div style={styles.groupedSection}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Staffs</p>
             <button style={styles.importButton}>Import CSV File</button>
           </div>
-          <div style={{ marginTop: '-1rem' , justifyContent: 'space-evenly'}}>{renderTable('Custodians')}</div>
+          <div style={{ marginTop: '-1rem', justifyContent: 'space-evenly' }}>{renderTable('Custodians')}</div>
           {renderTable('Program Heads')}
           {renderTable('Instructors')}
         </div>
-
-        
-
       </main>
+
+      {showAddUserModal && (
+        <AddUserModal
+          onClose={handleCloseAddUser}
+          onRegister={(data) => {
+            // Optional: Do something with `data`
+            handleCloseAddUser();
+          }}
+        />
+      )}
     </div>
   );
 };
