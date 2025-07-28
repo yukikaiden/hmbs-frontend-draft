@@ -5,7 +5,6 @@ import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import sampleImage1 from '../assets/images/plates.jpg';
 import sampleImage2 from '../assets/images/spoon.png';
 import sampleImage3 from '../assets/images/wine.jpg';
-import { useNavigate } from 'react-router-dom';
 
 const RequestApprovedAdmin = () => {
   const styles = {
@@ -33,29 +32,33 @@ const RequestApprovedAdmin = () => {
       padding: '0.2rem 0.7rem',
       borderRadius: '1rem',
       fontSize: '15px',
-      marginLeft: '0.5rem',
+      marginLeft: '0.2rem',
     },
     goBack: {
-      color: '#DC2626',
-      textDecoration: 'none',
-      fontWeight: 500,
+      background: 'none',
+      border: 'none',
+      color: '#8A1F2B',
+      textDecoration: 'underline',
       cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
       fontSize: '17px',
+      fontWeight: 600,
+      transition: 'all 0.3s ease',
     },
     formGroup: {
       marginBottom: '1.4rem',
     },
     label: {
       display: 'block',
-      marginBottom: '0.1rem',
-      fontWeight: 500,
+      marginBottom: '0.2rem',
+      fontWeight: 600,
     },
     input: {
       width: '100%',
       padding: '0.8rem',
-      borderRadius: '8px',
+      borderRadius: '7px',
       border: '0.5px solid #1A1A1A',
-      fontSize: '1rem',
+      fontSize: '0.9rem',
       fontFamily: 'Poppins, sans-serif',
     },
     table: {
@@ -72,14 +75,15 @@ const RequestApprovedAdmin = () => {
       color: 'white',
       padding: '1rem',
       textAlign: 'center',
+      fontWeight: 600,
     },
     td: {
-      padding: '1rem', // For group members table
+      padding: '1rem',
       textAlign: 'center',
       borderBottom: '1px solid #ddd',
     },
     tdBorrowed: {
-      padding: '1.6rem', // For borrowed items table
+      padding: '1.5rem',
       textAlign: 'center',
       borderBottom: '1px solid #ddd',
     },
@@ -89,30 +93,27 @@ const RequestApprovedAdmin = () => {
       borderBottom: '1px solid #ddd',
     },
     image: {
-      width: '45px',
-      height: '45px',
+      width: '50px',
+      height: '50px',
       objectFit: 'contain',
       display: 'block',
       margin: '0 auto',
     },
-    select: {
-      width: '100%',
-      padding: '6px 12px',
-      border: '2px solid #FFA500',
-      color: '#FFA500',
+    selectBase: {
+      width: '165px',
+      padding: '10px 40px 10px 14px',
       borderRadius: '8px',
-      fontWeight: 'bold',
+      fontWeight: '600',
       fontFamily: 'inherit',
       backgroundColor: '#fff',
       appearance: 'none',
-      backgroundImage: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFA500'><path d='M7 10l5 5 5-5z'/></svg>")`,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right 10px center',
       backgroundSize: '18px',
       cursor: 'pointer',
     },
     remarksInput: {
-      width: '90%',
+      width: '100%',
       padding: '0.5rem',
       fontSize: '1rem',
       borderRadius: '6px',
@@ -129,29 +130,51 @@ const RequestApprovedAdmin = () => {
       marginTop: '2rem',
       cursor: 'pointer',
       fontFamily: 'inherit',
+      fontSize: '0.9rem',
+      transition: 'all 0.3s ease',
     },
   };
 
   const [showModal, setShowModal] = useState(false);
   const [hoveringBack, setHoveringBack] = useState(false);
+  const [hoveringTransaction, setHoveringTransaction] = useState(false);
 
   const borrowedItems = [
-    {
-      img: sampleImage1,
-      name: 'Stone 27cm Granite Dinner Plate',
-      quantity: '12 Pcs',
-    },
-    {
-      img: sampleImage2,
-      name: 'Silver 14cm Tea Spoon',
-      quantity: '12 Pcs',
-    },
-    {
-      img: sampleImage3,
-      name: 'Stone 27cm Granite Dinner Plate',
-      quantity: '6 Pcs',
-    },
+    { img: sampleImage1, name: 'Stone 27cm Granite Dinner Plate', quantity: '12 Pcs' },
+    { img: sampleImage2, name: 'Silver 14cm Tea Spoon', quantity: '12 Pcs' },
+    { img: sampleImage3, name: 'Stone 27cm Granite Dinner Plate', quantity: '6 Pcs' },
   ];
+
+  const [itemStatuses, setItemStatuses] = useState(borrowedItems.map(() => 'Reserved'));
+
+  const getSelectStyle = (status) => {
+    const baseStyle = { ...styles.selectBase };
+    let color = '#FFA500';
+
+    switch (status) {
+      case 'Reserved':
+        color = '#FFA500';
+        break;
+      case 'In Use':
+        color = '#007BFF';
+        break;
+      case 'Returned':
+        color = '#28A745';
+        break;
+      case 'To be Replaced':
+        color = '#DC3545';
+        break;
+    }
+
+    return {
+      ...baseStyle,
+      color: color,
+      border: `2px solid ${color}`,
+      backgroundImage: `url("data:image/svg+xml;utf8,<svg fill='${encodeURIComponent(
+        color
+      )}' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")`,
+    };
+  };
 
   return (
     <div style={styles.layout}>
@@ -160,9 +183,9 @@ const RequestApprovedAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, path: '/registry' },
         ]}
       />
 
@@ -173,7 +196,7 @@ const RequestApprovedAdmin = () => {
             href="#"
             style={{
               ...styles.goBack,
-              ...(hoveringBack ? { textDecoration: 'underline' } : {}),
+              opacity: hoveringBack ? 0.8 : 1,
             }}
             onMouseOver={() => setHoveringBack(true)}
             onMouseOut={() => setHoveringBack(false)}
@@ -185,8 +208,14 @@ const RequestApprovedAdmin = () => {
         <p>
           Status: <span style={styles.status}>Approved</span>
         </p>
-
-        <hr style={{ border: 'none', borderTop: '2px solid rgba(97, 97, 97, 0.3)', marginTop: '1rem', marginBottom: '-0.6rem' }} />
+        <hr
+          style={{
+            border: 'none',
+            borderTop: '2px solid rgba(97, 97, 97, 0.3)',
+            marginTop: '1rem',
+            marginBottom: '-0.6rem',
+          }}
+        />
 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
@@ -214,7 +243,9 @@ const RequestApprovedAdmin = () => {
           </div>
         </div>
 
-        <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
+        <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>
+          Group Members
+        </h3>
         <table style={{ ...styles.table, marginBottom: '1rem' }}>
           <thead>
             <tr>
@@ -234,47 +265,88 @@ const RequestApprovedAdmin = () => {
           </tbody>
         </table>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4rem', marginBottom: '0.1rem' }}>
-          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '22px' }}>List of Borrowed Items</h3>
-          <div style={{ fontWeight: '600', fontSize: '18px', color: '#5A67D8' }}>Total ({borrowedItems.length})</div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: '4rem',
+            marginBottom: '0.1rem',
+          }}
+        >
+          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '20px' }}>List of Borrowed Items</h3>
+          <div style={{ fontWeight: '600', fontSize: '18px', color: '#5A67D8' }}>
+            Total ({borrowedItems.length})
+          </div>
         </div>
 
         <table style={styles.table}>
           <thead>
             <tr>
               <th style={{ ...styles.th, borderTopLeftRadius: '8px', minWidth: '50px' }}>Image</th>
-              <th style={{ ...styles.th, textAlign: 'left', width: '306px' }}>Item Name</th>
+              <th style={{ ...styles.th, textAlign: 'left', width: '315px' }}>Item Name</th>
               <th style={styles.th}>Quantity</th>
-              <th style={{ ...styles.th, width: '160px' }}>Status</th>
-              <th style={{ ...styles.th, borderTopRightRadius: '8px', textAlign: 'left', paddingLeft: '24px' }}>Remarks</th>
+              <th style={{ ...styles.th, width: '180px' }}>Status</th>
+              <th
+                style={{
+                  ...styles.th,
+                  borderTopRightRadius: '7px',
+                  textAlign: 'left',
+                  paddingLeft: '20px',
+                }}
+              >
+                Remarks
+              </th>
             </tr>
           </thead>
           <tbody>
             {borrowedItems.map((item, idx) => (
               <tr key={idx}>
-                <td style={styles.tdBorrowed}><img src={item.img} alt="item" style={styles.image} /></td>
+                <td style={styles.tdBorrowed}>
+                  <img src={item.img} alt="item" style={styles.image} />
+                </td>
                 <td style={styles.tdLeftBorrowed}>{item.name}</td>
                 <td style={styles.tdBorrowed}>{item.quantity}</td>
                 <td style={styles.tdBorrowed}>
-                  <select style={styles.select} defaultValue="Reserved">
-                    <option>Reserved</option>
-                    <option>In Use</option>
-                    <option>Returned</option>
-                    <option>To be Replaced</option>
+                  <select
+                    value={itemStatuses[idx]}
+                    onChange={(e) => {
+                      const updated = [...itemStatuses];
+                      updated[idx] = e.target.value;
+                      setItemStatuses(updated);
+                    }}
+                    style={getSelectStyle(itemStatuses[idx])}
+                  >
+                    <option value="Reserved">Reserved</option>
+                    <option value="In Use">In Use</option>
+                    <option value="Returned">Returned</option>
+                    <option value="To be Replaced">To be Replaced</option>
                   </select>
                 </td>
-                <td style={{ ...styles.tdLeftBorrowed }}><input type="text" style={styles.remarksInput} /></td>
+                <td style={styles.tdLeftBorrowed}>
+                  <input type="text" style={styles.remarksInput} />
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
 
-        <button style={styles.completedButton} onClick={() => setShowModal(true)}>
+        <button
+          style={{
+            ...styles.completedButton,
+            backgroundColor: hoveringTransaction ? '#731923' : '#8A1F2B',
+            opacity: hoveringTransaction ? 0.9 : 1,
+          }}
+          onMouseOver={() => setHoveringTransaction(true)}
+          onMouseOut={() => setHoveringTransaction(false)}
+          onClick={() => setShowModal(true)}
+        >
           Transaction Completed
         </button>
+
         {showModal && <TransactionModal onClose={() => setShowModal(false)} />}
       </main>
-    </div >
+    </div>
   );
 };
 

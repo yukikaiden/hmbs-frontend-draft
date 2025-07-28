@@ -52,22 +52,22 @@ const RequestDetailsAdmin = () => {
       padding: '0.2rem 0.7rem',
       borderRadius: '1rem',
       fontSize: '15px',
-      marginLeft: '0.5rem',
+      marginLeft: '0.2rem',
     },
     formGroup: {
       marginBottom: '1.4rem',
     },
     label: {
       display: 'block',
-      marginBottom: '0.1rem',
+      marginBottom: '0.2rem',
       fontWeight: 600,
     },
     input: {
       width: '100%',
       padding: '0.8rem',
-      borderRadius: '8px',
+      borderRadius: '7px',
       border: '0.5px solid #1A1A1A',
-      fontSize: '1rem',
+      fontSize: '0.9rem',
       fontFamily: 'Poppins, sans-serif',
     },
     table: {
@@ -155,7 +155,7 @@ const RequestDetailsAdmin = () => {
           <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
         </div>
 
-        <p>
+         <p style={{ fontSize: '16px'}}>
           Status: <span style={styles.status}>Pending</span>
         </p>
 
@@ -222,7 +222,7 @@ const RequestDetailsAdmin = () => {
             marginBottom: '0.1rem',
           }}
         >
-          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '22px' }}>List of Borrowed Items</h3>
+          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '20px' }}>List of Borrowed Items</h3>
           <div style={styles.itemCountContainer}>Total ({borrowedItems.length})</div>
         </div>
 

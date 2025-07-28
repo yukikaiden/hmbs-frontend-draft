@@ -37,7 +37,7 @@ const RequestDetailsInstructor = () => {
       width: '100%',
       padding: '14px',
       borderRadius: '7px',
-      border: '1px solid #ccc',
+      border: '1px solid black',
       fontSize: '15px',
       fontFamily: 'Poppins, sans-serif',
     },
@@ -145,7 +145,7 @@ const RequestDetailsInstructor = () => {
         <div style={styles.topHeader}>
           <div>
             <h1>Request No. 000001234</h1>
-            <p>
+            <p style={{ fontSize: '16px'}}>
               Status:{' '}
               <span
                 style={{
@@ -153,6 +153,8 @@ const RequestDetailsInstructor = () => {
                   color: 'white',
                   padding: '0.2rem 1rem',
                   borderRadius: '1rem',
+                  fontSize : '15px',
+                  marginLeft: '0.2rem',
                 }}
               >
                 Pending
@@ -167,6 +169,13 @@ const RequestDetailsInstructor = () => {
             Go Back
           </button>
         </div>
+
+      <hr style={{
+          border: 'none',
+          borderTop: '2px solid rgba(97, 97, 97, 0.3)',
+          marginTop: '1rem',
+          marginBottom: '-0.6rem'
+        }} />
 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, ...styles.formGroup }}>
