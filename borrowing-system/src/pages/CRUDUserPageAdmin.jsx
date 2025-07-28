@@ -2,16 +2,25 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import AddUserModal from '../components/AdminModal/AddUserModal';
 import UserAddedModal from '../components/AdminModal/UserAddedModal';
+import ImportCSVModal from '../components/AdminModal/ImportCSVModal';
+import ImportSuccessModal from '../components/AdminModal/ImportSuccessModal';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 
 const CRUDUserPageAdmin = () => {
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showUserAddedModal, setShowUserAddedModal] = useState(false);
+  const [showImportCSVModal, setShowImportCSVModal] = useState(false);
+  const [showImportSuccessModal, setShowImportSuccessModal] = useState(false);
 
   const handleOpenAddUser = () => setShowAddUserModal(true);
   const handleCloseAddUser = () => setShowAddUserModal(false);
   const handleShowUserAddedModal = () => setShowUserAddedModal(true);
   const handleCloseUserAddedModal = () => setShowUserAddedModal(false);
+
+  const handleOpenImportCSVModal = () => setShowImportCSVModal(true);
+  const handleCloseImportCSVModal = () => setShowImportCSVModal(false);
+  const handleShowImportSuccessModal = () => setShowImportSuccessModal(true);
+  const handleCloseImportSuccessModal = () => setShowImportSuccessModal(false);
 
   const styles = {
     layout: { display: 'flex', fontFamily: 'Poppins, sans-serif' },
@@ -102,7 +111,7 @@ const CRUDUserPageAdmin = () => {
         <div style={styles.groupedSection}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Staffs</p>
-            <button style={styles.importButton}>Import CSV File</button>
+            <button style={styles.importButton} onClick={handleOpenImportCSVModal}>Import CSV File</button>
           </div>
           <div style={{ marginTop: '-1rem', justifyContent: 'space-evenly' }}>{renderTable('Custodians')}</div>
           {renderTable('Program Heads')}
@@ -113,15 +122,29 @@ const CRUDUserPageAdmin = () => {
       {showAddUserModal && (
         <AddUserModal
           onClose={handleCloseAddUser}
-          onRegister={(data) => {
+          onRegister={() => {
             handleCloseAddUser();
-            handleShowUserAddedModal(); // ✅ Show the UserAddedModal
+            handleShowUserAddedModal();
           }}
         />
       )}
 
       {showUserAddedModal && (
         <UserAddedModal onDone={handleCloseUserAddedModal} />
+      )}
+
+      {showImportCSVModal && (
+        <ImportCSVModal
+          onClose={handleCloseImportCSVModal}
+          onImport={() => {
+            handleCloseImportCSVModal();
+            handleShowImportSuccessModal();
+          }}
+        />
+      )}
+
+      {showImportSuccessModal && (
+        <ImportSuccessModal onDone={handleCloseImportSuccessModal} />
       )}
     </div>
   );
