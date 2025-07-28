@@ -1,16 +1,23 @@
 import React from 'react';
-import { MdDeleteSweep } from 'react-icons/md'; // Maroon trash icon
+import TrashBin from '../../assets/trashbin.svg'; // Make sure this path is correct
 
 const InventoryItemDeletedModal = ({ onDone }) => {
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
-        <MdDeleteSweep style={styles.icon} />
+        <img src={TrashBin} alt="Deleted" style={styles.icon} />
         <h2 style={styles.title}>Item Deleted</h2>
         <p style={styles.message}>
           The item was successfully deleted from<br />the inventory
         </p>
-        <button style={styles.doneButton} onClick={onDone}>Done</button>
+        <button style={styles.doneButton} onClick={onDone}
+          onMouseEnter={e => e.target.style.backgroundColor = '#8A1F2B'}
+          onMouseLeave={e => e.target.style.backgroundColor = '#fff'}
+          onMouseOver={e => e.target.style.color = '#fff'}
+          onMouseOut={e => e.target.style.color = '#8A1F2B'}
+        >
+          Done
+        </button>
       </div>
     </div>
   );
@@ -30,34 +37,46 @@ const styles = {
   modal: {
     backgroundColor: '#fff',
     borderRadius: '16px',
-    padding: '40px',
-    width: '420px',
+    padding: '40px 30px 28px',
+    width: '460px',
     textAlign: 'center',
+    minHeight: '350px',
     fontFamily: 'Poppins, sans-serif',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: '20px'
   },
   icon: {
-    fontSize: '70px',
-    color: '#8A1F2B',
+    width: '100px',
+    height: '100px',
+    objectFit: 'contain',
+    marginBottom: '10px',
   },
   title: {
-    fontSize: '26px',
-    fontWeight: '600',
-    marginBottom: '12px',
+    fontSize: '28px',
+    fontWeight: '700',
+    //marginBottom: '12px',
   },
   message: {
-    fontSize: '14px',
+    fontSize: '16px',
     color: '#555',
-    marginBottom: '28px',
-    lineHeight: '1.5',
+    marginBottom: '26px',
+    lineHeight: '1.6',
   },
   doneButton: {
     backgroundColor: '#fff',
     color: '#8A1F2B',
-    border: '2px solid #8A1F2B',
-    padding: '10px 28px',
+    border: '1.5px solid #8A1F2B',
+    padding: '8px 30px',
     borderRadius: '20px',
-    fontWeight: '500',
+    fontWeight: 'bold',
+    fontSize: '16px',
     cursor: 'pointer',
+    fontFamily: 'Poppins, sans-serif',
+    transition: 'all 0.2s ease',
   }
 };
 
