@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiLogOut, FiPlus } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
+import ImportCSVModal from '../components/AdminModal/ImportCSVModal'; // ✅ Existing import
+import NewItemAddedModal from '../components/AdminModal/NewItemAddedModal'; // ✅ New import
 
 const AddNewItemAdmin = () => {
-  const navigate = useNavigate();
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false); // ✅ Import CSV state
+  const [isItemAddedModalOpen, setIsItemAddedModalOpen] = useState(false); // ✅ NewItemAddedModal state
+
   const styles = {
     layout: {
       display: 'flex',
@@ -110,6 +113,11 @@ const AddNewItemAdmin = () => {
     },
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsItemAddedModalOpen(true); // ✅ Show modal on submit
+  };
+
   return (
     <div style={styles.layout}>
       {/* Sidebar*/}
@@ -130,7 +138,10 @@ const AddNewItemAdmin = () => {
             <h2 style={styles.title}>Add New Item</h2>
             <p style={styles.subtitle}>Add a new item to the inventory list</p>
           </div>
-          <button type="button" style={{ ...styles.importButton, transition: '0.3s', hover: {} }}
+          <button
+            type="button"
+            style={{ ...styles.importButton, transition: '0.3s' }}
+            onClick={() => setIsImportModalOpen(true)}
             onMouseEnter={e => e.currentTarget.style.backgroundColor = '#6f1a22'}
             onMouseLeave={e => e.currentTarget.style.backgroundColor = '#8A1F2B'}
           >
@@ -145,7 +156,7 @@ const AddNewItemAdmin = () => {
           marginTop: '-0.50rem'
         }} />
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '1.25rem' }}>
             <label style={styles.label}>Item Name <span style={{ color: 'red' }}>*</span></label>
             <input type="text" placeholder="Enter Item Name" style={styles.input} />
@@ -238,6 +249,14 @@ const AddNewItemAdmin = () => {
             </button>
           </div>
         </form>
+
+        {/* ✅ Modals */}
+        {isImportModalOpen && (
+          <ImportCSVModal onClose={() => setIsImportModalOpen(false)} />
+        )}
+        {isItemAddedModalOpen && (
+          <NewItemAddedModal onClose={() => setIsItemAddedModalOpen(false)} />
+        )}
       </main>
     </div>
   );
