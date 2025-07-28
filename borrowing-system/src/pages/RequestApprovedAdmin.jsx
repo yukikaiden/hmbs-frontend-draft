@@ -114,8 +114,8 @@ const RequestApprovedAdmin = () => {
     },
     remarksInput: {
       width: '100%',
-      padding: '0.5rem',
-      fontSize: '1rem',
+      padding: '0.7rem',
+      fontSize: '0.9rem',
       borderRadius: '6px',
       border: '1px solid #ccc',
       fontFamily: 'Poppins, sans-serif',
