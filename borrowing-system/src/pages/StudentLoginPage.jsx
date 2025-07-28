@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import hmbsLogo from '../assets/hmbs-logo-maroon.png';
-import backgroundImage from '../assets/building-background1.png';
+import hmbsLogo from '../assets/site-images/hmbs-logo-maroon.png';
+import backgroundImage from '../assets/site-images/building-background1.png';
 import { useNavigate, Link } from 'react-router-dom';
 
 function StudentLoginPage() {
@@ -8,7 +8,7 @@ function StudentLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogIn = () => {
-    navigate('/student-dashboard'); // or wherever you want to route
+    navigate('/');
   };
 
   const pageStyle = {

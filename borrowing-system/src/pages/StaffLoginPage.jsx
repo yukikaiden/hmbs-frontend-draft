@@ -146,7 +146,7 @@ function LoginPage() {
         <button style={buttonStyle} onClick={handleLogIn}>Log In</button>
 
         <p style={footerStyle}>
-          Not part of staff? <Link to="/"><a href="" style={linkStyle}>Go to Student Homepage.</a></Link>
+          Not part of staff? <Link to="/student-login"><a href="" style={linkStyle}>Go to Student Homepage.</a></Link>
         </p>
       </div>
     </div>

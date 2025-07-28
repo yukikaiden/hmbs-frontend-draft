@@ -10,10 +10,10 @@ import EquipmentPage from './pages/EquipmentPage';
 import About from './pages/AboutPage';
 import CartPage from './pages/CartPage';
 import BorrowRequestForm from './pages/BorrowRequestForm';
-import StudentLoginPage from './pages/StudentLoginPage'; // ✅ <--- NEW IMPORT
+import StudentLoginPage from './pages/StudentLoginPage';
 
 // STAFF AND ADMIN PAGES
-import LoginPage from './pages/Log-in';
+import StaffLoginPage from './pages/StaffLoginPage';
 import InventoryPage from './pages/CRUDInventoryPage';
 import AddtoInventory from './pages/AddNewItemAdmin';
 import RegistryPage from "./pages/CRUDUserPageAdmin";
@@ -40,10 +40,10 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/borrow-request" element={<BorrowRequestForm />} />
-                <Route path="/student-login" element={<StudentLoginPage />} /> {/* ✅ NEW ROUTE */}
+                <Route path="/student-login" element={<StudentLoginPage />} />
 
                 {/* Admin Pages */}
-                <Route path="/staff-login" element={<LoginPage />} />
+                <Route path="/staff-login" element={<StaffLoginPage />} />
                 <Route path="/requests-admin" element={<RequeststoAdmin />} />
                 <Route path="/request-details-admin/:id" element={<RequestDetailsAdmin />} />
                 <Route path="/request-approved-admin/:id" element={<RequestApprovedAdmin />} />
