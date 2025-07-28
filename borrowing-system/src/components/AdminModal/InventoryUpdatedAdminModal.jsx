@@ -43,18 +43,24 @@ const styles = {
     borderRadius: '16px',
     padding: '40px 30px 28px',
     width: '460px',
+    minheight: '350px',
     textAlign: 'center',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
     width: '100px',
     height: '100px',
     objectFit: 'contain',
+    marginBottom: '10px'
   },
   title: {
-    fontSize: '24px',
+    fontSize: '28px',
     fontWeight: '700',
-    marginBottom: '10px'
+    //marginBottom: '10px'
   },
   message: {
     color: '#555555',
@@ -65,11 +71,11 @@ const styles = {
   doneBtn: {
     backgroundColor: '#ffffff',
     color: '#991F1F',
-    padding: '8px 26px',
+    padding: '8px 30px',
     border: '1.5px solid #991F1F',
     borderRadius: '999px',
-    fontWeight: '500',
-    fontSize: '17px',
+    fontWeight: 'bold',
+    fontSize: '16px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     fontFamily: "'Poppins', sans-serif",
