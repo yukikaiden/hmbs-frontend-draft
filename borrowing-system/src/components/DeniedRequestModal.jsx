@@ -1,5 +1,5 @@
 import React from 'react';
-import { HiOutlineDocumentCheck } from 'react-icons/hi2';
+import docucheck from '../assets/document-checked.svg'; 
 
 const DeniedRequestModal = ({ onClose }) => {
   const modalStyle = {
@@ -25,12 +25,6 @@ const DeniedRequestModal = ({ onClose }) => {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  };
-
-  const iconStyle = {
-    color: '#991F1F',
-    fontSize: '84px',
-    marginBottom: '24px',
   };
 
   const titleStyle = {
@@ -68,7 +62,13 @@ const DeniedRequestModal = ({ onClose }) => {
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <HiOutlineDocumentCheck style={iconStyle} />
+        <div style={{ marginBottom: '20px' }}>
+          <img
+            src={docucheck}
+            alt="Denied Request Icon"
+            style={{ width: '100px', height: '100px', objectFit: 'contain' }}
+          />
+        </div>
         <div style={titleStyle}>Request Denied</div>
         <p style={textStyle}>
           You have denied this borrow request. <br />

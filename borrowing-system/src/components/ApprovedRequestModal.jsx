@@ -1,7 +1,7 @@
 import React from 'react';
 import docucheck from '../assets/document-checked.svg'; 
 
-const TransactionModal = ({ onClose }) => {
+const DeniedRequestModal = ({ onClose }) => {
   const modalStyle = {
     position: 'fixed',
     top: 0, left: 0, right: 0, bottom: 0,
@@ -18,7 +18,7 @@ const TransactionModal = ({ onClose }) => {
     padding: '40px 30px 28px',
     borderRadius: '16px',
     textAlign: 'center',
-    width: '500px',
+    width: '450px',
     minHeight: '350px',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     display: 'flex',
@@ -65,14 +65,14 @@ const TransactionModal = ({ onClose }) => {
         <div style={{ marginBottom: '20px' }}>
           <img
             src={docucheck}
-            alt="Transaction Completed Icon"
+            alt="Denied Request Icon"
             style={{ width: '100px', height: '100px', objectFit: 'contain' }}
           />
         </div>
-        <div style={titleStyle}>Transaction Completed</div>
+        <div style={titleStyle}>Request Approved</div>
         <p style={textStyle}>
-            The transaction has been successfully processed.<br />
-            The student will be notified accordingly.
+          The request has been approved and forwarded.<br />
+          The student will be notified accordingly.
         </p>
         <button
           style={btnStyle}
@@ -87,4 +87,4 @@ const TransactionModal = ({ onClose }) => {
   );
 };
 
-export default TransactionModal;
+export default DeniedRequestModal;

@@ -4,13 +4,15 @@ import { FaFileAlt } from 'react-icons/fa';
 import SpoonImage from '../assets/images/spoon.png';
 import Sidebar from '../components/Sidebar';
 import RejectRequestModal from '../components/RejectRequestModal.jsx';
-import DeniedRequestModal from '../components/DeniedRequestModal.jsx';  
+import DeniedRequestModal from '../components/DeniedRequestModal.jsx'; 
+import ApprovedRequestModal from '../components/ApprovedRequestModal.jsx'; 
 
 const RequestDetailsInstructor = () => {
   const navigate = useNavigate(); 
   const borrowedItems = [1, 2, 3];
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [showDeniedModal, setShowDeniedModal] = useState(false);
+  const [showApprovedModal, setShowApprovedModal] = useState(false);
 
   const styles = {
     layout: {
@@ -267,6 +269,9 @@ const RequestDetailsInstructor = () => {
           <button
             className="approve-btn"
             style={styles.approveButton}
+            onClick={() => {
+              setShowApprovedModal(true);
+            }}
           >
             Approve Request
           </button>
@@ -287,6 +292,12 @@ const RequestDetailsInstructor = () => {
       {showDeniedModal && (
         <DeniedRequestModal
           onClose={() => setShowDeniedModal(false)}
+        />
+      )}
+
+      {showApprovedModal && (
+        <ApprovedRequestModal
+          onClose={() => setShowApprovedModal(false)}
         />
       )}
     </div>

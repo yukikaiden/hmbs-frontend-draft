@@ -1,6 +1,5 @@
 import React from 'react';
-import { PiShoppingCartSimpleDuotone } from 'react-icons/pi'; // cart icon
-import { HiMiniCheckCircle } from 'react-icons/hi2'; // check icon
+import itemadded from '../assets/approved-cart.svg'; 
 
 function ItemAddedModal({ onClose }) {
   const modalStyle = {
@@ -85,9 +84,12 @@ function ItemAddedModal({ onClose }) {
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <div style={iconWrapper}>
-          <PiShoppingCartSimpleDuotone style={cartIconStyle} />
-          <HiMiniCheckCircle style={checkIconStyle} />
+        <div style={{ marginBottom: '20px' }}>
+          <img
+            src={itemadded}
+            alt="Approved Cart Icon"
+            style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '15px', marginTop: '5px' }}
+          />
         </div>
         <div style={titleStyle}>Item Added!</div>
         <p style={textStyle}>

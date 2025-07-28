@@ -1,5 +1,5 @@
 import React from 'react';
-import { HiOutlineExclamationTriangle } from 'react-icons/hi2'; // warning triangle icon
+import warning from '../assets/warning-triangle.svg'; // Import the warning icon
 
 function LogoutModal({ onCancel, onConfirm }) {
   const modalStyle = {
@@ -83,8 +83,12 @@ function LogoutModal({ onCancel, onConfirm }) {
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <div style={iconWrapper}>
-          <HiOutlineExclamationTriangle style={warningIconStyle} />
+        <div style={{ marginBottom: '20px' }}>
+          <img
+            src={warning}
+            alt="Triangle Warning Icon"
+            style={{ width: '100px', height: '100px', objectFit: 'contain' }}
+          />
         </div>
         <div style={titleStyle}>Logout Confirmation</div>
         <p style={textStyle}>

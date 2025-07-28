@@ -6,12 +6,14 @@ import SpoonImage from '../assets/images/spoon.png';
 import Sidebar from '../components/Sidebar';
 import RejectRequestModal from '../components/RejectRequestModal.jsx';
 import DeniedRequestModal from '../components/DeniedRequestModal.jsx';  
+import ApprovedRequestModal from '../components/ApprovedRequestModal.jsx';
 
 const RequestDetailsProgHead = () => {
     const navigate = useNavigate();
     const borrowedItems = [1, 2, 3];
     const [showRejectModal, setShowRejectModal] = useState(false);
     const [showDeniedModal, setShowDeniedModal] = useState(false);
+    const [showApprovedModal, setShowApprovedModal] = useState(false);
 
   const styles = {
     layout: {
@@ -259,7 +261,15 @@ const RequestDetailsProgHead = () => {
             onClick={() => setShowRejectModal(true)}
           >
             Reject Request</button>
-          <button style={styles.approveButton}>Approve Request</button>
+          <button
+            className="approve-btn"
+            style={styles.approveButton}
+            onClick={() => {
+              setShowApprovedModal(true);
+            }}
+          >
+            Approve Request
+          </button>
         </div>
       </main>
 
@@ -279,6 +289,12 @@ const RequestDetailsProgHead = () => {
             onClose={() => setShowDeniedModal(false)}
           />
         )}
+
+        {showApprovedModal && (
+        <ApprovedRequestModal
+          onClose={() => setShowApprovedModal(false)}
+        />
+      )}
       
     </div>
   );
