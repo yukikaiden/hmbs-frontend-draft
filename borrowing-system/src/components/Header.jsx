@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import hmbsLogo from '../assets/hmbs-logo-white.png';
+import hmbsLogo from '../assets/site-images/hmbs-logo.png';
 import handcartIcon from '../assets/handcart.png';
 import userIcon from '../assets/user.png';
 import { useNavigate } from 'react-router-dom';

@@ -1,6 +1,6 @@
 import React from 'react';
-import usepLogo from '../assets/usep-logo.png';
-import cbaLogo from '../assets/cba-logo.png';
+import usepLogo from '../assets/site-images/usep-logo.png';
+import cbaLogo from '../assets/site-images/cba-logo.png';
 
 function Footer() {
   const footerStyle = {

@@ -160,9 +160,9 @@ const RequestApprovedAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
         ]}
       />
 

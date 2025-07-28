@@ -1,5 +1,5 @@
 import React from 'react';
-import tempItemImg from '../assets/temp-item-img.png';
+import tempItemImg from '../assets/images/temp-item-img.png';
 
 function ItemCard({ name, qty, onClick }) {
   const cardStyle = {

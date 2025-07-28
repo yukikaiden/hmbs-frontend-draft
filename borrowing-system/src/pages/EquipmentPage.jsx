@@ -3,8 +3,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ItemCard from '../components/ItemCard';
 import ItemDetail from '../components/ItemDetail';
-import equipmentHeaderBg from '../assets/equipment-header-bg.png';
-import tempItemImg from '../assets/temp-item-img.png';
+import equipmentHeaderBg from '../assets/site-images/equipment-header-bg.png';
+import tempItemImg from '../assets/images/temp-item-img.png';
 import { FiSearch } from 'react-icons/fi';
 
 const CATEGORY_MAP = {

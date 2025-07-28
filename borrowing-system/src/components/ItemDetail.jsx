@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import tempItemImg from '../assets/temp-item-img.png';
+import tempItemImg from '../assets/images/temp-item-img.png';
 import ItemAddedModal from './ItemAddedModal'; // Import the modal
 
 function ItemDetail({ item, onClose }) {

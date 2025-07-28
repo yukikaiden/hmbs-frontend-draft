@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import tempItemImg from '../assets/temp-item-img.png';
+import tempItemImg from '../assets/images/temp-item-img.png';
 import { FiTrash2 } from 'react-icons/fi';
 import RequestSubmittedModal from '../components/RequestSubmittedModal';
 

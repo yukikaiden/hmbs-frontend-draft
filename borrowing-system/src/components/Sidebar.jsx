@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
-import hmbsLogoWhite from '../assets/hmbs-logo-white.png';
+import hmbsLogoWhite from '../assets/site-images/hmbs-logo-white.png';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin' }) => {

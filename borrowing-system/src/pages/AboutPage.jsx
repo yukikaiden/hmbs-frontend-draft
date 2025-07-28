@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import aboutHeaderBg from '../assets/about-header-bg.png';
+import aboutHeaderBg from '../assets/site-images/about-header-bg.png';
 
 function AboutPage() {
   const containerStyle = {

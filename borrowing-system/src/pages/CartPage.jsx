@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import tempItemImg from '../assets/temp-item-img.png';
+import tempItemImg from '../assets/images/temp-item-img.png';
 import { useNavigate } from 'react-router-dom';
 
 function CartPage() {

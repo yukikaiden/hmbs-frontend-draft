@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import hmbsLogo from '../assets/hmbs-logo-maroon.png';
-import backgroundImage from '../assets/building-background1.png';
+import hmbsLogo from '../assets/site-images/hmbs-logo-maroon.png';
+import backgroundImage from '../assets/site-images/building-background1.png';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 

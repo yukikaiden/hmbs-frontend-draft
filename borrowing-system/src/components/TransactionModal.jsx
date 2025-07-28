@@ -1,5 +1,5 @@
 import React from 'react';
-import image2 from '../assets/images/image 2.png';
+import image2 from '../assets/request.png';
 
 const TransactionModal = ({ onClose }) => {
     return (
@@ -29,7 +29,7 @@ const TransactionModal = ({ onClose }) => {
                     <img
                         src={image2}
                         alt="Transaction Complete Icon"
-                        style={{ width: '100px', height: '100px', objectFit: 'contain' }}
+                        style={{ width: '150px', height: '150px', objectFit: 'contain' }}
                     />
                 </div>
 
