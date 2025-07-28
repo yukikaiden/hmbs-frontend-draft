@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircleCheck } from 'lucide-react';
+import ApprovedCircle from '../../assets/approved-circle.svg'; // Adjust path if needed
 
 function NewItemAddedModal({ onClose }) {
   const modalStyle = {
@@ -9,7 +9,7 @@ function NewItemAddedModal({ onClose }) {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
+    zIndex: 999,
     fontFamily: "'Poppins', sans-serif",
   };
 
@@ -28,16 +28,15 @@ function NewItemAddedModal({ onClose }) {
   };
 
   const iconStyle = {
-    color: '#991F1F',
-    width: '84px',
-    height: '84px',
-    marginBottom: '24px',
+    width: '100px',
+    height: '100px',
+    objectFit: 'contain',
+    marginBottom: '10px',
   };
 
   const titleStyle = {
     fontWeight: 700,
-    fontSize: '24px',
-    marginBottom: '10px',
+    fontSize: '28px',
   };
 
   const textStyle = {
@@ -50,35 +49,43 @@ function NewItemAddedModal({ onClose }) {
   const btnStyle = {
     backgroundColor: '#fff',
     color: '#991F1F',
-    padding: '8px 26px',
-    borderRadius: '999px',
+    padding: '8px 30px',
+    borderRadius: '24px',
     border: '1.5px solid #991F1F',
-    fontWeight: 500,
-    fontSize: '17px',
+    fontWeight: 'bold',
+    fontSize: '16px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
     fontFamily: "'Poppins', sans-serif",
   };
 
-  const btnHover = {
+  const btnHoverStyle = {
     ...btnStyle,
     backgroundColor: '#991F1F',
     color: '#fff',
   };
 
+  const handleMouseEnter = (e) => {
+    Object.assign(e.target.style, btnHoverStyle);
+  };
+
+  const handleMouseLeave = (e) => {
+    Object.assign(e.target.style, btnStyle);
+  };
+
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <CircleCheck style={iconStyle} />
+        <img src={ApprovedCircle} alt="Approved" style={iconStyle} />
         <div style={titleStyle}>New Item Added</div>
         <p style={textStyle}>
-          The item was successfully added<br />
-          to the inventory.
+          The item was successfully added to<br />
+          the inventory.
         </p>
         <button
           style={btnStyle}
-          onMouseEnter={(e) => Object.assign(e.target.style, btnHover)}
-          onMouseLeave={(e) => Object.assign(e.target.style, btnStyle)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onClick={onClose}
         >
           Done
