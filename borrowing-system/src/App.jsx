@@ -10,6 +10,7 @@ import EquipmentPage from './pages/EquipmentPage';
 import About from './pages/AboutPage';
 import CartPage from './pages/CartPage';
 import BorrowRequestForm from './pages/BorrowRequestForm';
+import StudentLoginPage from './pages/StudentLoginPage'; // ✅ <--- NEW IMPORT
 
 // STAFF AND ADMIN PAGES
 import LoginPage from './pages/Log-in';
@@ -26,6 +27,7 @@ import RequeststoProgHead from "./pages/RequestProgHeadPage";
 import RequestDetailsInstructor from "./pages/RequestDetailsInstructor";
 import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 
+
 // Optional: import Homepage if needed
 // import Homepage from './pages/Homepage';
 
@@ -38,6 +40,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/borrow-request" element={<BorrowRequestForm />} />
+                <Route path="/student-login" element={<StudentLoginPage />} /> {/* ✅ NEW ROUTE */}
 
                 {/* Admin Pages */}
                 <Route path="/staff-login" element={<LoginPage />} />
