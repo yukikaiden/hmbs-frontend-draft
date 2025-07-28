@@ -30,7 +30,7 @@ const DeniedRequestModal = ({ onClose }) => {
 
   const titleStyle = {
     fontWeight: 'bold',
-    fontSize: '24px',
+    fontSize: '28px',
     color: '#1A1A1A',
     //marginBottom: '10px',
   };
