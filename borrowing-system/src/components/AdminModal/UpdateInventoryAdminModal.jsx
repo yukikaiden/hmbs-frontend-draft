@@ -69,7 +69,15 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             </div>
 
             <div style={styles.buttonRow}>
-              <button onClick={onClose} style={styles.cancelBtn}>Cancel</button>
+              <button
+                style={styles.cancelBtn}
+                onMouseEnter={(e) => Object.assign(e.target.style, styles.cancelBtnHover)}
+                onMouseLeave={(e) => Object.assign(e.target.style, styles.cancelBtn)}
+                onClick={onClose}
+              >
+                Cancel
+              </button>
+
               <button onClick={handleSave} style={styles.saveBtn}>Save Changes</button>
             </div>
           </div>
@@ -89,7 +97,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: 'Poppins, sans-serif',
+    fontFamily: "'Poppins', sans-serif",
     zIndex: 999,
   },
   modal: {
@@ -145,7 +153,7 @@ const styles = {
     border: '2px solid #000',
     borderRadius: '10px',
     fontSize: '14px',
-    fontFamily: 'Poppins, sans-serif',
+    fontFamily: "'Poppins', sans-serif",
     outline: 'none',
   },
   buttonRow: {
@@ -155,22 +163,32 @@ const styles = {
     marginTop: '25px',
   },
   cancelBtn: {
-    padding: '10px 18px',
-    border: '2px solid #8A1F2B',
-    color: '#8A1F2B',
-    borderRadius: '10px',
+    padding: '10px 26px',
+    border: '1.5px solid #991F1F',
+    color: '#991F1F',
+    borderRadius: '999px',
     backgroundColor: '#fff',
-    fontWeight: '500',
+    fontWeight: 500,
+    fontSize: '16px',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    fontFamily: "'Poppins', sans-serif",
+  },
+  cancelBtnHover: {
+    backgroundColor: '#991F1F',
+    color: '#fff',
+    border: '1.5px solid #991F1F',
   },
   saveBtn: {
-    padding: '10px 18px',
+    padding: '10px 26px',
     backgroundColor: '#8A1F2B',
     color: '#fff',
     border: 'none',
-    borderRadius: '10px',
+    borderRadius: '999px',
     fontWeight: '500',
+    fontSize: '16px',
     cursor: 'pointer',
+    fontFamily: "'Poppins', sans-serif",
   },
 };
 
