@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import AddUserModal from '../components/AdminModal/AddUserModal';
+import UserAddedModal from '../components/AdminModal/UserAddedModal';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 
 const CRUDUserPageAdmin = () => {
   const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [showUserAddedModal, setShowUserAddedModal] = useState(false);
+
   const handleOpenAddUser = () => setShowAddUserModal(true);
   const handleCloseAddUser = () => setShowAddUserModal(false);
+  const handleShowUserAddedModal = () => setShowUserAddedModal(true);
+  const handleCloseUserAddedModal = () => setShowUserAddedModal(false);
 
   const styles = {
     layout: { display: 'flex', fontFamily: 'Poppins, sans-serif' },
@@ -109,10 +114,14 @@ const CRUDUserPageAdmin = () => {
         <AddUserModal
           onClose={handleCloseAddUser}
           onRegister={(data) => {
-            // Optional: Do something with `data`
             handleCloseAddUser();
+            handleShowUserAddedModal(); // ✅ Show the UserAddedModal
           }}
         />
+      )}
+
+      {showUserAddedModal && (
+        <UserAddedModal onDone={handleCloseUserAddedModal} />
       )}
     </div>
   );
