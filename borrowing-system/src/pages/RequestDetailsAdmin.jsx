@@ -66,14 +66,14 @@ const RequestDetailsAdmin = () => {
       width: '100%',
       padding: '0.8rem',
       borderRadius: '8px',
-      border: '0.5px solid #000000',
+      border: '0.5px solid #1A1A1A',
       fontSize: '1rem',
       fontFamily: 'Poppins, sans-serif',
     },
-     table: {
+    table: {
       width: '100%',
-      borderCollapse: 'separate', 
-      borderSpacing: 0,            
+      borderCollapse: 'separate',
+      borderSpacing: 0,
       marginTop: '0.5rem',
       backgroundColor: 'white',
       borderRadius: '10px',
@@ -143,9 +143,9 @@ const RequestDetailsAdmin = () => {
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, path: '/registry' },
         ]}
       />
 
@@ -158,12 +158,12 @@ const RequestDetailsAdmin = () => {
         <p>
           Status: <span style={styles.status}>Pending</span>
         </p>
-        
-        <hr style={{ 
-          border: 'none', 
-          borderTop: '2px solid rgba(97, 97, 97, 0.3)', 
-          marginTop: '1rem', 
-          marginBottom: '-0.6rem' 
+
+        <hr style={{
+          border: 'none',
+          borderTop: '2px solid rgba(97, 97, 97, 0.3)',
+          marginTop: '1rem',
+          marginBottom: '-0.6rem'
         }} />
 
 
@@ -195,13 +195,13 @@ const RequestDetailsAdmin = () => {
 
         <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
         <table style={{ ...styles.table, marginBottom: '1rem' }}>
-        <thead>
-          <tr>
-            <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
-            <th style={styles.th}>Name</th>
-            <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
-          </tr>
-        </thead>
+          <thead>
+            <tr>
+              <th style={{ ...styles.th, borderTopLeftRadius: '7px' }}>#</th>
+              <th style={styles.th}>Name</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '7px' }}>Course ID</th>
+            </tr>
+          </thead>
           <tbody>
             {groupMembers.map((i) => (
               <tr key={i}>
