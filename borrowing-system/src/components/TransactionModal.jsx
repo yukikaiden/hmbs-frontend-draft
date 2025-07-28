@@ -1,5 +1,5 @@
 import React from 'react';
-import image2 from '../assets/request.png';
+import docucheck from '../assets/document-checked.svg'; // Import the transaction complete icon
 
 const TransactionModal = ({ onClose }) => {
     return (
@@ -27,7 +27,7 @@ const TransactionModal = ({ onClose }) => {
             }}>
                 <div style={{ marginBottom: '20px' }}>
                     <img
-                        src={image2}
+                        src={docucheck}
                         alt="Transaction Complete Icon"
                         style={{ width: '150px', height: '150px', objectFit: 'contain' }}
                     />

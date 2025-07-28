@@ -1,5 +1,5 @@
 import React from 'react';
-import { HiOutlineDocumentCheck } from 'react-icons/hi2';
+import docucheck from '../assets/document-checked.svg'; 
 
 function RequestSubmittedModal({ onClose }) {
   const modalStyle = {
@@ -69,7 +69,13 @@ function RequestSubmittedModal({ onClose }) {
   return (
     <div style={modalStyle}>
       <div style={boxStyle}>
-        <HiOutlineDocumentCheck style={iconStyle} />
+         <div style={{ marginBottom: '20px' }}>
+            <img
+              src={docucheck}
+              alt="Transaction Complete Icon"
+              style={{ width: '100px', height: '100px', objectFit: 'contain' }}
+              />
+          </div>
         <div style={titleStyle}>Request Submitted!</div>
         <p style={textStyle}>
           Your borrow request has been successfully sent.<br />

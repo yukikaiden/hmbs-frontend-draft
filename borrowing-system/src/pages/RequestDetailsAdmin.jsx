@@ -60,7 +60,7 @@ const RequestDetailsAdmin = () => {
     label: {
       display: 'block',
       marginBottom: '0.1rem',
-      fontWeight: 500,
+      fontWeight: 600,
     },
     input: {
       width: '100%',

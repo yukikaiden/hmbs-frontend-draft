@@ -3,6 +3,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import hmbsLogoWhite from '../assets/site-images/hmbs-logo-white.png';
 import { useNavigate } from 'react-router-dom';
+import LogoutModal from './LogoutModal'; // Make sure the path is correct
 
 const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin' }) => {
   const navigate = useNavigate();
@@ -84,40 +85,6 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       fontSize: '1.5rem',
       color: 'black',
     },
-    modalOverlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 2000,
-    },
-    modalContent: {
-      backgroundColor: 'white',
-      padding: '2rem',
-      borderRadius: '10px',
-      textAlign: 'center',
-      width: '300px',
-      fontfamily: 'Poppins, sans-serif',
-    },
-    modalButton: {
-      margin: '1rem 0.5rem 0 0.5rem',
-      padding: '0.5rem 1.2rem',
-      borderRadius: '5px',
-      border: 'none',
-      cursor: 'pointer',
-    },
-    cancelBtn: {
-      backgroundColor: '#ccc',
-    },
-    confirmBtn: {
-      backgroundColor: '#8A1F2B',
-      color: 'white',
-    },
   };
 
   return (
@@ -137,7 +104,8 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
                   (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)')
                 }
                 onMouseLeave={(e) => {
-                  if (activePage !== item.id) e.currentTarget.style.backgroundColor = 'transparent';
+                  if (activePage !== item.id)
+                    e.currentTarget.style.backgroundColor = 'transparent';
                 }}
                 onClick={() => navigate(item.path)}
               >
@@ -163,25 +131,10 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       </aside>
 
       {showLogoutModal && (
-        <div style={styles.modalOverlay}>
-          <div style={styles.modalContent}>
-            <p>Are you sure you want to logout?</p>
-            <div>
-              <button
-                style={{ ...styles.modalButton, ...styles.cancelBtn }}
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
-              <button
-                style={{ ...styles.modalButton, ...styles.confirmBtn }}
-                onClick={handleConfirmLogout}
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
+        <LogoutModal
+          onCancel={handleCancel}
+          onConfirm={handleConfirmLogout}
+        />
       )}
     </>
   );
