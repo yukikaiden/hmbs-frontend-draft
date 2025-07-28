@@ -13,7 +13,7 @@ import Homepage from './pages/Homepage'; //to be removed
 import EquipmentPage from './pages/EquipmentPage'; //student homepage
 import About from './pages/AboutPage';
 //rest of pages
-import CartPage from './pages/CartPage'; 
+import CartPage from './pages/CartPage';
 import BorrowRequestForm from './pages/BorrowRequestForm'; //accessible after cart
 
 //STAFF AND ADMIN PAGES
@@ -44,7 +44,7 @@ function App() {
                     <Route path="/about" element={<About />} />
                     <Route path="/cart" element={<CartPage />} /> {/* Cart Page */}
                     <Route path="/borrow-request" element={<BorrowRequestForm />} /> {/* Borrow Request Form */}
-                    
+
                     {/* Admin Pages */}
                     <Route path="/staff-login" element={<LoginPage />} /> {/* Staff Login Page */}
                     <Route path="/requests-admin" element={<RequeststoAdmin />} /> {/* Requests to Admin */}
@@ -52,16 +52,16 @@ function App() {
                     <Route path="/request-approved-admin/:id" element={<RequestApprovedAdmin />} /> {/* Request Approved Admin */}
                     <Route path="/inventory" element={<InventoryPage />} /> {/* Inventory Page */}
                     <Route path="/add-to-inventory" element={<AddtoInventory />} /> {/* Add to Inventory Page */}
-                    <Route path="/registry" element={<RegistryPage />} /> {/* Registry Page */}   
+                    <Route path="/registry" element={<RegistryPage />} /> {/* Registry Page */}
 
                     {/* Staff Pages */}
-                    <Route path="/requests-instructor" element={<RequeststoInstructor />} /> {/* Requests to Instructor */} 
+                    <Route path="/requests-instructor" element={<RequeststoInstructor />} /> {/* Requests to Instructor */}
                     <Route path="/requests-programhead" element={<RequeststoProgHead />} /> {/* Requests to Program Head */}
                     <Route path="/request-details-instructor/:id" element={<RequestDetailsInstructor />} /> {/* Request Details Instructor */}
-                    <Route path="/request-details-programhead/:id" element={<RequestDetailsProgHead />} /> {/* Request Details Program Head */}    
+                    <Route path="/request-details-programhead/:id" element={<RequestDetailsProgHead />} /> {/* Request Details Program Head */}
                 </Routes>
             </Router>
-            
+
         </div>
     );
 }
