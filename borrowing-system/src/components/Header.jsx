@@ -107,7 +107,7 @@ function Header() {
     whiteSpace: 'nowrap',
     textAlign: 'center',
     display: 'inline-block',
-    zIndex: 9999, // ✅ Makes sure dropdown appears above everything
+    zIndex: 9999, 
   };
 
 
@@ -121,7 +121,7 @@ function Header() {
         <div style={navContainerStyle}>
           <nav>
             <ul style={navStyle}>
-              <Link to="/" style={linkStyle}>Home</Link>
+              <Link to="/equipment" style={linkStyle}>Home</Link>
               <Link to="/about" style={linkStyle}>About</Link>
               <Link to="/transaction" style={linkStyle}>Transaction</Link>
             </ul>

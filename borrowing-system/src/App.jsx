@@ -29,19 +29,17 @@ import RequestDetailsProgHead from "./pages/RequestDetailsProgHead";
 import TransactionPage from './pages/TransactionPage'; 
 
 
-// Optional: import Homepage if needed
-// import Homepage from './pages/Homepage';
 
 function App() {
     return (
         <Router>
             <Routes>
                 {/* Student Pages */}
-                <Route path="/" element={<EquipmentPage />} />
+                <Route path="/equipment" element={<EquipmentPage />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/borrow-request" element={<BorrowRequestForm />} />
-                <Route path="/student-login" element={<StudentLoginPage />} />
+                <Route path="/" element={<StudentLoginPage />} />
                 <Route path="/transaction" element={<TransactionPage />} />
 
                 {/* Admin Pages */}

@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 import hmbsLogo from '../assets/site-images/hmbs-logo-maroon.png';
 import backgroundImage from '../assets/site-images/building-background1.png';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-function LoginPage() {
-  /* ===== state & handlers ===== */
+function StaffLoginPage() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogIn = () => {
-    // Logic for handling login can be added here
-    navigate('/requests-instructor'); // Redirect to admin requests page after login
+    navigate('/requests-admin');
   };
 
-  const handleHomepageClick = () => {
-    navigate('/');  // Navigate to Student Homepage
-  };  
-
-  /* ===== layout styles ===== */
   const pageStyle = {
     display: 'flex',
     height: '100vh',
@@ -29,7 +21,6 @@ function LoginPage() {
     fontFamily: "'Poppins', sans-serif",
   };
 
-  /* narrower panel — 38% of viewport, capped at 480px */
   const formContainerStyle = {
     width: '45vw',
     maxWidth: '620px',
@@ -61,22 +52,21 @@ function LoginPage() {
     marginBottom: 36,
   };
 
-  /* input wrapper to hold svg icon */
   const fieldWrapper = {
     position: 'relative',
     width: '100%',
-    marginBottom: 10,
+    marginBottom: 16,
   };
   const inputStyle = {
     width: '100%',
-    padding: '18px 40px 18px 20px', // taller fields
+    padding: '18px 40px 18px 20px',
     borderRadius: 40,
     border: '1px solid #ccc',
     fontSize: 15,
     outline: 'none',
     boxSizing: 'border-box',
     fontFamily: "'Poppins', sans-serif",
-};
+  };
   const iconCommon = {
     position: 'absolute',
     top: '50%',
@@ -99,12 +89,11 @@ function LoginPage() {
     width: '100%',
     cursor: 'pointer',
     marginTop: 20,
-};
+  };
 
   const footerStyle = { fontSize: 14, marginTop: 24, color: '#555' };
   const linkStyle = { color: '#861818', fontWeight: 600, textDecoration: 'underline' };
 
-  /* ===== inline SVG icons ===== */
   const IdIcon = (
     <svg width="20" height="20" viewBox="0 0 24 24" style={iconCommon}>
       <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -129,15 +118,17 @@ function LoginPage() {
         <h2 style={headingStyle}>Hello, Staff!</h2>
         <p style={subTextStyle}>Enter your credentials to proceed</p>
 
-        {/* Student ID field */}
         <div style={fieldWrapper}>
           <input type="text" placeholder="ID Number" style={inputStyle} />
           {IdIcon}
         </div>
 
-        {/* Password field */}
         <div style={fieldWrapper}>
-          <input type={showPassword ? 'text' : 'password'} placeholder="Password" style={inputStyle} />
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Password"
+            style={inputStyle}
+          />
           <span style={eyeBtn} onClick={() => setShowPassword(!showPassword)}>
             {showPassword ? EyeOffIcon : EyeIcon}
           </span>
@@ -146,11 +137,11 @@ function LoginPage() {
         <button style={buttonStyle} onClick={handleLogIn}>Log In</button>
 
         <p style={footerStyle}>
-          Not part of staff? <Link to="/student-login"><a href="" style={linkStyle}>Go to Student Homepage.</a></Link>
+          Not a student? <Link to="/" style={linkStyle}>Log in as student.</Link>
         </p>
       </div>
     </div>
   );
 }
 
-export default LoginPage;
+export default StaffLoginPage;

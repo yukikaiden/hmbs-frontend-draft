@@ -8,7 +8,7 @@ function StudentLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogIn = () => {
-    navigate('/');
+    navigate('/equipment');
   };
 
   const pageStyle = {
