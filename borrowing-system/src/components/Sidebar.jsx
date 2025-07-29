@@ -27,6 +27,7 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       zIndex: 1000,
       display: 'flex',
       flexDirection: 'column',
+      fontfamily: 'Poppins, sans-serif',
     },
     sidebarInner: {
       display: 'flex',
@@ -60,6 +61,8 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       justifyContent: 'flex-start',
       cursor: 'pointer',
       transition: 'background-color 0.2s ease',
+      fontFamily: 'Poppins, sans-serif',
+      fontWeight: 600,
     },
     navActive: {
       backgroundColor: 'rgba(255,255,255,0.2)',
@@ -77,6 +80,7 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
+      fontFamily: 'Poppins, sans-serif',
     },
     logoutButton: {
       background: 'none',

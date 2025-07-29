@@ -40,7 +40,7 @@ const RequestProgHeadPage = () => {
     main: {
       marginLeft: '240px',
       flex: 1,
-      backgroundColor: '#f5f5f5',
+      backgroundColor: '#ffffff',
       padding: '2rem',
       minHeight: '100vh',
     },
@@ -64,10 +64,11 @@ const RequestProgHeadPage = () => {
       cursor: 'pointer',
     },
     theadCell: {
-      padding: '1.3rem 1rem',
+      padding: '1.1rem 1rem',
       textAlign: 'center',
       backgroundColor: '#8A1F2B',
       color: 'white',
+      fontWeight: 600,
     },
     statusBadge: {
       padding: '0.4rem 1rem',
@@ -127,9 +128,9 @@ const RequestProgHeadPage = () => {
 
       {/* Main content */}
       <main style={styles.main}>
-        <h1 style={{ margin: 0 }}>Pending Request</h1>
-        <p>List of all pending borrowing requests submitted by students</p>
-        <h3 style={{ marginTop: '1.5rem' }}>3 New Requests</h3>
+        <h1 style={{ margin: 0, fontSize: '1.9rem' }}>Pending Request</h1>
+        <p style={{fontSize: '17px', marginTop: '-0.1rem'}}>List of all pending borrowing requests submitted by students</p>
+        <h3 style={{ marginTop: '1.3rem', marginBottom: '-0.3rem', fontWeight: '600' }}>3 New Requests</h3>
 
         <table style={styles.table}>
           <thead>

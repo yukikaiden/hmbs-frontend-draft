@@ -45,7 +45,7 @@ const RequestDetailsProgHead = () => {
     main: {
       marginLeft: '240px',
       flex: 1,
-      backgroundColor: '#f5f5f5',
+      backgroundColor: '#ffffff',
       padding: '2rem',
     },
     formGroup: {
@@ -53,15 +53,16 @@ const RequestDetailsProgHead = () => {
     },
     label: {
       display: 'block',
-      marginBottom: '0.5rem',
-      fontWeight: 500,
+      marginBottom: '0.2rem',
+      fontWeight: 600,
     },
     input: {
       width: '100%',
-      padding: '1rem',
-      borderRadius: '12px',
-      border: '1px solid #ccc',
-      fontSize: '1rem',
+      padding: '14px',
+      borderRadius: '7px',
+      border: '1px solid black',
+      fontSize: '15px',
+      fontFamily: 'Poppins, sans-serif',
     },
     table: {
       width: '100%',
@@ -77,6 +78,7 @@ const RequestDetailsProgHead = () => {
       color: 'white',
       padding: '1rem',
       textAlign: 'center',
+      fontWeight: 600,
     },
     td: {
       padding: '1rem',
@@ -88,6 +90,7 @@ const RequestDetailsProgHead = () => {
       justifyContent: 'flex-end',
       marginTop: '2rem',
       gap: '0.5rem',
+      fontFamily: 'Poppins, sans-serif',
     },
     itemCountContainer: {
       fontWeight: '600',
@@ -98,16 +101,20 @@ const RequestDetailsProgHead = () => {
       color: 'white',
       border: 'none',
       padding: '0.75rem 1.5rem',
-      borderRadius: '10px',
+      borderRadius: '99px',
       cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
+      fontSize: '14px',
     },
     rejectButton: {
       backgroundColor: '#fff',
       color: '#8A1F2B',
-      border: '2px solid #8A1F2B',
+      border: '1px solid #8A1F2B',
       padding: '0.75rem 1.5rem',
-      borderRadius: '10px',
+      borderRadius: '99px',
       cursor: 'pointer',
+      fontFamily: 'Poppins, sans-serif',
+      fontSize: '14px',
     },
     goBackBtn: {
       background: 'none',
@@ -138,7 +145,7 @@ const RequestDetailsProgHead = () => {
         <div style={styles.topHeader}>
           <div>
             <h1>Request No. 000001234</h1>
-            <p>
+            <p style={{ fontSize: '16px'}}>
               Status:{' '}
               <span
                 style={{
@@ -146,6 +153,8 @@ const RequestDetailsProgHead = () => {
                   color: 'white',
                   padding: '0.2rem 1rem',
                   borderRadius: '1rem',
+                  fontSize : '15px',
+                  marginLeft: '0.2rem',
                 }}
               >
                 Pending
@@ -154,6 +163,13 @@ const RequestDetailsProgHead = () => {
           </div>
           <button style={styles.goBackBtn} onClick={() => navigate('/requests-programhead')}>Go Back</button>
         </div>
+
+        <hr style={{
+                border: 'none',
+                borderTop: '2px solid rgba(97, 97, 97, 0.3)',
+                marginTop: '1rem',
+                marginBottom: '-0.6rem'
+              }} />
 
         <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, ...styles.formGroup }}>
@@ -215,11 +231,11 @@ const RequestDetailsProgHead = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginTop: '2rem',
+            marginTop: '0.9rem',
             marginBottom: '0.1rem',
           }}
         >
-          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '22px' }}>List of Borrowed Items</h3>
+          <h3 style={{ margin: 0, fontWeight: '600', fontSize: '20px' }}>List of Borrowed Items</h3>
           <div style={styles.itemCountContainer}>Total ({borrowedItems.length})</div>
         </div>
 
