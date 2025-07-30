@@ -57,7 +57,6 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       marginBottom: '0.5rem',
       borderRadius: '10px',
       fontSize: '1.1rem',
-      fontWeight: 'bold',
       justifyContent: 'flex-start',
       cursor: 'pointer',
       transition: 'background-color 0.2s ease',

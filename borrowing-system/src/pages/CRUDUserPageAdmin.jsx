@@ -117,6 +117,14 @@ const CRUDUserPageAdmin = () => {
           {renderTable('Program Heads')}
           {renderTable('Instructors')}
         </div>
+
+        <div style={styles.groupedSection}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <p style={{ ...styles.groupedSectionTitle, color: '#000', margin: 0 }}>Students</p>
+            <button style={styles.importButton} onClick={handleOpenImportCSVModal}>Import CSV File</button>
+          </div>
+          <div style={{ marginTop: '1rem', justifyContent: 'space-evenly' }}>{renderTable('Students')}</div>
+        </div>
       </main>
 
       {showAddUserModal && (
