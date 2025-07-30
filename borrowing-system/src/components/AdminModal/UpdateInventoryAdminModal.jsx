@@ -60,7 +60,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Unit</label>
-                <select defaultValue="Pcs" style={styles.input}>
+                <select defaultValue="Pcs" style={styles.customSelect}>
                   <option>Pcs</option>
                   <option>Boxes</option>
                   <option>Liters</option>
@@ -70,7 +70,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
 
             <div style={styles.formGroup}>
               <label style={styles.label}>Status</label>
-              <select defaultValue="Available" style={styles.input}>
+              <select defaultValue="Available" style={styles.customSelect}>
                 <option>Available</option>
                 <option>Unavailable</option>
               </select>
@@ -103,6 +103,8 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     </>
   );
 };
+
+const maroonDropdownIcon = `url("data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")`;
 
 const styles = {
   modalOverlay: {
@@ -170,6 +172,20 @@ const styles = {
     fontSize: '14px',
     fontFamily: "'Poppins', sans-serif",
     outline: 'none',
+  },
+  customSelect: {
+    padding: '12px 16px',
+    border: '2px solid #000',
+    borderRadius: '10px',
+    fontSize: '14px',
+    fontFamily: "'Poppins', sans-serif",
+    outline: 'none',
+    appearance: 'none',
+    backgroundColor: '#fff',
+    backgroundImage: maroonDropdownIcon,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'right 12px center',
+    backgroundSize: '20px 20px',
   },
   buttonRow: {
     display: 'flex',
