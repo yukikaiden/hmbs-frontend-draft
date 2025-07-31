@@ -18,17 +18,17 @@ const CRUDInventoryPage = () => {
   const itemsPerPage = 10;
 
   const inventoryData = [
-    { id: 1, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 2, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
-    { id: 3, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 4, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 5, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 6, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 7, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
-    { id: 8, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 9, name: 'Fork', category: 'Pantry Tools', location: 'CBA 404', qty: 12, unit: 'Pcs', status: 'Available' },
-    { id: 10, name: 'Knife', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
-    { id: 11, name: 'Tongs', category: 'Pantry Tools', location: 'CBA 404', qty: 15, unit: 'Pcs', status: 'Available' }
+    { id: 1, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 2, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', price: '₱25', status: 'Unavailable' },
+    { id: 3, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 4, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 5, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 6, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 7, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', price: '₱25', status: 'Unavailable' },
+    { id: 8, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 9, name: 'Fork', category: 'Pantry Tools', location: 'CBA 404', qty: 12, unit: 'Pcs', price: '₱25', status: 'Available' },
+    { id: 10, name: 'Knife', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', price: '₱25', status: 'Unavailable' },
+    { id: 11, name: 'Tongs', category: 'Pantry Tools', location: 'CBA 404', qty: 15, unit: 'Pcs', price: '₱25', status: 'Available' }
   ];
 
   const totalPages = Math.ceil(inventoryData.length / itemsPerPage);
@@ -196,6 +196,7 @@ const CRUDInventoryPage = () => {
                 <th style={styles.th}>Location</th>
                 <th style={styles.th}>Available Qty</th>
                 <th style={styles.th}>Unit</th>
+                <th style={styles.th}>Prices</th>
                 <th style={styles.th}>Status</th>
                 <th style={styles.th}>Action</th>
               </tr>
@@ -214,6 +215,7 @@ const CRUDInventoryPage = () => {
                     <td style={styles.td}>{item.location}</td>
                     <td style={styles.td}>{item.qty}</td>
                     <td style={styles.td}>{item.unit}</td>
+                    <td style={styles.td}>{item.price}</td>
                     <td style={styles.td}>
                       <span style={item.status === 'Available' ? styles.statusAvailable : styles.statusUnavailable}>
                         {item.status}
