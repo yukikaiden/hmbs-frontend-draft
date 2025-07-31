@@ -213,7 +213,7 @@ const CRUDInventoryPage = () => {
                     <td style={styles.td}>{item.name}</td>
                     <td style={styles.td}>{item.category}</td>
                     <td style={styles.td}>{item.location}</td>
-                    <td style={styles.td}>{item.qty}</td>
+                    <td style={{ ...styles.td, paddingTop: '12px', paddingBottom: '12px', paddingRight: '50px', textAlign: 'center' }}>{item.qty}</td>
                     <td style={styles.td}>{item.unit}</td>
                     <td style={styles.td}>{item.price}</td>
                     <td style={styles.td}>
