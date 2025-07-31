@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import tempItemImg from '../assets/images/temp-item-img.png';
@@ -8,6 +8,15 @@ import RequestSubmittedModal from '../components/RequestSubmittedModal';
 function BorrowRequestForm() {
   const [groupMembers, setGroupMembers] = useState(['']);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [dateRequested, setDateRequested] = useState('');
+  const [dateUse, setDateUse] = useState('');
+  const [timeUse, setTimeUse] = useState('');
+  const [groupLeader, setGroupLeader] = useState('');
+  const [course, setCourse] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  const today = new Date().toISOString().split('T')[0];
 
   const handleAddMember = () => {
     setGroupMembers([...groupMembers, '']);
@@ -26,6 +35,12 @@ function BorrowRequestForm() {
     updated[index] = value;
     setGroupMembers(updated);
   };
+
+  useEffect(() => {
+    const hasEmptyMember = groupMembers.some(member => member.trim() === '');
+    const isValid = dateRequested && dateUse && timeUse && groupLeader && course && !hasEmptyMember;
+    setIsFormValid(isValid);
+  }, [dateRequested, dateUse, timeUse, groupLeader, course, groupMembers]);
 
   const sampleItems = [
     { id: 1, name: 'Stone 27cm Granule Dinner Plate', quantity: 12 },
@@ -136,26 +151,43 @@ function BorrowRequestForm() {
           <div style={rowStyle}>
             <div style={{ flex: 1 }}>
               <label style={label}>{required('Date Requested')}</label>
-              <input type="date" style={inputStyle} />
+              <input
+                type="date"
+                style={inputStyle}
+                value={dateRequested}
+                min={today}
+                onChange={(e) => setDateRequested(e.target.value)}
+              />
             </div>
             <div style={{ flex: 1 }}>
               <label style={label}>{required('Date Use')}</label>
-              <input type="date" style={inputStyle} />
+              <input
+                type="date"
+                style={inputStyle}
+                value={dateUse}
+                min={today}
+                onChange={(e) => setDateUse(e.target.value)}
+              />
             </div>
             <div style={{ flex: 1 }}>
               <label style={label}>{required('Time Use')}</label>
-              <input type="time" style={inputStyle} />
+              <input
+                type="time"
+                style={inputStyle}
+                value={timeUse}
+                onChange={(e) => setTimeUse(e.target.value)}
+              />
             </div>
           </div>
 
           <div style={rowStyle}>
             <div style={{ flex: 1 }}>
               <label style={label}>{required('Group Leader')}</label>
-              <input type="text" placeholder="Enter full name" style={inputStyle} />
+              <input type="text" placeholder="Enter full name" style={inputStyle} value={groupLeader} onChange={(e) => setGroupLeader(e.target.value)} />
             </div>
             <div style={{ flex: 1 }}>
               <label style={label}>{required('Course')}</label>
-              <select style={selectStyle} defaultValue="">
+              <select style={selectStyle} value={course} onChange={(e) => setCourse(e.target.value)}>
                 <option value="" disabled>Select a course</option>
                 <option value="Hospitality Management">Hospitality Management</option>
               </select>
@@ -227,7 +259,17 @@ function BorrowRequestForm() {
           ))}
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-            <button style={submitBtn} onClick={() => setIsModalOpen(true)}>Submit Borrow Request</button>
+            <button
+              style={{
+                ...submitBtn,
+                opacity: isFormValid ? 1 : 0.6,
+                cursor: isFormValid ? 'pointer' : 'not-allowed'
+              }}
+              onClick={() => isFormValid && setIsModalOpen(true)}
+              disabled={!isFormValid}
+            >
+              Submit Borrow Request
+            </button>
           </div>
         </div>
       </div>
