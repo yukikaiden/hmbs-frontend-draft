@@ -9,7 +9,7 @@ function TransactionPage() {
   const steps = [
     'Request Submitted',
     'Request Approved',
-    'Items are Borrowed',
+    'Items are Released',
     'Returned Items Under Review',
     'Returned All in Good Condition',
   ];
