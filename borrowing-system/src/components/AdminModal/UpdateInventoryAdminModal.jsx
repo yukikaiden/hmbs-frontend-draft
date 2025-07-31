@@ -40,7 +40,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             <div style={styles.row}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Category</label>
-                <select defaultValue="" style={styles.input}>
+                <select defaultValue="" style={styles.customSelect}>
                   <option value="" disabled>Select category</option>
                   <option>Pantry Tools</option>
                   <option>Cleaning Tools</option>
@@ -68,12 +68,18 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
             </div>
 
-            <div style={styles.formGroup}>
-              <label style={styles.label}>Status</label>
-              <select defaultValue="Available" style={styles.customSelect}>
-                <option>Available</option>
-                <option>Unavailable</option>
-              </select>
+            <div style={styles.row}>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Price</label>
+                <input type="text" placeholder="Enter price" style={styles.input} />
+              </div>
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Status</label>
+                <select defaultValue="Available" style={styles.customSelect}>
+                  <option>Available</option>
+                  <option>Unavailable</option>
+                </select>
+              </div>
             </div>
 
             <div style={styles.buttonRow}>
