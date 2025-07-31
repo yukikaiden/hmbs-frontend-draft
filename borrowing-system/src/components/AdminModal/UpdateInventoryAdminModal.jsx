@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
 import InventoryUpdatedAdminModal from './InventoryUpdatedAdminModal';
+import uploadFileIcon from '../../assets/upload-file.svg'; // ✅ SVG icon
+
+const maroonDropdownIcon = "url(\"data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>\")";
 
 const UpdateInventoryAdminModal = ({ onClose }) => {
   const [showUpdatedModal, setShowUpdatedModal] = useState(false);
+  const [status, setStatus] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [statusError, setStatusError] = useState('');
+  const [focusedInput, setFocusedInput] = useState('');
 
   const handleSave = () => {
+    if (!status) {
+      setStatusError('Please select a status');
+      return;
+    }
+
+    setStatusError('');
     setShowUpdatedModal(true);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
   };
 
   const handleDone = () => {
@@ -13,35 +32,43 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     onClose();
   };
 
-  const handleHover = (target, hoverStyle) => {
-    Object.assign(target.style, hoverStyle);
-  };
-
-  const handleLeave = (target, baseStyle) => {
-    Object.assign(target.style, baseStyle);
-  };
-
   return (
     <>
       {!showUpdatedModal && (
-        <div style={styles.modalOverlay}>
+        <div style={styles.overlay}>
           <div style={styles.modal}>
             <div style={styles.header}>
               <h2 style={styles.title}>Edit Item</h2>
-              <button onClick={onClose} style={styles.closeBtn}>✕</button>
+              <button style={styles.closeBtn} onClick={onClose}>✕</button>
             </div>
             <p style={styles.subtitle}>Edit item details below</p>
 
             <div style={styles.formGroup}>
               <label style={styles.label}>Item Name</label>
-              <input type="text" placeholder="Enter item name" style={styles.input} />
+              <input
+                style={{
+                  ...styles.input,
+                  ...(focusedInput === 'itemName' && styles.inputFocused)
+                }}
+                placeholder="Enter item name"
+                onFocus={() => setFocusedInput('itemName')}
+                onBlur={() => setFocusedInput('')}
+              />
             </div>
 
             <div style={styles.row}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Category</label>
-                <select defaultValue="" style={styles.customSelect}>
-                  <option value="" disabled>Select category</option>
+                <select
+                  style={{
+                    ...styles.select,
+                    backgroundImage: maroonDropdownIcon,
+                    ...(focusedInput === 'category' && styles.selectFocused)
+                  }}
+                  onFocus={() => setFocusedInput('category')}
+                  onBlur={() => setFocusedInput('')}
+                >
+                  <option>Select category</option>
                   <option>Pantry Tools</option>
                   <option>Cleaning Tools</option>
                   <option>Kitchenware</option>
@@ -49,18 +76,45 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Location</label>
-                <input type="text" placeholder="Enter location" style={styles.input} />
+                <input
+                  style={{
+                    ...styles.input,
+                    ...(focusedInput === 'location' && styles.inputFocused)
+                  }}
+                  placeholder="Enter location"
+                  onFocus={() => setFocusedInput('location')}
+                  onBlur={() => setFocusedInput('')}
+                />
               </div>
             </div>
 
             <div style={styles.row}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Available Quantity</label>
-                <input type="number" placeholder="Enter quantity" style={styles.input} />
+                <input
+                  type="number"
+                  min="0"
+                  style={{
+                    ...styles.input,
+                    ...(focusedInput === 'quantity' && styles.inputFocused)
+                  }}
+                  placeholder="Enter quantity"
+                  onFocus={() => setFocusedInput('quantity')}
+                  onBlur={() => setFocusedInput('')}
+                />
               </div>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Unit</label>
-                <select defaultValue="Pcs" style={styles.customSelect}>
+                <select
+                  style={{
+                    ...styles.select,
+                    backgroundImage: maroonDropdownIcon,
+                    ...(focusedInput === 'unit' && styles.selectFocused)
+                  }}
+                  onFocus={() => setFocusedInput('unit')}
+                  onBlur={() => setFocusedInput('')}
+                >
+                  <option>Select unit</option>
                   <option>Pcs</option>
                   <option>Boxes</option>
                   <option>Liters</option>
@@ -71,95 +125,117 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             <div style={styles.row}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Price</label>
-                <input type="text" placeholder="Enter price" style={styles.input} />
+                <input
+                  style={{
+                    ...styles.input,
+                    ...(focusedInput === 'price' && styles.inputFocused)
+                  }}
+                  placeholder="Enter price"
+                  onFocus={() => setFocusedInput('price')}
+                  onBlur={() => setFocusedInput('')}
+                />
               </div>
               <div style={styles.formGroup}>
-                <label style={styles.label}>Status</label>
-                <select defaultValue="Available" style={styles.customSelect}>
+                <label style={styles.label}>Status <span style={{ color: 'red' }}>*</span></label>
+                <select
+                  style={{
+                    ...styles.select,
+                    backgroundImage: maroonDropdownIcon,
+                    border: statusError
+                      ? '2px solid red'
+                      : focusedInput === 'status'
+                        ? styles.selectFocused.border
+                        : styles.select.border
+                  }}
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  onFocus={() => setFocusedInput('status')}
+                  onBlur={() => setFocusedInput('')}
+                >
+                  <option value="">Select status</option>
                   <option>Available</option>
                   <option>Unavailable</option>
                 </select>
+                {statusError && (
+                  <p style={styles.errorText}>
+                    <MdErrorOutline style={styles.icon} />
+                    {statusError}
+                  </p>
+                )}
               </div>
             </div>
 
-            <div style={styles.buttonRow}>
-              <button
-                style={styles.cancelBtn}
-                onMouseEnter={(e) => handleHover(e.target, styles.cancelBtnHover)}
-                onMouseLeave={(e) => handleLeave(e.target, styles.cancelBtn)}
-                onClick={onClose}
-              >
-                Cancel
-              </button>
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Upload Image *</label>
+              <div style={styles.uploadBox}>
+                <img src={uploadFileIcon} alt="Upload Icon" style={styles.uploadIcon} />
+                <p style={styles.uploadText}>Choose a file or drag & drop it here</p>
+                <p style={styles.uploadInfo}>PDF, JPG, JPEG, PNG, DOC, DOCX formats, up to 10MB</p>
+                <label htmlFor="file-upload" style={styles.uploadBtn}>Browse File</label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                  onChange={handleFileChange}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            </div>
 
-              <button
-                onClick={handleSave}
-                style={styles.saveBtn}
-                onMouseEnter={(e) => handleHover(e.target, styles.saveBtnHover)}
-                onMouseLeave={(e) => handleLeave(e.target, styles.saveBtn)}
-              >
-                Save Changes
-              </button>
+            <div style={styles.footer}>
+              <button style={styles.cancelBtn} onClick={onClose}>Cancel</button>
+              <button style={styles.saveBtn} onClick={handleSave}>Save Changes</button>
             </div>
           </div>
         </div>
       )}
-
       {showUpdatedModal && <InventoryUpdatedAdminModal onDone={handleDone} />}
     </>
   );
 };
 
-const maroonDropdownIcon = `url("data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")`;
-
 const styles = {
-  modalOverlay: {
+  overlay: {
     position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
+    inset: 0,
     backgroundColor: 'rgba(0,0,0,0.5)',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
-    fontFamily: "'Poppins', sans-serif",
-    zIndex: 999,
+    alignItems: 'center',
+    zIndex: 1000,
+    fontFamily: 'Poppins, sans-serif',
   },
   modal: {
     background: '#fff',
-    borderRadius: '16px',
     padding: '30px',
-    width: '620px',
-    maxWidth: '95%',
-    position: 'relative',
+    borderRadius: '16px',
+    width: '640px',
+    maxHeight: '95vh',
+    overflowY: 'auto',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
   },
   title: {
     fontSize: '24px',
-    fontWeight: '700',
-    color: '#000',
-    margin: 0,
-  },
-  subtitle: {
-    color: '#444',
-    fontSize: '14px',
-    marginTop: '2px',
-    marginBottom: '25px',
-    lineHeight: '1.3',
+    fontWeight: 'bold',
+    color: '#1A1A1A',
+    marginBottom: '-6px'
   },
   closeBtn: {
     background: 'none',
     border: 'none',
     fontSize: '22px',
     cursor: 'pointer',
-    color: '#444',
+  },
+  subtitle: {
+    fontSize: '17px',
+    color: '#1a1a1a',
+    marginBottom: '22px',
   },
   formGroup: {
     marginBottom: '16px',
-    display: 'flex',
-    flexDirection: 'column',
     flex: 1,
   },
   row: {
@@ -167,54 +243,85 @@ const styles = {
     gap: '1rem',
   },
   label: {
-    marginBottom: '8px',
     fontWeight: '500',
-    color: '#333',
+    marginBottom: '6px',
+    display: 'block',
   },
   input: {
+    width: '100%',
     padding: '12px 16px',
-    border: '2px solid #000',
+    border: '0.5px solid #1A1A1A',
     borderRadius: '10px',
     fontSize: '14px',
-    fontFamily: "'Poppins', sans-serif",
     outline: 'none',
   },
-  customSelect: {
+  inputFocused: {
+    border: '2px solid #1A1A1A',
+  },
+  select: {
+    width: '100%',
     padding: '12px 16px',
-    border: '2px solid #000',
+    border: '0.5px solid #1A1A1A',
     borderRadius: '10px',
     fontSize: '14px',
-    fontFamily: "'Poppins', sans-serif",
     outline: 'none',
     appearance: 'none',
     backgroundColor: '#fff',
-    backgroundImage: maroonDropdownIcon,
     backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 12px center',
-    backgroundSize: '20px 20px',
+    backgroundPosition: 'right 1rem center',
+    backgroundSize: '1.5rem',
   },
-  buttonRow: {
+  selectFocused: {
+    border: '2px solid #000',
+  },
+  uploadBox: {
+    border: '2px dashed #991F1F',
+    borderRadius: '12px',
+    padding: '2.5rem 1rem',
+    textAlign: 'center',
+    color: '#666',
+    position: 'relative',
+    marginTop: '8px'
+  },
+  uploadIcon: {
+    width: '40px',
+    height: '40px',
+    marginBottom: '-0.3rem',
+  },
+  uploadText: {
+    fontSize: '1rem',
+    fontWeight: '530',
+    color: '#2F2F2F',
+    marginBottom: '4px'
+  },
+  uploadInfo: {
+    fontSize: '0.875rem',
+    color: '#6B7280',
+    marginBottom: '12px',
+  },
+  uploadBtn: {
+    padding: '6px 18px',
+    backgroundColor: '#fff',
+    border: '1px solid #991F1F',
+    color: '#991F1F',
+    borderRadius: '999px',
+    fontSize: '0.85rem',
+    fontWeight: '500',
+    cursor: 'pointer',
+  },
+  footer: {
     display: 'flex',
     justifyContent: 'flex-end',
     gap: '1rem',
-    marginTop: '25px',
+    marginTop: '2rem',
   },
   cancelBtn: {
     padding: '10px 26px',
     border: '1.5px solid #991F1F',
     color: '#991F1F',
+    background: 'white',
     borderRadius: '999px',
-    backgroundColor: '#fff',
-    fontWeight: 500,
-    fontSize: '16px',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: "'Poppins', sans-serif",
-  },
-  cancelBtnHover: {
-    backgroundColor: '#991F1F',
-    color: '#fff',
-    border: '1.5px solid #991F1F',
   },
   saveBtn: {
     padding: '10px 26px',
@@ -222,15 +329,18 @@ const styles = {
     color: '#fff',
     border: 'none',
     borderRadius: '999px',
-    fontWeight: '500',
-    fontSize: '16px',
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: "'Poppins', sans-serif",
   },
-  saveBtnHover: {
-    backgroundColor: '#701923',
-    color: '#fff',
+  errorText: {
+    color: 'red',
+    fontSize: '0.85rem',
+    marginTop: '0.4rem',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.3rem',
+  },
+  icon: {
+    fontSize: '1.1rem',
   },
 };
 
