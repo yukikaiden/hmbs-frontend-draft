@@ -11,6 +11,8 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
   const [imageFile, setImageFile] = useState(null);
   const [statusError, setStatusError] = useState('');
   const [focusedInput, setFocusedInput] = useState('');
+  const [isBrowseHover, setIsBrowseHover] = useState(false);
+  const [isCancelHover, setIsCancelHover] = useState(false);
 
   const handleSave = () => {
     if (!status) {
@@ -171,7 +173,17 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                 <img src={uploadFileIcon} alt="Upload Icon" style={styles.uploadIcon} />
                 <p style={styles.uploadText}>Choose a file or drag & drop it here</p>
                 <p style={styles.uploadInfo}>PDF, JPG, JPEG, PNG, DOC, DOCX formats, up to 10MB</p>
-                <label htmlFor="file-upload" style={styles.uploadBtn}>Browse File</label>
+                <label
+                  htmlFor="file-upload"
+                  style={{
+                    ...styles.uploadBtn,
+                    ...(isBrowseHover && styles.uploadBtnHover)
+                  }}
+                  onMouseEnter={() => setIsBrowseHover(true)}
+                  onMouseLeave={() => setIsBrowseHover(false)}
+                >
+                  Browse File
+                </label>
                 <input
                   id="file-upload"
                   type="file"
@@ -183,7 +195,17 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             </div>
 
             <div style={styles.footer}>
-              <button style={styles.cancelBtn} onClick={onClose}>Cancel</button>
+              <button
+                style={{
+                  ...styles.cancelBtn,
+                  ...(isCancelHover && styles.cancelBtnHover)
+                }}
+                onMouseEnter={() => setIsCancelHover(true)}
+                onMouseLeave={() => setIsCancelHover(false)}
+                onClick={onClose}
+              >
+                Cancel
+              </button>
               <button style={styles.saveBtn} onClick={handleSave}>Save Changes</button>
             </div>
           </div>
@@ -308,6 +330,11 @@ const styles = {
     fontSize: '0.85rem',
     fontWeight: '500',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
+  uploadBtnHover: {
+    backgroundColor: '#991F1F',
+    color: '#fff',
   },
   footer: {
     display: 'flex',
@@ -322,6 +349,11 @@ const styles = {
     background: 'white',
     borderRadius: '999px',
     cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
+  cancelBtnHover: {
+    backgroundColor: '#991F1F',
+    color: '#fff',
   },
   saveBtn: {
     padding: '10px 26px',
