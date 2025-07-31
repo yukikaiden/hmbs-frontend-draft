@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaFileAlt, FaBoxOpen, FaClipboardList, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
+import { SquarePen, Trash2 } from 'lucide-react';
 import SpoonImage from '../assets/images/spoon.png';
 import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryAdminModal';
 import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
@@ -61,7 +62,7 @@ const CRUDInventoryPage = () => {
       cursor: 'pointer',
     },
     addButton: {
-      fontfamily: 'Poppins, sans-serif',
+      fontFamily: 'Poppins, sans-serif',
       backgroundColor: '#8A1F2B',
       color: 'white',
       border: 'none',
@@ -133,15 +134,14 @@ const CRUDInventoryPage = () => {
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar*/}
       <Sidebar
         activePage="inventory"
         userRole="Staff"
         userSubrole="Admin"
         navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-admin' },
-          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen /> , path: '/inventory' },
-          { id: 'registry', name: 'Registry', icon: <FaClipboardList /> , path: '/registry' },
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-admin' },
+          { id: 'inventory', name: 'Inventory', icon: <FaBoxOpen />, path: '/inventory' },
+          { id: 'registry', name: 'Registry', icon: <FaClipboardList />, path: '/registry' },
         ]}
       />
 
@@ -149,7 +149,9 @@ const CRUDInventoryPage = () => {
         <div style={styles.headerSection}>
           <div>
             <h2 style={{ margin: 0 }}>Inventory Table</h2>
-            <p style={{ marginTop: '0.25rem', color: '#555' }}>View all tools available for borrowing</p>
+            <p style={{ marginTop: '0.25rem', color: '#555' }}>
+              View all tools available for borrowing
+            </p>
           </div>
           <button style={styles.exportButton}>Export CSV</button>
         </div>
@@ -165,7 +167,6 @@ const CRUDInventoryPage = () => {
             <button style={styles.addButton} onClick={() => navigate('/add-to-inventory')}>
               <FiPlus /> Add New Item
             </button>
-
           </div>
 
           <table style={styles.table}>
@@ -201,8 +202,18 @@ const CRUDInventoryPage = () => {
                   </td>
                   <td style={styles.td}>
                     <div style={styles.actionIcons}>
-                      <FaEdit title="Edit" onClick={() => setShowEditModal(true)} />
-                      <FaTrash title="Delete" onClick={() => setShowDeleteModal(true)} />
+                      <SquarePen
+                        size={16}
+                        title="Edit Inventory Item"
+                        style={{ cursor: 'pointer', color: '#000' }}
+                        onClick={() => setShowEditModal(true)}
+                      />
+                      <Trash2
+                        size={16}
+                        title="Delete Inventory Item"
+                        style={{ cursor: 'pointer', color: '#000' }}
+                        onClick={() => setShowDeleteModal(true)}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -215,9 +226,7 @@ const CRUDInventoryPage = () => {
         {showEditModal && (
           <UpdateInventoryAdminModal
             onClose={() => setShowEditModal(false)}
-            onSave={() => {
-              setShowEditModal(false);
-            }}
+            onSave={() => setShowEditModal(false)}
           />
         )}
 
@@ -232,9 +241,7 @@ const CRUDInventoryPage = () => {
         )}
 
         {showItemDeletedModal && (
-          <InventoryItemDeletedModal
-            onDone={() => setShowItemDeletedModal(false)}
-          />
+          <InventoryItemDeletedModal onDone={() => setShowItemDeletedModal(false)} />
         )}
       </main>
     </div>
