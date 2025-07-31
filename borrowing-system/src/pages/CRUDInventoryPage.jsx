@@ -14,6 +14,27 @@ const CRUDInventoryPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showItemDeletedModal, setShowItemDeletedModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const inventoryData = [
+    { id: 1, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 2, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
+    { id: 3, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 4, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 5, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 6, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 7, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
+    { id: 8, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
+    { id: 9, name: 'Fork', category: 'Pantry Tools', location: 'CBA 404', qty: 12, unit: 'Pcs', status: 'Available' },
+    { id: 10, name: 'Knife', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
+    { id: 11, name: 'Tongs', category: 'Pantry Tools', location: 'CBA 404', qty: 15, unit: 'Pcs', status: 'Available' }
+  ];
+
+  const totalPages = Math.ceil(inventoryData.length / itemsPerPage);
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const endIdx = startIdx + itemsPerPage;
+  const currentItems = inventoryData.slice(startIdx, endIdx);
 
   const styles = {
     layout: {
@@ -62,7 +83,6 @@ const CRUDInventoryPage = () => {
       cursor: 'pointer',
     },
     addButton: {
-      fontFamily: 'Poppins, sans-serif',
       backgroundColor: '#8A1F2B',
       color: 'white',
       border: 'none',
@@ -76,7 +96,14 @@ const CRUDInventoryPage = () => {
     },
     table: {
       width: '100%',
-      borderCollapse: 'collapse',
+      borderCollapse: 'separate',
+      borderSpacing: 0,
+      borderLeft: '1px solid #8A1F2B',
+      borderRight: '1px solid #8A1F2B',
+      borderBottom: '1px solid #8A1F2B',
+      borderTop: 'none',
+      borderRadius: '10px',
+      overflow: 'hidden',
     },
     th: {
       backgroundColor: '#8A1F2B',
@@ -87,6 +114,7 @@ const CRUDInventoryPage = () => {
     td: {
       padding: '0.75rem',
       borderBottom: '1px solid #ccc',
+      backgroundColor: '#fff',
     },
     statusAvailable: {
       backgroundColor: '#3DB2FF',
@@ -121,17 +149,6 @@ const CRUDInventoryPage = () => {
     },
   };
 
-  const inventoryData = [
-    { id: 1, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 2, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
-    { id: 3, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 4, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 5, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 6, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-    { id: 7, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 0, unit: 'Pcs', status: 'Unavailable' },
-    { id: 8, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', status: 'Available' },
-  ];
-
   return (
     <div style={styles.layout}>
       <Sidebar
@@ -148,8 +165,8 @@ const CRUDInventoryPage = () => {
       <main style={styles.main}>
         <div style={styles.headerSection}>
           <div>
-            <h2 style={{ margin: 0 }}>Inventory Table</h2>
-            <p style={{ marginTop: '0.25rem', color: '#555' }}>
+            <h2 style={{ margin: 0, lineHeight: '1.2' }}>Inventory Table</h2>
+            <p style={{ marginTop: '0.3rem', lineHeight: '1.2', color: '#555' }}>
               View all tools available for borrowing
             </p>
           </div>
@@ -184,45 +201,85 @@ const CRUDInventoryPage = () => {
               </tr>
             </thead>
             <tbody>
-              {inventoryData.map((item, idx) => (
-                <tr key={item.id}>
-                  <td style={styles.td}>{idx + 1}</td>
-                  <td style={styles.td}>
-                    <img src={SpoonImage} alt="Item" style={{ width: '40px', height: '40px' }} />
-                  </td>
-                  <td style={styles.td}>{item.name}</td>
-                  <td style={styles.td}>{item.category}</td>
-                  <td style={styles.td}>{item.location}</td>
-                  <td style={styles.td}>{item.qty}</td>
-                  <td style={styles.td}>{item.unit}</td>
-                  <td style={styles.td}>
-                    <span style={item.status === 'Available' ? styles.statusAvailable : styles.statusUnavailable}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td style={styles.td}>
-                    <div style={styles.actionIcons}>
-                      <SquarePen
-                        size={16}
-                        title="Edit Inventory Item"
-                        style={{ cursor: 'pointer', color: '#000' }}
-                        onClick={() => setShowEditModal(true)}
-                      />
-                      <Trash2
-                        size={16}
-                        title="Delete Inventory Item"
-                        style={{ cursor: 'pointer', color: '#000' }}
-                        onClick={() => setShowDeleteModal(true)}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {currentItems.map((item, idx) => {
+                const isLast = idx === currentItems.length - 1;
+                return (
+                  <tr key={item.id}>
+                    <td style={{ ...styles.td, borderBottomLeftRadius: isLast ? '10px' : 0 }}>{startIdx + idx + 1}</td>
+                    <td style={styles.td}>
+                      <img src={SpoonImage} alt="Item" style={{ width: '40px', height: '40px' }} />
+                    </td>
+                    <td style={styles.td}>{item.name}</td>
+                    <td style={styles.td}>{item.category}</td>
+                    <td style={styles.td}>{item.location}</td>
+                    <td style={styles.td}>{item.qty}</td>
+                    <td style={styles.td}>{item.unit}</td>
+                    <td style={styles.td}>
+                      <span style={item.status === 'Available' ? styles.statusAvailable : styles.statusUnavailable}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td style={{ ...styles.td, borderBottomRightRadius: isLast ? '10px' : 0 }}>
+                      <div style={styles.actionIcons}>
+                        <SquarePen
+                          size={16}
+                          title="Edit Item"
+                          style={{ color: '#000' }}
+                          onClick={() => setShowEditModal(true)}
+                        />
+                        <Trash2
+                          size={16}
+                          title="Delete Item"
+                          style={{ color: '#000' }}
+                          onClick={() => setShowDeleteModal(true)}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
+
+          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              style={{
+                border: '1px solid #8A1F2B',
+                borderRadius: '50%',
+                width: '35px',
+                height: '35px',
+                background: '#fff',
+                color: '#8A1F2B',
+                cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                fontSize: '18px',
+              }}
+            >
+              ◀
+            </button>
+            <span style={{ fontSize: '16px', fontWeight: 500 }}>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              style={{
+                border: '1px solid #8A1F2B',
+                borderRadius: '50%',
+                width: '35px',
+                height: '35px',
+                background: '#fff',
+                color: '#8A1F2B',
+                cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                fontSize: '18px',
+              }}
+            >
+              ▶
+            </button>
+          </div>
         </div>
 
-        {/* Modals */}
         {showEditModal && (
           <UpdateInventoryAdminModal
             onClose={() => setShowEditModal(false)}
