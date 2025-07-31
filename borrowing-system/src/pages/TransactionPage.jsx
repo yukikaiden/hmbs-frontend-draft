@@ -1,3 +1,4 @@
+// No changes to imports
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -196,8 +197,11 @@ function TransactionPage() {
                     <th style={{ padding: '12px 20px', fontSize: '15px', textAlign: 'left', fontWeight: 600 }}>
                       Description
                     </th>
-                    <th style={{ padding: '12px 20px', fontSize: '15px', textAlign: 'left', fontWeight: 600 }}>
+                    <th style={{ padding: '12px 20px', fontSize: '15px', textAlign: 'center', fontWeight: 600 }}>
                       Quantity
+                    </th>
+                    <th style={{ padding: '12px 20px', fontSize: '15px', textAlign: 'left', fontWeight: 600 }}>
+                      Unit
                     </th>
                     <th style={{ padding: '12px 20px', fontSize: '15px', textAlign: 'left', fontWeight: 600 }}>
                       Price
@@ -209,9 +213,9 @@ function TransactionPage() {
                 </thead>
                 <tbody>
                   {[
-                    { name: 'Stone 27cm Granite Dinner Plate', qty: '12 pcs', price: '₱ 1,200' },
-                    { name: 'Silver 14cm Tea Spoon', qty: '12 pcs', price: '₱ 600' },
-                    { name: 'Crystal Wine Glass', qty: '6 pcs', price: '₱ 900' },
+                    { name: 'Stone 27cm Granite Dinner Plate', qty: '12', unit: 'pcs', price: '₱ 1,200' },
+                    { name: 'Silver 14cm Tea Spoon', qty: '12', unit: 'pcs', price: '₱ 600' },
+                    { name: 'Crystal Wine Glass', qty: '6', unit: 'pcs', price: '₱ 900' },
                   ].map((item, index) => (
                     <tr key={index} style={{ backgroundColor: '#fff' }}>
                       <td style={{ padding: '12px 20px', borderBottom: '1px solid #ddd' }}>
@@ -220,8 +224,11 @@ function TransactionPage() {
                       <td style={{ padding: '12px 20px', fontSize: '14.5px', color: '#333', verticalAlign: 'middle', borderBottom: '1px solid #ddd' }}>
                         {item.name}
                       </td>
-                      <td style={{ padding: '12px 20px', fontSize: '14.5px', verticalAlign: 'middle', borderBottom: '1px solid #ddd' }}>
+                      <td style={{ textAlign: 'center', padding: '12px 20px', fontSize: '14.5px', verticalAlign: 'middle', borderBottom: '1px solid #ddd' }}>
                         {item.qty}
+                      </td>
+                      <td style={{ padding: '12px 20px', fontSize: '14.5px', verticalAlign: 'middle', borderBottom: '1px solid #ddd' }}>
+                        {item.unit}
                       </td>
                       <td style={{ padding: '12px 20px', fontSize: '14.5px', verticalAlign: 'middle', borderBottom: '1px solid #ddd' }}>
                         {item.price}
@@ -381,15 +388,16 @@ function TransactionPage() {
                           <thead style={{ backgroundColor: '#f2f2f2' }}>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Item</th>
-                              <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Quantity</th>
+                              <th style={{ textAlign: 'center', padding: '10px', fontSize: '13.5px' }}>Quantity</th>
+                              <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Unit</th>
                               <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Status</th>
                             </tr>
                           </thead>
                           <tbody>
                             {[
-                              { name: 'Stone 27cm Granite Dinner Plate', qty: '12 pcs' },
-                              { name: 'Silver 14cm Tea Spoon', qty: '12 pcs' },
-                              { name: 'Crystal Wine Glass', qty: '6 pcs' },
+                              { name: 'Stone 27cm Granite Dinner Plate', qty: '12', unit: 'pcs' },
+                              { name: 'Silver 14cm Tea Spoon', qty: '12', unit: 'pcs' },
+                              { name: 'Crystal Wine Glass', qty: '6', unit: 'pcs' },
                             ].map((item, idx) => (
                               <tr key={idx} style={{ borderBottom: '1px solid #eee' }}>
                                 <td style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -406,7 +414,8 @@ function TransactionPage() {
                                   />
                                   {item.name}
                                 </td>
-                                <td style={{ padding: '10px' }}>{item.qty}</td>
+                                <td style={{ textAlign: 'center', padding: '10px' }}>{item.qty}</td>
+                                <td style={{ padding: '10px' }}>{item.unit}</td>
                                 <td style={{ padding: '10px', color: '#267326', fontWeight: '500' }}>Returned</td>
                               </tr>
                             ))}

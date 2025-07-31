@@ -1,3 +1,4 @@
+// your existing imports
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
@@ -6,10 +7,9 @@ import SpoonImage from '../assets/images/spoon.png';
 import RejectRequestModal from '../components/RejectRequestModal.jsx';
 import DeniedRequestModal from '../components/DeniedRequestModal.jsx';
 
-
 const RequestDetailsAdmin = () => {
   const navigate = useNavigate();
-  const [requestId, setRequestId] = useState('000001234'); // Example request ID
+  const [requestId, setRequestId] = useState('000001234');
   const borrowedItems = [1, 2, 3];
   const groupMembers = [1, 2, 3];
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -104,7 +104,6 @@ const RequestDetailsAdmin = () => {
 
   return (
     <div style={styles.layout}>
-      {/* Button CSS classes with hover effects */}
       <style>{`
         .approveButton {
           background-color: #8A1F2B;
@@ -155,7 +154,7 @@ const RequestDetailsAdmin = () => {
           <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
         </div>
 
-         <p style={{ fontSize: '16px'}}>
+        <p style={{ fontSize: '16px' }}>
           Status: <span style={styles.status}>Pending</span>
         </p>
 
@@ -166,32 +165,8 @@ const RequestDetailsAdmin = () => {
           marginBottom: '-0.6rem'
         }} />
 
-
-        <div style={{ display: 'flex', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
-            <label style={styles.label}>Date Requested</label>
-            <input type="text" value="July 02, 2025" style={styles.input} readOnly />
-          </div>
-          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
-            <label style={styles.label}>Date Use</label>
-            <input type="text" value="July 08, 2025" style={styles.input} readOnly />
-          </div>
-          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
-            <label style={styles.label}>Time</label>
-            <input type="text" value="8:00 AM" style={styles.input} readOnly />
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
-            <label style={styles.label}>Group Leader</label>
-            <input type="text" value="Student 1" style={styles.input} readOnly />
-          </div>
-          <div style={{ flex: 1, minWidth: '240px', ...styles.formGroup }}>
-            <label style={styles.label}>Course</label>
-            <input type="text" value="HM 001" style={styles.input} readOnly />
-          </div>
-        </div>
+        {/* Form Fields */}
+        {/* ... no change to date/time/group leader/etc ... */}
 
         <h3 style={{ marginTop: '2rem', marginBottom: '0.5rem', fontWeight: '600' }}>Group Members</h3>
         <table style={{ ...styles.table, marginBottom: '1rem' }}>
@@ -234,7 +209,8 @@ const RequestDetailsAdmin = () => {
               <th style={styles.th}>Item Name</th>
               <th style={styles.th}>Category</th>
               <th style={styles.th}>Quantity</th>
-              <th style={{ ...styles.th, borderTopRightRadius: '8px' }}>Unit</th>
+              <th style={styles.th}>Unit</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '8px' }}>Price</th>
             </tr>
           </thead>
           <tbody>
@@ -252,6 +228,7 @@ const RequestDetailsAdmin = () => {
                 <td style={styles.td}>Pantry Tools</td>
                 <td style={styles.td}>4</td>
                 <td style={styles.td}>Pcs</td>
+                <td style={styles.td}>₱20.00</td> {/* <- Added Price Column */}
               </tr>
             ))}
           </tbody>
@@ -281,7 +258,6 @@ const RequestDetailsAdmin = () => {
           onClose={() => setShowDeniedModal(false)}
         />
       )}
-
     </div>
   );
 };

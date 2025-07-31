@@ -247,7 +247,8 @@ const RequestDetailsProgHead = () => {
               <th style={styles.th}>Item Name</th>
               <th style={styles.th}>Category</th>
               <th style={styles.th}>Quantity</th>
-              <th style={{ ...styles.th, borderTopRightRadius: '8px' }}>Unit</th>
+              <th style={styles.th}>Unit</th>
+              <th style={{ ...styles.th, borderTopRightRadius: '8px' }}>Price</th>
             </tr>
           </thead>
           <tbody>
@@ -265,6 +266,7 @@ const RequestDetailsProgHead = () => {
                 <td style={styles.td}>Pantry Tools</td>
                 <td style={styles.td}>4</td>
                 <td style={styles.td}>Pcs</td>
+                <td style={styles.td}>₱25.00</td>
               </tr>
             ))}
           </tbody>
