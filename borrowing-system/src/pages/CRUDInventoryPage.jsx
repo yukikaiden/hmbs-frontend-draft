@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { SquarePen, Trash2, ChevronDown } from 'lucide-react';
 import SpoonImage from '../assets/images/spoon.png';
 import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryAdminModal';
 import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
@@ -62,33 +62,41 @@ const CRUDInventoryPage = () => {
     searchInput: {
       flex: 1,
       padding: '0.6rem 1rem',
-      border: '2px solid #8A1F2B',
+      border: '1.5px solid #991F1F',
       borderRadius: '8px',
     },
     sortButton: {
       padding: '0.6rem 1rem',
-      border: '2px solid #8A1F2B',
-      borderRadius: '8px',
+      border: '1px solid #991F1F',
+      borderRadius: '5px',
       background: 'white',
       cursor: 'pointer',
+      display: 'flex',
+      fontSize: '14px',
+      color: '#991f1f',
       fontWeight: 500,
     },
     exportButton: {
-      padding: '0.6rem 1.2rem',
-      backgroundColor: '#8A1F2B',
+      padding: '7px 25px',
+      background: '#991F1F',
       color: 'white',
-      border: 'none',
-      borderRadius: '20px',
-      fontWeight: 'bold',
+      border: '1px solid #991f1f',
+      borderRadius: '999px',
+      fontWeight: 600,
       cursor: 'pointer',
+      display: 'flex',
+      fontSize: '14px',
+      marginBottom: '12px',
+      fontFamily: 'Poppins, sans-serif',
+
     },
     addButton: {
-      backgroundColor: '#8A1F2B',
+      backgroundColor: '#991F1F',
       color: 'white',
       border: 'none',
       padding: '0.6rem 1.2rem',
       borderRadius: '20px',
-      fontWeight: 500,
+      fontWeight: 600,
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
@@ -98,18 +106,20 @@ const CRUDInventoryPage = () => {
       width: '100%',
       borderCollapse: 'separate',
       borderSpacing: 0,
-      borderLeft: '1px solid #8A1F2B',
-      borderRight: '1px solid #8A1F2B',
-      borderBottom: '1px solid #8A1F2B',
+      borderLeft: '1px solid #991F1F',
+      borderRight: '1px solid #991F1F',
+      borderBottom: '1px solid #991F1F',
       borderTop: 'none',
       borderRadius: '10px',
       overflow: 'hidden',
     },
     th: {
-      backgroundColor: '#8A1F2B',
+      backgroundColor: '#991f1f',
       color: 'white',
       padding: '0.75rem',
+      //padding: '15px 22px',
       textAlign: 'left',
+      fontSize: '15px'
     },
     td: {
       padding: '0.75rem',
@@ -117,7 +127,7 @@ const CRUDInventoryPage = () => {
       backgroundColor: '#fff',
     },
     statusAvailable: {
-      backgroundColor: '#3DB2FF',
+      backgroundColor: '#2d9cdb',
       color: 'white',
       padding: '0.3rem 0.8rem',
       borderRadius: '20px',
@@ -125,9 +135,10 @@ const CRUDInventoryPage = () => {
       textAlign: 'center',
       fontWeight: '500',
       display: 'inline-block',
+      width: '100px'
     },
     statusUnavailable: {
-      backgroundColor: '#D90429',
+      backgroundColor: '#DC2626',
       color: 'white',
       padding: '0.3rem 0.8rem',
       borderRadius: '20px',
@@ -135,6 +146,7 @@ const CRUDInventoryPage = () => {
       textAlign: 'center',
       fontWeight: '500',
       display: 'inline-block',
+      width: '100px',
     },
     actionIcons: {
       display: 'flex',
@@ -143,7 +155,7 @@ const CRUDInventoryPage = () => {
       cursor: 'pointer',
     },
     roundedCard: {
-      border: '1px solid #8A1F2B',
+      border: '1px solid #991F1F',
       borderRadius: '12px',
       padding: '1rem',
     },
@@ -175,7 +187,9 @@ const CRUDInventoryPage = () => {
 
         <div style={styles.searchSortWrapper}>
           <input type="text" placeholder="Search available equipment..." style={styles.searchInput} />
-          <button style={styles.sortButton}>Sort by ⌄</button>
+          <button style={styles.sortButton}>
+            Sort by <ChevronDown size={14} style={{ marginLeft: '5px' }} />
+          </button>
         </div>
 
         <div style={styles.roundedCard}>
@@ -197,7 +211,7 @@ const CRUDInventoryPage = () => {
                 <th style={styles.th}>Available Qty</th>
                 <th style={styles.th}>Unit</th>
                 <th style={styles.th}>Prices</th>
-                <th style={styles.th}>Status</th>
+                <th style={{ ...styles.th, paddingTop: '12px', paddingBottom: '12px', paddingRight: '50px', textAlign: 'center', backgroundColor: '#991F1F', color: 'white', borderBottom: '1px solid #8A1F2B' }}>Status</th>
                 <th style={styles.th}>Action</th>
               </tr>
             </thead>
@@ -248,12 +262,12 @@ const CRUDInventoryPage = () => {
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               style={{
-                border: '1px solid #8A1F2B',
+                border: '1px solid #991F1F',
                 borderRadius: '50%',
                 width: '35px',
                 height: '35px',
                 background: '#fff',
-                color: '#8A1F2B',
+                color: '#991F1F',
                 cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
                 fontSize: '18px',
               }}
@@ -267,12 +281,12 @@ const CRUDInventoryPage = () => {
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
               style={{
-                border: '1px solid #8A1F2B',
+                border: '1px solid #991F1F',
                 borderRadius: '50%',
                 width: '35px',
                 height: '35px',
                 background: '#fff',
-                color: '#8A1F2B',
+                color: '#991f1f',
                 cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
                 fontSize: '18px',
               }}

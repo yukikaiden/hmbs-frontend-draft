@@ -22,7 +22,7 @@ const Sidebar = ({ activePage, navItems, userRole = 'User', userSubrole = 'Admin
       left: 0,
       width: '240px',
       height: '100vh',
-      backgroundColor: '#8A1F2B',
+      backgroundColor: '#991F1F',
       color: 'white',
       zIndex: 1000,
       display: 'flex',

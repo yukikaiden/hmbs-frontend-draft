@@ -1,17 +1,46 @@
 import React, { useState } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
 
 const RejectRequestModal = ({ onClose, onSubmit }) => {
   const [rejectionReason, setRejectionReason] = useState('');
+  const [error, setError] = useState(false);
 
   const handleSubmission = () => {
     if (!rejectionReason.trim()) {
-      alert('Please enter a reason for rejection.');
+      setError(true);
       return;
     }
 
+    setError(false);
     onSubmit(rejectionReason);
     setRejectionReason('');
   };
+
+  const inputStyle = {
+    width: '100%',
+    height: '280px',
+    padding: '1rem',
+    fontSize: '17px',
+    border: error ? '2px solid #e53935' : '1.5px solid #991f1f',
+    borderRadius: '10px',
+    resize: 'none',
+    marginTop: '1rem',
+    fontFamily: 'Poppins, sans-serif',
+    outline: 'none',
+  };
+
+  const errorMessage = (
+    <div style={{
+      color: '#e53935',
+      marginTop: '0.35rem',
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '0.85rem',
+    }}>
+      <MdErrorOutline size={16} style={{ marginRight: '0.3rem' }} />
+      Reason is required
+    </div>
+  );
 
   return (
     <>
@@ -75,19 +104,14 @@ const RejectRequestModal = ({ onClose, onSubmit }) => {
           <textarea
             placeholder="Enter reason for rejection..."
             value={rejectionReason}
-            onChange={(e) => setRejectionReason(e.target.value)}
-            style={{
-              width: '100%',
-              height: '280px',
-              padding: '1rem',
-              fontSize: '17px',
-              border: '1.5px solid #991f1f',
-              borderRadius: '10px',
-              resize: 'none',
-              marginTop: '1rem',
-              fontFamily: 'Poppins, sans-serif',
+            onChange={(e) => {
+              setRejectionReason(e.target.value);
+              if (error) setError(false);
             }}
+            style={inputStyle}
           />
+          {error && errorMessage}
+
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',

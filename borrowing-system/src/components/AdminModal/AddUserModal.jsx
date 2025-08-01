@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MdErrorOutline } from 'react-icons/md';
 
 const AddUserModal = ({ onClose, onRegister }) => {
   const [formData, setFormData] = useState({
@@ -9,14 +10,72 @@ const AddUserModal = ({ onClose, onRegister }) => {
     role: '',
   });
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
+    if (!formData.studentId.trim()) newErrors.studentId = 'Student ID is required';
+    else if (!/^\d+$/.test(formData.studentId.trim())) newErrors.studentId = 'Student ID must be a number';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.password.trim()) newErrors.password = 'Password is required';
+    if (!formData.role.trim()) newErrors.role = 'User Role is required';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'studentId' && value && !/^\d*$/.test(value)) return;
+
+    setFormData({ ...formData, [name]: value });
+
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: null });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister(formData); // Pass form data to parent
+    if (!validate()) return;
+    onRegister(formData);
+    setFormData({
+      fullName: '',
+      studentId: '',
+      email: '',
+      password: '',
+      role: '',
+    });
+    setErrors({});
   };
+
+  const renderInput = (label, name, type = 'text', placeholder) => (
+    <div style={styles.inputGroup}>
+      <label style={styles.label}>
+        {label} <span style={styles.asterisk}>*</span>
+      </label>
+      <input
+        style={{
+          ...styles.input,
+          border: errors[name] ? '2px solid #e53935' : '1px solid #000',
+        }}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={formData[name]}
+        onChange={handleChange}
+      />
+      {errors[name] && (
+        <div style={styles.errorText}>
+          <MdErrorOutline style={styles.errorIcon} />
+          {errors[name]}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div style={styles.overlay}>
@@ -28,69 +87,23 @@ const AddUserModal = ({ onClose, onRegister }) => {
         </div>
 
         <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              Full Name <span style={styles.asterisk}>*</span>
-            </label>
-            <input
-              style={styles.input}
-              name="fullName"
-              placeholder="Enter Full Name"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              Student ID <span style={styles.asterisk}>*</span>
-            </label>
-            <input
-              style={styles.input}
-              name="studentId"
-              placeholder="Enter ID Number"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              Email <span style={styles.asterisk}>*</span>
-            </label>
-            <input
-              style={styles.input}
-              type="email"
-              name="email"
-              placeholder="Enter Email"
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              Password <span style={styles.asterisk}>*</span>
-            </label>
-            <input
-              style={styles.input}
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {renderInput('Full Name', 'fullName', 'text', 'Enter Full Name')}
+          {renderInput('Student ID', 'studentId', 'text', 'Enter ID Number')}
+          {renderInput('Email', 'email', 'email', 'Enter Email')}
+          {renderInput('Password', 'password', 'password', 'Enter Password')}
 
           <div style={styles.inputGroup}>
             <label style={styles.label}>
               User Role <span style={styles.asterisk}>*</span>
             </label>
             <select
-              style={styles.input}
               name="role"
+              value={formData.role}
               onChange={handleChange}
-              required
+              style={{
+                ...styles.input,
+                border: errors.role ? '2px solid #e53935' : '1px solid #000',
+              }}
             >
               <option value="">Select a Role</option>
               <option value="Student">Student</option>
@@ -98,11 +111,15 @@ const AddUserModal = ({ onClose, onRegister }) => {
               <option value="Program Head">Program Head</option>
               <option value="Custodian">Custodian</option>
             </select>
+            {errors.role && (
+              <div style={styles.errorText}>
+                <MdErrorOutline style={styles.errorIcon} />
+                {errors.role}
+              </div>
+            )}
           </div>
 
-          <button type="submit" style={styles.registerBtn}>
-            Register User
-          </button>
+          <button type="submit" style={styles.registerBtn}>Register User</button>
         </form>
       </div>
     </div>
@@ -170,9 +187,9 @@ const styles = {
   input: {
     padding: '10px',
     fontSize: '14px',
-    border: '1px solid #000',
     borderRadius: '6px',
     fontFamily: 'Poppins, sans-serif',
+    outline: 'none',
   },
   registerBtn: {
     marginTop: '24px',
@@ -184,6 +201,17 @@ const styles = {
     borderRadius: '20px',
     cursor: 'pointer',
     fontFamily: 'Poppins, sans-serif',
+  },
+  errorText: {
+    color: '#e53935',
+    fontSize: '0.85rem',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '2px',
+  },
+  errorIcon: {
+    marginRight: '4px',
+    fontSize: '1rem',
   },
 };
 

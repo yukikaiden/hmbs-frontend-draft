@@ -23,30 +23,33 @@ const CRUDUserPageAdmin = () => {
   const handleCloseImportSuccessModal = () => setShowImportSuccessModal(false);
 
   const styles = {
-    layout: { display: 'flex', fontFamily: 'Poppins, sans-serif' },
+    layout: {
+      display: 'flex',
+      fontFamily: 'Poppins, sans-serif',
+    },
     main: { marginLeft: '240px', padding: '2rem', flex: 1, backgroundColor: '#fff', minHeight: '100vh' },
     topSection: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' },
     titleGroup: { display: 'flex', flexDirection: 'column' },
     title: { fontSize: '1.6rem', fontWeight: 600 },
     subtitle: { color: '#666', fontSize: '1rem' },
     importButton: {
-      backgroundColor: '#8A1F2B', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
+      backgroundColor: '#991F1F', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
       borderRadius: '20px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Poppins, sans-serif',
     },
     addButton: {
-      backgroundColor: '#8A1F2B', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
+      backgroundColor: '#991F1F', color: '#fff', border: 'none', padding: '0.6rem 1.25rem',
       borderRadius: '20px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Poppins, sans-serif',
     },
     groupedSection: {
-      border: '1.5px solid #8A1F2B', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '2rem',
+      border: '1.5px solid #991F1F', borderRadius: '12px', padding: '1rem 1.25rem', marginBottom: '2rem',
     },
-    groupedSectionTitle: { fontWeight: 700, fontSize: '1.4rem', marginBottom: '1.5rem', color: '#8A1F2B' },
+    groupedSectionTitle: { fontWeight: 700, fontSize: '1.4rem', marginBottom: '1.5rem', color: '#991F1F' },
     sectionTitle: { fontWeight: 400, fontSize: '1rem', marginBottom: '1rem', color: '#333' },
-    tableContainer: { marginBottom: '1.5rem', border: '1.5px solid #8A1F2B', borderRadius: '10px', overflow: 'hidden' },
-    tableHeader: { backgroundColor: '#8A1F2B', color: '#fff', fontWeight: 500 },
+    tableContainer: { marginBottom: '1.5rem', border: '1.5px solid #991F1F', borderRadius: '10px', overflow: 'hidden' },
+    tableHeader: { backgroundColor: '#991F1F', color: '#fff', fontWeight: 500 },
     table: { width: '100%', borderCollapse: 'collapse' },
-    th: { padding: '0.75rem', textAlign: 'left' },
-    td: { padding: '0.75rem', borderTop: '1px solid #ddd' },
+    th: { padding: '0.75rem', textAlign: 'left', fontSize: '16px' },//padding 0.75rem
+    td: { padding: '0.75rem', borderTop: '1px solid #ddd', fontSize: '16px' },
   };
 
   const dummyUsers = [
@@ -100,7 +103,7 @@ const CRUDUserPageAdmin = () => {
       <main style={styles.main}>
         <div style={styles.topSection}>
           <div style={styles.titleGroup}>
-            <h2 style={styles.title}>Registered Users</h2>
+            <h2 style={{ margin: 0, lineHeight: '1.2', fontWeight: 'bold' }}>Registered Users</h2>
             <p style={styles.subtitle}>View the list of all registered users in the system and their roles</p>
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
