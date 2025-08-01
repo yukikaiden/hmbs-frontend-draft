@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
+import { FaUserCircle, FaFileAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
-const initialRequests = Array(9).fill({
+const initialRequests = Array(23).fill({
   requestId: '0000001236',
   name: 'Juan Dela Cruz',
   courseId: 'HM 001',
@@ -12,9 +12,18 @@ const initialRequests = Array(9).fill({
   status: 'New',
 });
 
+const ITEMS_PER_PAGE = 10;
+
 const RequestProgHeadPage = () => {
   const navigate = useNavigate();
-  const [requests, setRequests] = useState(initialRequests);
+  const [requests] = useState(initialRequests);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(requests.length / ITEMS_PER_PAGE);
+  const currentRequests = requests.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   const handleNavigate = (id) => navigate(`/request-details-programhead/${id}`);
 
   const styles = {
@@ -22,20 +31,6 @@ const RequestProgHeadPage = () => {
       display: 'flex',
       minHeight: '100vh',
       fontFamily: 'Poppins, sans-serif',
-    },
-    sidebar: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '240px',
-      height: '100vh',
-      backgroundColor: '#8A1F2B',
-      color: 'white',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      padding: '2rem 0rem 0rem 0rem',
-      zIndex: 1000,
     },
     main: {
       marginLeft: '240px',
@@ -60,15 +55,16 @@ const RequestProgHeadPage = () => {
       textAlign: 'center',
       borderBottom: '1px solid #ddd',
     },
-    rowHover: {
-      cursor: 'pointer',
-    },
     theadCell: {
       padding: '1.1rem 1rem',
       textAlign: 'center',
       backgroundColor: '#a52a2a',
       color: 'white',
       fontWeight: 600,
+    },
+    rowHover: {
+      cursor: 'pointer',
+      transition: 'background-color 0.2s ease',
     },
     statusBadge: {
       padding: '0.4rem 1rem',
@@ -84,33 +80,39 @@ const RequestProgHeadPage = () => {
       backgroundColor: '#f5c518',
       color: '#000',
     },
-    modalOverlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.5)',
+    topRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: '1.3rem',
+      marginBottom: '-0.3rem',
+    },
+    pagination: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      zIndex: 2000,
+      marginTop: '1.5rem',
+      gap: '0.5rem',
+      flexWrap: 'wrap',
     },
-    modalContent: {
-      backgroundColor: '#fff',
-      padding: '2rem',
-      borderRadius: '10px',
+    pageButton: (active) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      border: '1px solid #8A1F2B',
+      backgroundColor: active ? '#8A1F2B' : '#fff',
+      color: active ? '#fff' : '#8A1F2B',
+      fontWeight: 600,
+      fontSize: '14px',
       textAlign: 'center',
-      width: '300px',
-      boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-    },
-    modalButton: {
-      margin: '1rem 0.5rem 0 0.5rem',
-      padding: '0.5rem 1.5rem',
-      borderRadius: '5px',
       cursor: 'pointer',
-      fontSize: '1rem',
-      border: 'none',
+      transition: 'all 0.2s ease-in-out',
+    }),
+    disabledButton: {
+      backgroundColor: '#f0f0f0',
+      color: '#aaa',
+      cursor: 'not-allowed',
+      border: '2px solid #ddd',
     },
     header: { marginBottom: '20px' },
     headerTitle: { margin: 0 },
@@ -122,17 +124,13 @@ const RequestProgHeadPage = () => {
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar */}
       <Sidebar
         activePage="requests"
         userRole="Staff"
         userSubrole="Program Head"
-        navItems={[
-          { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-programhead' }
-        ]}
+        navItems={[{ id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-programhead' }]}
       />
 
-      {/* Main content */}
       <main style={styles.main}>
         <div style={styles.header}>
           <h2 style={styles.headerTitle}>Lists of Requests</h2>
@@ -141,6 +139,13 @@ const RequestProgHeadPage = () => {
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> On-going Request</div>
           </div>
+        </div>
+        <div style={styles.topRow}>
+          <h3 style={{ fontWeight: '600' }}>3 New Requests</h3>
+          <span style={{ fontSize: '15px' }}>
+            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
+            {(currentPage - 1) * ITEMS_PER_PAGE + currentRequests.length} out of {requests.length}
+          </span>
         </div>
 
         <table style={styles.table}>
@@ -155,7 +160,7 @@ const RequestProgHeadPage = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.map((req, idx) => (
+            {currentRequests.map((req, idx) => (
               <tr
                 key={idx}
                 onClick={() => handleNavigate(req.requestId)}
@@ -163,8 +168,10 @@ const RequestProgHeadPage = () => {
                   ...styles.rowHover,
                   backgroundColor: idx % 2 === 0 ? 'white' : '#f9f9f9',
                 }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ffe6e9')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = idx % 2 === 0 ? 'white' : '#f9f9f9')}
               >
-                <td style={styles.thtd}>{idx + 1}</td>
+                <td style={styles.thtd}>{(currentPage - 1) * ITEMS_PER_PAGE + idx + 1}</td>
                 <td style={styles.thtd}>{req.requestId}</td>
                 <td style={styles.thtd}>{req.name}</td>
                 <td style={styles.thtd}>{req.courseId}</td>
@@ -183,8 +190,53 @@ const RequestProgHeadPage = () => {
             ))}
           </tbody>
         </table>
-      </main>
 
+        <div style={styles.pagination}>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            style={{
+              ...styles.pageButton(false),
+              ...(currentPage === 1 && styles.disabledButton),
+            }}
+          >
+            <FaChevronLeft />
+          </button>
+
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              style={styles.pageButton(currentPage === i + 1)}
+              onMouseEnter={(e) => {
+                if (currentPage !== i + 1) {
+                  e.currentTarget.style.backgroundColor = '#fbe9eb';
+                  e.currentTarget.style.borderColor = '#8A1F2B';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentPage !== i + 1) {
+                  e.currentTarget.style.backgroundColor = '#fff';
+                  e.currentTarget.style.borderColor = '#ccc';
+                }
+              }}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            style={{
+              ...styles.pageButton(false),
+              ...(currentPage === totalPages && styles.disabledButton),
+            }}
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      </main>
     </div>
   );
 };

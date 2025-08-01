@@ -6,6 +6,7 @@ import ItemDetail from '../components/ItemDetail';
 import equipmentHeaderBg from '../assets/site-images/equipment-header-bg.png';
 import tempItemImg from '../assets/images/temp-item-img.png';
 import { FiSearch } from 'react-icons/fi';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const CATEGORY_MAP = {
   'All Products': () => true,
@@ -25,7 +26,7 @@ const TYPE_MAP = {
 };
 
 function EquipmentsPage() {
-  const equipmentList = [
+  const baseList = [
     { name: 'Metal Tray', qty: 14 },
     { name: 'Salad Plate', qty: 10 },
     { name: 'Dinner Fork', qty: 10 },
@@ -40,11 +41,18 @@ function EquipmentsPage() {
     { name: 'Whisk', qty: 13 },
   ];
 
+  const equipmentList = Array.from({ length: 30 }, (_, i) => ({
+    ...baseList[i % baseList.length],
+    id: i + 1,
+  }));
+
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState('Recommended');
   const [category, setCategory] = useState('All Products');
   const [type, setType] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   let filteredList = equipmentList
     .filter(item => CATEGORY_MAP[category] ? CATEGORY_MAP[category](item) : true)
@@ -55,6 +63,18 @@ function EquipmentsPage() {
   if (sort === 'Name (A-Z)') sortedList.sort((a, b) => a.name.localeCompare(b.name));
   else if (sort === 'Name (Z-A)') sortedList.sort((a, b) => b.name.localeCompare(a.name));
   else if (sort === 'Quantity Available') sortedList.sort((a, b) => b.qty - a.qty);
+
+  const totalPages = Math.ceil(sortedList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedList = sortedList.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePrevPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+  };
 
   const containerStyle = {
     fontFamily: "'Poppins', sans-serif",
@@ -157,7 +177,12 @@ function EquipmentsPage() {
     transition: 'color 0.2s',
   });
 
-  const gridSectionStyle = { flex: 1 };
+  const gridSectionStyle = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '700px',
+  };
 
   const topBarStyle = {
     display: 'flex',
@@ -200,6 +225,31 @@ function EquipmentsPage() {
     display: 'block',
   };
 
+  const paginationStyle = {
+    marginTop: '30px',
+    marginBottom: '40px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '20px',
+  };
+
+
+  const buttonStyle = isDisabled => ({
+    backgroundColor: '#fff',
+    color: isDisabled ? '#bbb' : '#861111',
+    border: `1.2px solid ${isDisabled ? '#ddd' : '#861111'}`,
+    borderRadius: '50%',
+    width: '38px',
+    height: '38px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '16px',
+    cursor: isDisabled ? 'default' : 'pointer',
+    transition: 'all 0.2s ease',
+  });
+
   return (
     <>
       <Header />
@@ -213,7 +263,10 @@ function EquipmentsPage() {
               placeholder="Search available kitchen equipment..."
               style={inputStyle}
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={e => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
             />
           </div>
         </div>
@@ -230,6 +283,7 @@ function EquipmentsPage() {
                   onClick={() => {
                     setCategory(cat);
                     setType('');
+                    setCurrentPage(1);
                   }}
                   title={cat}
                 >
@@ -249,6 +303,7 @@ function EquipmentsPage() {
                   onClick={() => {
                     setType(t);
                     setCategory('All Products');
+                    setCurrentPage(1);
                   }}
                   title={t}
                 >
@@ -261,12 +316,15 @@ function EquipmentsPage() {
           <div style={gridSectionStyle}>
             <div style={topBarStyle}>
               <span>
-                Showing {sortedList.length} of {equipmentList.length}
+                Showing {paginatedList.length} of {sortedList.length}
               </span>
               <select
                 style={selectStyle}
                 value={sort}
-                onChange={e => setSort(e.target.value)}
+                onChange={e => {
+                  setSort(e.target.value);
+                  setCurrentPage(1);
+                }}
               >
                 <option>Recommended</option>
                 <option>Name (A-Z)</option>
@@ -276,7 +334,7 @@ function EquipmentsPage() {
             </div>
 
             <div style={gridStyle}>
-              {sortedList.map((item, i) => (
+              {paginatedList.map((item, i) => (
                 <ItemCard
                   key={i}
                   name={<span style={cardNameStyle} title={item.name}>{item.name}</span>}
@@ -286,6 +344,30 @@ function EquipmentsPage() {
                   }
                 />
               ))}
+            </div>
+
+            <div style={paginationStyle}>
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                style={buttonStyle(currentPage === 1)}
+                title="Previous Page"
+              >
+                <FaChevronLeft />
+              </button>
+
+              <span style={{ fontSize: '14px', fontWeight: '500' }}>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                style={buttonStyle(currentPage === totalPages)}
+                title="Next Page"
+              >
+                <FaChevronRight />
+              </button>
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { FaUserCircle, FaFileAlt } from 'react-icons/fa';
+import { FaUserCircle, FaFileAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
-const initialRequests = Array(9).fill({
+const initialRequests = Array(25).fill({
   requestId: '0000001236',
   name: 'Juan Dela Cruz',
   courseId: 'HM 001',
@@ -15,6 +15,25 @@ const initialRequests = Array(9).fill({
 const RequestInstructorPage = () => {
   const navigate = useNavigate();
   const [requests, setRequests] = useState(initialRequests);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hoveredRowIndex, setHoveredRowIndex] = useState(null);
+  const [hoveredPage, setHoveredPage] = useState(null);
+  const [hoveredArrow, setHoveredArrow] = useState(null);
+
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const requestsToDisplay = requests.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(requests.length / itemsPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
   const handleNavigate = (id) => navigate(`/request-details-instructor/${id}`);
 
   const styles = {
@@ -84,31 +103,50 @@ const RequestInstructorPage = () => {
       backgroundColor: '#f5c518',
       color: '#000',
     },
-    modalOverlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0,0,0,0.5)',
+    paginationContainer: {
       display: 'flex',
       justifyContent: 'center',
+      marginTop: '2rem',
       alignItems: 'center',
-      zIndex: 2000,
+      gap: '0.5rem',
+      flexWrap: 'wrap',
     },
-    modalContent: {
-      backgroundColor: '#fff',
-      padding: '2rem',
-      borderRadius: '10px',
+    pageButton: (active) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      border: '1px solid #8A1F2B',
+      backgroundColor: active ? '#8A1F2B' : '#fff',
+      color: active ? '#fff' : '#8A1F2B',
+      fontWeight: 600,
+      fontSize: '14px',
       textAlign: 'center',
-      width: '300px',
-      boxShadow: '0 0 10px rgba(0,0,0,0.2)',
-    },
-    modalButton: {
-      margin: '1rem 0.5rem 0 0.5rem',
-      padding: '0.5rem 1.5rem',
-      borderRadius: '5px',
       cursor: 'pointer',
+      transition: 'all 0.2s ease-in-out',
+    }),
+    navButton: (disabled) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      backgroundColor: disabled ? '#ccc' : '#8A1F2B',
+      border: 'none',
+      color: 'white',
+      fontSize: '14px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      transition: 'background-color 0.2s ease',
+    }),
+    headerRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: '1.3rem',
+      marginBottom: '-0.3rem',
+    },
+    headerInfo: {
+      fontWeight: '600',
       fontSize: '1rem',
       border: 'none',
     },
@@ -122,17 +160,15 @@ const RequestInstructorPage = () => {
 
   return (
     <div style={styles.layout}>
-      {/* Sidebar */}
       <Sidebar
-          activePage="requests"
-          userRole="Staff"
-          userSubrole="Instructor"
-          navItems={[
-            { id: 'requests', name: 'Requests', icon: <FaFileAlt /> , path: '/requests-instructor' }
-          ]}
+        activePage="requests"
+        userRole="Staff"
+        userSubrole="Instructor"
+        navItems={[
+          { id: 'requests', name: 'Requests', icon: <FaFileAlt />, path: '/requests-instructor' },
+        ]}
       />
 
-      {/* Main content */}
       <main style={styles.main}>
         <div style={styles.header}>
           <h2 style={styles.headerTitle}>Lists of Requests</h2>
@@ -140,6 +176,12 @@ const RequestInstructorPage = () => {
           <div style={styles.legend}>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> On-going Request</div>
+          </div>
+        </div>
+        <div style={styles.headerRow}>
+          <h3 style={{ fontWeight: '600' }}>3 New Requests</h3>
+          <div style={{ fontSize: '15px', color: '#444', fontWeight: 500 }}>
+            Showing {indexOfFirstItem + 1}–{Math.min(indexOfLastItem, requests.length)} out of {requests.length}
           </div>
         </div>
 
@@ -155,37 +197,90 @@ const RequestInstructorPage = () => {
             </tr>
           </thead>
           <tbody>
-            {requests.map((req, idx) => (
-              <tr
-                key={idx}
-                onClick={() => handleNavigate(req.requestId)}
-                style={{
-                  ...styles.rowHover,
-                  backgroundColor: idx % 2 === 0 ? 'white' : '#f9f9f9',
-                }}
-              >
-                <td style={styles.thtd}>{idx + 1}</td>
-                <td style={styles.thtd}>{req.requestId}</td>
-                <td style={styles.thtd}>{req.name}</td>
-                <td style={styles.thtd}>{req.courseId}</td>
-                <td style={styles.thtd}>{req.requestDate}</td>
-                <td style={styles.thtd}>
-                  <span
-                    style={{
-                      ...styles.statusBadge,
-                      ...(req.status === 'New' ? styles.newreq : styles.ongoingreq),
-                    }}
-                  >
-                    {req.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {requestsToDisplay.map((req, idx) => {
+              const rowIndex = indexOfFirstItem + idx;
+              const isHovered = hoveredRowIndex === rowIndex;
+
+              return (
+                <tr
+                  key={rowIndex}
+                  onClick={() => handleNavigate(req.requestId)}
+                  onMouseEnter={() => setHoveredRowIndex(rowIndex)}
+                  onMouseLeave={() => setHoveredRowIndex(null)}
+                  style={{
+                    ...styles.rowHover,
+                    backgroundColor: isHovered ? '#ffe6e9' : idx % 2 === 0 ? 'white' : '#f9f9f9',
+                    transition: 'background-color 0.2s ease',
+                  }}
+                >
+                  <td style={styles.thtd}>{rowIndex + 1}</td>
+                  <td style={styles.thtd}>{req.requestId}</td>
+                  <td style={styles.thtd}>{req.name}</td>
+                  <td style={styles.thtd}>{req.courseId}</td>
+                  <td style={styles.thtd}>{req.requestDate}</td>
+                  <td style={styles.thtd}>
+                    <span
+                      style={{
+                        ...styles.statusBadge,
+                        ...(req.status === 'New' ? styles.newreq : styles.ongoingreq),
+                      }}
+                    >
+                      {req.status}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
+
+        <div style={styles.paginationContainer}>
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            onMouseEnter={() => setHoveredArrow('left')}
+            onMouseLeave={() => setHoveredArrow(null)}
+            style={{
+              ...styles.navButton(currentPage === 1),
+              ...(hoveredArrow === 'left' && currentPage !== 1 ? { backgroundColor: '#a22c38' } : {}),
+            }}
+          >
+            <FaChevronLeft />
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
+            <button
+              key={num}
+              onClick={() => setCurrentPage(num)}
+              onMouseEnter={() => setHoveredPage(num)}
+              onMouseLeave={() => setHoveredPage(null)}
+              style={{
+                ...styles.pageButton(num === currentPage),
+                ...(hoveredPage === num && num !== currentPage
+                  ? { backgroundColor: '#8A1F2B', color: '#fff' }
+                  : {}),
+              }}
+            >
+              {num}
+            </button>
+          ))}
+
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            onMouseEnter={() => setHoveredArrow('right')}
+            onMouseLeave={() => setHoveredArrow(null)}
+            style={{
+              ...styles.navButton(currentPage === totalPages),
+              ...(hoveredArrow === 'right' && currentPage !== totalPages
+                ? { backgroundColor: '#a22c38' }
+                : {}),
+            }}
+          >
+            <FaChevronRight />
+          </button>
+        </div>
       </main>
-
-
     </div>
   );
 };
