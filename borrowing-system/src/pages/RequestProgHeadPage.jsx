@@ -9,7 +9,7 @@ const initialRequests = Array(9).fill({
   name: 'Juan Dela Cruz',
   courseId: 'HM 001',
   requestDate: '06/25/25',
-  status: 'Pending',
+  status: 'New',
 });
 
 const RequestProgHeadPage = () => {
@@ -66,7 +66,7 @@ const RequestProgHeadPage = () => {
     theadCell: {
       padding: '1.1rem 1rem',
       textAlign: 'center',
-      backgroundColor: '#8A1F2B',
+      backgroundColor: '#a52a2a',
       color: 'white',
       fontWeight: 600,
     },
@@ -77,10 +77,10 @@ const RequestProgHeadPage = () => {
       fontWeight: 'bold',
       fontSize: '0.85rem',
     },
-    pending: {
+    newreq: {
       backgroundColor: '#23a6f0',
     },
-    approved: {
+    ongoingreq: {
       backgroundColor: '#f5c518',
       color: '#000',
     },
@@ -112,6 +112,12 @@ const RequestProgHeadPage = () => {
       fontSize: '1rem',
       border: 'none',
     },
+    header: { marginBottom: '20px' },
+    headerTitle: { margin: 0 },
+    headerSubtitle: { margin: '-4px 0 15px', fontSize: '18px' },
+    legend: { display: 'flex', gap: '20px', marginBottom: '10px', flexWrap: 'wrap' },
+    legendItem: { display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: '600', gap: '10px' },
+    legendCircle: { width: '28px', height: '27px', borderRadius: '50%', display: 'inline-block' },
   };
 
   return (
@@ -128,9 +134,14 @@ const RequestProgHeadPage = () => {
 
       {/* Main content */}
       <main style={styles.main}>
-        <h1 style={{ margin: 0, fontSize: '1.9rem' }}>Pending Request</h1>
-        <p style={{fontSize: '17px', marginTop: '-0.1rem'}}>List of all pending borrowing requests submitted by students</p>
-        <h3 style={{ marginTop: '1.3rem', marginBottom: '-0.3rem', fontWeight: '600' }}>3 New Requests</h3>
+        <div style={styles.header}>
+          <h2 style={styles.headerTitle}>Lists of Requests</h2>
+          <p style={styles.headerSubtitle}>List of all borrowing requests submitted by students</p>
+          <div style={styles.legend}>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> On-going Request</div>
+          </div>
+        </div>
 
         <table style={styles.table}>
           <thead>
@@ -162,7 +173,7 @@ const RequestProgHeadPage = () => {
                   <span
                     style={{
                       ...styles.statusBadge,
-                      ...(req.status === 'Pending' ? styles.pending : styles.approved),
+                      ...(req.status === 'New' ? styles.newreq : styles.ongoingreq),
                     }}
                   >
                     {req.status}

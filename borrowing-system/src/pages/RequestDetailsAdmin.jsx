@@ -156,7 +156,7 @@ const RequestDetailsAdmin = () => {
         </div>
 
          <p style={{ fontSize: '16px'}}>
-          Status: <span style={styles.status}>Pending</span>
+          Status: <span style={styles.status}>New Request</span>
         </p>
 
         <hr style={{

@@ -9,7 +9,7 @@ const RequestAdminPage = () => {
   const data = Array.from({ length: 20 }, (_, index) => {
     const status =
       index < 3
-        ? 'To be reviewed'
+        ? 'New'
         : index < 6
           ? 'Declined'
           : index < 10
@@ -33,7 +33,7 @@ const RequestAdminPage = () => {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'To be reviewed':
+      case 'New':
         return '#209cee';
       case 'Declined':
         return '#e53935';
@@ -178,9 +178,9 @@ const RequestAdminPage = () => {
           <p style={styles.headerSubtitle}>List of all borrowing requests submitted by students</p>
           <div style={styles.legend}>
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#209cee' }}></span> New Request</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> Processing Requests</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#27ae60' }}></span> Successful Requests</div>
-            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#e53935' }}></span> Unsuccessful Requests</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> On-going Request</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#27ae60' }}></span> Completed Request</div>
+            <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#e53935' }}></span> Declined Request</div>
           </div>
         </div>
 

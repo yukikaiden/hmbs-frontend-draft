@@ -157,7 +157,7 @@ const RequestDetailsInstructor = () => {
                   marginLeft: '0.2rem',
                 }}
               >
-                Pending
+                New Request
               </span>
             </p>
           </div>

@@ -155,13 +155,13 @@ const RequestApprovedAdmin = () => {
       case 'Reserved':
         color = '#FFA500';
         break;
-      case 'In Use':
+      case 'Released':
         color = '#007BFF';
         break;
       case 'Returned':
         color = '#28A745';
         break;
-      case 'To be Replaced':
+      case 'Needs Replacement':
         color = '#DC3545';
         break;
     }
@@ -318,9 +318,9 @@ const RequestApprovedAdmin = () => {
                     style={getSelectStyle(itemStatuses[idx])}
                   >
                     <option value="Reserved">Reserved</option>
-                    <option value="In Use">In Use</option>
+                    <option value="Released">Released</option>
                     <option value="Returned">Returned</option>
-                    <option value="To be Replaced">To be Replaced</option>
+                    <option value="Needs Replacement">Needs Replacement</option>
                   </select>
                 </td>
                 <td style={styles.tdLeftBorrowed}>
