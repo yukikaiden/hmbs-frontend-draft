@@ -64,6 +64,8 @@ const CRUDInventoryPage = () => {
       padding: '0.6rem 1rem',
       border: '1.5px solid #991F1F',
       borderRadius: '8px',
+      fontSize: '15px',
+      fontFamily: 'Poppins, sans-serif',
     },
     sortButton: {
       padding: '0.6rem 1rem',
@@ -75,6 +77,7 @@ const CRUDInventoryPage = () => {
       fontSize: '14px',
       color: '#991f1f',
       fontWeight: 500,
+      fontFamily: 'Poppins, sans-serif',
     },
     exportButton: {
       padding: '7px 25px',
@@ -86,9 +89,7 @@ const CRUDInventoryPage = () => {
       cursor: 'pointer',
       display: 'flex',
       fontSize: '14px',
-      marginBottom: '12px',
       fontFamily: 'Poppins, sans-serif',
-
     },
     addButton: {
       backgroundColor: '#991F1F',
@@ -96,11 +97,12 @@ const CRUDInventoryPage = () => {
       border: 'none',
       padding: '0.6rem 1.2rem',
       borderRadius: '20px',
-      fontWeight: 600,
+      //fontWeight: 600,
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem',
+      fontFamily: 'Poppins, sans-serif',
     },
     table: {
       width: '100%',
@@ -112,19 +114,21 @@ const CRUDInventoryPage = () => {
       borderTop: 'none',
       borderRadius: '10px',
       overflow: 'hidden',
+      fontFamily: 'Poppins, sans-serif',
     },
     th: {
       backgroundColor: '#991f1f',
       color: 'white',
       padding: '0.75rem',
-      //padding: '15px 22px',
       textAlign: 'left',
-      fontSize: '15px'
+      fontSize: '15px',
+      fontFamily: 'Poppins, sans-serif',
     },
     td: {
       padding: '0.75rem',
       borderBottom: '1px solid #ccc',
       backgroundColor: '#fff',
+      fontFamily: 'Poppins, sans-serif',
     },
     statusAvailable: {
       backgroundColor: '#2d9cdb',
@@ -135,7 +139,8 @@ const CRUDInventoryPage = () => {
       textAlign: 'center',
       fontWeight: '500',
       display: 'inline-block',
-      width: '100px'
+      width: '100px',
+      fontFamily: 'Poppins, sans-serif',
     },
     statusUnavailable: {
       backgroundColor: '#DC2626',
@@ -147,6 +152,7 @@ const CRUDInventoryPage = () => {
       fontWeight: '500',
       display: 'inline-block',
       width: '100px',
+      fontFamily: 'Poppins, sans-serif',
     },
     actionIcons: {
       display: 'flex',
@@ -193,7 +199,7 @@ const CRUDInventoryPage = () => {
         </div>
 
         <div style={styles.roundedCard}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', fontSize: '20px' }}>
             <strong>List of Inventory Items</strong>
             <button style={styles.addButton} onClick={() => navigate('/add-to-inventory')}>
               <FiPlus /> Add New Item
@@ -211,7 +217,7 @@ const CRUDInventoryPage = () => {
                 <th style={styles.th}>Available Qty</th>
                 <th style={styles.th}>Unit</th>
                 <th style={styles.th}>Prices</th>
-                <th style={{ ...styles.th, paddingTop: '12px', paddingBottom: '12px', paddingRight: '50px', textAlign: 'center', backgroundColor: '#991F1F', color: 'white', borderBottom: '1px solid #8A1F2B' }}>Status</th>
+                <th style={{ ...styles.th, paddingTop: '12px', paddingBottom: '12px', paddingRight: '50px', textAlign: 'center' }}>Status</th>
                 <th style={styles.th}>Action</th>
               </tr>
             </thead>
