@@ -64,17 +64,30 @@ const AddNewItemAdmin = () => {
     borderRadius: '8px',
     fontSize: '1rem',
     outline: 'none',
+    fontFamily: 'Poppins, sans-serif',
   });
 
   const errorMessage = (msg) => (
-    <div style={{ color: '#e53935', marginTop: '0.35rem', display: 'flex', alignItems: 'center', fontSize: '0.85rem' }}>
+    <div style={{
+      color: '#e53935',
+      marginTop: '0.35rem',
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '0.85rem',
+      fontFamily: 'Poppins, sans-serif',
+    }}>
       <MdErrorOutline size={16} style={{ marginRight: '0.3rem' }} />
       {msg}
     </div>
   );
 
   const label = (text, required) => (
-    <label style={{ fontWeight: 500, marginBottom: '0.3rem', display: 'block' }}>
+    <label style={{
+      fontWeight: 500,
+      marginBottom: '0.3rem',
+      display: 'block',
+      fontFamily: 'Poppins, sans-serif'
+    }}>
       {text} {required && <span style={{ color: '#e53935' }}>*</span>}
     </label>
   );
@@ -92,11 +105,28 @@ const AddNewItemAdmin = () => {
         ]}
       />
 
-      <main style={{ marginLeft: '240px', padding: '2rem', flex: 1, backgroundColor: '#fff', minHeight: '100vh' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <main style={{
+        marginLeft: '240px',
+        padding: '2rem',
+        flex: 1,
+        backgroundColor: '#fff',
+        minHeight: '100vh',
+        fontFamily: 'Poppins, sans-serif'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '2rem'
+        }}>
           <div>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Add New Item</h2>
-            <p style={{ color: '#666', fontSize: '1.1rem', marginTop: '-0.2rem', marginBottom: '-0.5rem' }}>
+            <p style={{
+              color: '#666',
+              fontSize: '1.1rem',
+              marginTop: '-0.2rem',
+              marginBottom: '-0.5rem'
+            }}>
               Add a new item to the inventory list
             </p>
           </div>
@@ -110,6 +140,7 @@ const AddNewItemAdmin = () => {
               borderRadius: '20px',
               fontWeight: 500,
               cursor: 'pointer',
+              fontFamily: 'Poppins, sans-serif'
             }}
           >
             Import CSV File
@@ -234,6 +265,7 @@ const AddNewItemAdmin = () => {
                 textAlign: 'center',
                 color: '#666',
                 position: 'relative',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               <img src={UploadIcon} alt="Upload" style={{ width: '3rem', marginBottom: '0.5rem' }} />
@@ -261,6 +293,7 @@ const AddNewItemAdmin = () => {
                   fontWeight: 500,
                   color: '#8A1F2B',
                   cursor: 'pointer',
+                  fontFamily: 'Poppins, sans-serif'
                 }}
               >
                 Browse File
@@ -282,6 +315,7 @@ const AddNewItemAdmin = () => {
                 backgroundColor: 'white',
                 color: '#8A1F2B',
                 cursor: 'pointer',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Cancel
@@ -297,6 +331,7 @@ const AddNewItemAdmin = () => {
                 fontWeight: 500,
                 cursor: 'pointer',
                 fontSize: '0.9rem',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Submit Item
