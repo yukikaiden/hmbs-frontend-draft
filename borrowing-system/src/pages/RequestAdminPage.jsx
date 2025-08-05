@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const RequestAdminPage = () => {
   const navigate = useNavigate();
-  const data = Array.from({ length: 20 }, (_, index) => {
-    const status =
-      index < 3
-        ? 'New'
-        : index < 6
-          ? 'Declined'
-          : index < 10
-            ? 'On-going'
-            : 'Completed';
+
+  const data = Array.from({ length: 60 }, (_, index) => {
+    let status = '';
+    if (index % 4 === 0) status = 'New';
+    else if (index % 4 === 1) status = 'On-going';
+    else if (index % 4 === 2) status = 'Declined';
+    else status = 'Completed';
 
     return {
       id: index + 1,
@@ -28,21 +26,26 @@ const RequestAdminPage = () => {
 
   const handleNavigate = (id) => navigate(`/request-details-admin/${id}`);
 
-  const requestsList = data.filter((_, index) => index < 10);
-  const pastTransactions = data.filter(entry => entry.status === 'Completed');
+  const allRequests = data.filter(d => d.status !== 'Completed');
+  const pastTransactions = data.filter(d => d.status === 'Completed');
+
+  const [allPage, setAllPage] = useState(1);
+  const [pastPage, setPastPage] = useState(1);
+  const entriesPerPage = 10;
+
+  const paginatedAll = allRequests.slice((allPage - 1) * entriesPerPage, allPage * entriesPerPage);
+  const paginatedPast = pastTransactions.slice((pastPage - 1) * entriesPerPage, pastPage * entriesPerPage);
+
+  const totalAllPages = Math.ceil(allRequests.length / entriesPerPage);
+  const totalPastPages = Math.ceil(pastTransactions.length / entriesPerPage);
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'New':
-        return '#2D9CDB';
-      case 'Declined':
-        return '#DC2626';
-      case 'On-going':
-        return '#F2C94C';
-      case 'Completed':
-        return '#27AE60';
-      default:
-        return '#999';
+      case 'New': return '#2D9CDB';
+      case 'Declined': return '#DC2626';
+      case 'On-going': return '#F2C94C';
+      case 'Completed': return '#27AE60';
+      default: return '#999';
     }
   };
 
@@ -79,7 +82,7 @@ const RequestAdminPage = () => {
     totalRequests: { fontSize: '18px', marginBottom: '5px', color: '#333' },
     sortBtn: {
       background: 'transparent',
-      border: '1px solid #991f1f  ',
+      border: '1px solid #991f1f',
       borderRadius: '5px',
       padding: '0.5rem 1rem',
       cursor: 'pointer',
@@ -101,7 +104,6 @@ const RequestAdminPage = () => {
       width: '100%',
       borderCollapse: 'collapse',
       backgroundColor: 'transparent',
-
     },
     tableHead: { backgroundColor: '#991f1f', color: '#fff' },
     tableHeaderCell: {
@@ -110,7 +112,6 @@ const RequestAdminPage = () => {
       textAlign: 'center',
       verticalAlign: 'middle'
     },
-
     tableCell: {
       padding: '10px 5px',
       fontSize: '16px',
@@ -139,10 +140,7 @@ const RequestAdminPage = () => {
       borderRadius: '15px',
       color: '#fff',
       fontSize: '14px',
-      display: 'inline-block',
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis'
+      display: 'inline-block'
     },
     exportBtn: {
       background: '#991f1f',
@@ -158,7 +156,48 @@ const RequestAdminPage = () => {
       marginBottom: '12px',
       fontFamily: 'Poppins, sans-serif',
     },
+    pagination: {
+      display: 'flex',
+      justifyContent: 'center',
+      gap: '10px',
+      marginTop: '15px'
+    },
+    pageBtn: (active) => ({
+      backgroundColor: active ? '#991f1f' : '#fff',
+      color: active ? '#fff' : '#991f1f',
+      border: '1px solid #991f1f',
+      borderRadius: '50%',
+      width: '32px',
+      height: '32px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      fontWeight: 'bold'
+    }),
   };
+
+  const renderPagination = (current, total, setPage) => (
+    <div style={styles.pagination}>
+      <button
+        style={styles.pageBtn(false)}
+        onClick={() => setPage(Math.max(1, current - 1))}
+      ><FaAngleLeft /></button>
+
+      {Array.from({ length: total }, (_, i) => (
+        <button
+          key={i}
+          style={styles.pageBtn(current === i + 1)}
+          onClick={() => setPage(i + 1)}
+        >{i + 1}</button>
+      ))}
+
+      <button
+        style={styles.pageBtn(false)}
+        onClick={() => setPage(Math.min(total, current + 1))}
+      ><FaAngleRight /></button>
+    </div>
+  );
 
   return (
     <div style={styles.adminPage}>
@@ -190,7 +229,7 @@ const RequestAdminPage = () => {
           <div style={styles.tableHeader}>
             <div>
               <h3 style={{ margin: 0, fontSize: '22px' }}>All Requests</h3>
-              <p style={styles.totalRequests}>Total Requests: {requestsList.length}</p>
+              <p style={styles.totalRequests}>Total Requests: {allRequests.length}</p>
             </div>
             <button style={styles.sortBtn}>Sort by <ChevronDown size={14} style={{ marginLeft: '5px' }} /></button>
           </div>
@@ -209,9 +248,9 @@ const RequestAdminPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {requestsList.map((item, index) => (
-                  <tr key={index} style={styles.tableRow}>
-                    <td style={styles.narrowCell}>{index + 1}</td>
+                {paginatedAll.map((item, index) => (
+                  <tr key={index}>
+                    <td style={styles.narrowCell}>{(allPage - 1) * entriesPerPage + index + 1}</td>
                     <td style={styles.tableCell}>{item.requestId}</td>
                     <td style={styles.tableCell}>{item.name}</td>
                     <td style={styles.tableCell}>{item.courseId}</td>
@@ -224,15 +263,17 @@ const RequestAdminPage = () => {
                         size={16}
                         style={{ cursor: 'pointer', color: '#333' }}
                         onClick={() => handleNavigate(item.requestId)}
-                      /></td>
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          {renderPagination(allPage, totalAllPages, setAllPage)}
         </div>
 
-        {/* Past Transactions - Border Removed */}
+        {/* Past Transactions */}
         <div style={{ ...styles.requestsTable, border: 'none' }}>
           <div style={styles.tableHeader}>
             <div>
@@ -244,7 +285,7 @@ const RequestAdminPage = () => {
 
           <div style={styles.tableWrapper}>
             <table style={styles.table}>
-              <thead style={{ ...styles.tableHead, backgroundColor: '#991f1f' }}>
+              <thead style={styles.tableHead}>
                 <tr>
                   <th style={{ ...styles.narrowHeaderCell, borderTopLeftRadius: '10px' }}>#</th>
                   <th style={styles.tableHeaderCell}>Request ID</th>
@@ -255,9 +296,9 @@ const RequestAdminPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {pastTransactions.map((item, index) => (
-                  <tr key={index} style={styles.tableRow}>
-                    <td style={styles.narrowCell}>{index + 1}</td>
+                {paginatedPast.map((item, index) => (
+                  <tr key={index}>
+                    <td style={styles.narrowCell}>{(pastPage - 1) * entriesPerPage + index + 1}</td>
                     <td style={styles.tableCell}>{item.requestId}</td>
                     <td style={styles.tableCell}>{item.name}</td>
                     <td style={styles.tableCell}>{item.courseId}</td>
@@ -270,6 +311,7 @@ const RequestAdminPage = () => {
               </tbody>
             </table>
           </div>
+          {renderPagination(pastPage, totalPastPages, setPastPage)}
         </div>
       </main>
     </div>
