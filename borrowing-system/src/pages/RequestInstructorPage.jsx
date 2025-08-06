@@ -118,11 +118,12 @@ const RequestInstructorPage = () => {
       border: '1px solid #8A1F2B',
       backgroundColor: active ? '#8A1F2B' : '#fff',
       color: active ? '#fff' : '#8A1F2B',
-      fontWeight: 600,
+      fontWeight: 500,
       fontSize: '14px',
       textAlign: 'center',
       cursor: 'pointer',
       transition: 'all 0.2s ease-in-out',
+      fontFamily: 'Poppins, sans-serif',
     }),
     navButton: (disabled) => ({
       width: '35px',

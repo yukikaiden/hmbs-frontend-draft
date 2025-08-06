@@ -18,8 +18,8 @@ function ImportSuccessModal({ onClose }) {
     padding: '40px 30px 28px',
     borderRadius: '16px',
     textAlign: 'center',
-    width: '480px',
-    minHeight: '400px',
+    width: '460px',
+    minHeight: '395px',
     boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
     display: 'flex',
     flexDirection: 'column',
@@ -29,8 +29,8 @@ function ImportSuccessModal({ onClose }) {
   };
 
   const iconStyle = {
-    width: '100px',
-    height: '100px',
+    width: '90px',
+    height: '90px',
     objectFit: 'contain',
     marginBottom: '20px',
   };

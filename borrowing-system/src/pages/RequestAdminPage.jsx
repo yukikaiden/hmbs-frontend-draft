@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const RequestAdminPage = () => {
@@ -31,6 +31,8 @@ const RequestAdminPage = () => {
 
   const [allPage, setAllPage] = useState(1);
   const [pastPage, setPastPage] = useState(1);
+  const [hoveredPage, setHoveredPage] = useState(null);
+  const [hoveredArrow, setHoveredArrow] = useState(null);
   const entriesPerPage = 10;
 
   const paginatedAll = allRequests.slice((allPage - 1) * entriesPerPage, allPage * entriesPerPage);
@@ -156,46 +158,91 @@ const RequestAdminPage = () => {
       marginBottom: '12px',
       fontFamily: 'Poppins, sans-serif',
     },
-    pagination: {
+    paginationContainer: {
       display: 'flex',
       justifyContent: 'center',
-      gap: '10px',
-      marginTop: '15px'
+      marginTop: '2rem',
+      alignItems: 'center',
+      gap: '0.5rem',
+      flexWrap: 'wrap',
+      fontFamily: 'Poppins, sans-serif',
     },
-    pageBtn: (active) => ({
-      backgroundColor: active ? '#991f1f' : '#fff',
-      color: active ? '#fff' : '#991f1f',
-      border: '1px solid #991f1f',
+    pageButton: (active) => ({
+      width: '35px',
+      height: '35px',
       borderRadius: '50%',
-      width: '32px',
-      height: '32px',
+      border: '1px solid #8A1F2B',
+      backgroundColor: active ? '#8A1F2B' : '#fff',
+      color: active ? '#fff' : '#8A1F2B',
+      fontWeight: 500,
+      fontSize: '14px',
+      textAlign: 'center',
+      cursor: 'pointer',
+      transition: 'all 0.2s ease-in-out',
+      fontFamily: 'Poppins, sans-serif',
+    }),
+    navButton: (disabled) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      backgroundColor: disabled ? '#ccc' : '#8A1F2B',
+      border: 'none',
+      color: 'white',
+      fontSize: '14px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      cursor: 'pointer',
-      fontWeight: 'bold'
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      transition: 'background-color 0.2s ease',
     }),
   };
 
-  const renderPagination = (current, total, setPage) => (
-    <div style={styles.pagination}>
+  const renderPagination = (currentPage, totalPages, setPage) => (
+    <div style={styles.paginationContainer}>
       <button
-        style={styles.pageBtn(false)}
-        onClick={() => setPage(Math.max(1, current - 1))}
-      ><FaAngleLeft /></button>
+        onClick={() => setPage(Math.max(1, currentPage - 1))}
+        disabled={currentPage === 1}
+        onMouseEnter={() => setHoveredArrow('left')}
+        onMouseLeave={() => setHoveredArrow(null)}
+        style={{
+          ...styles.navButton(currentPage === 1),
+          ...(hoveredArrow === 'left' && currentPage !== 1 ? { backgroundColor: '#a22c38' } : {}),
+        }}
+      >
+        <FaChevronLeft />
+      </button>
 
-      {Array.from({ length: total }, (_, i) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
         <button
-          key={i}
-          style={styles.pageBtn(current === i + 1)}
-          onClick={() => setPage(i + 1)}
-        >{i + 1}</button>
+          key={num}
+          onClick={() => setPage(num)}
+          onMouseEnter={() => setHoveredPage(num)}
+          onMouseLeave={() => setHoveredPage(null)}
+          style={{
+            ...styles.pageButton(num === currentPage),
+            ...(hoveredPage === num && num !== currentPage
+              ? { backgroundColor: '#8A1F2B', color: '#fff' }
+              : {}),
+          }}
+        >
+          {num}
+        </button>
       ))}
 
       <button
-        style={styles.pageBtn(false)}
-        onClick={() => setPage(Math.min(total, current + 1))}
-      ><FaAngleRight /></button>
+        onClick={() => setPage(Math.min(totalPages, currentPage + 1))}
+        disabled={currentPage === totalPages}
+        onMouseEnter={() => setHoveredArrow('right')}
+        onMouseLeave={() => setHoveredArrow(null)}
+        style={{
+          ...styles.navButton(currentPage === totalPages),
+          ...(hoveredArrow === 'right' && currentPage !== totalPages
+            ? { backgroundColor: '#a22c38' }
+            : {}),
+        }}
+      >
+        <FaChevronRight />
+      </button>
     </div>
   );
 

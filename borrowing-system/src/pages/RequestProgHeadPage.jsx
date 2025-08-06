@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { FaUserCircle, FaFileAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { FiLogOut } from 'react-icons/fi';
+import { FaFileAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,17 +11,27 @@ const initialRequests = Array(23).fill({
   status: 'New',
 });
 
-const ITEMS_PER_PAGE = 10;
-
 const RequestProgHeadPage = () => {
   const navigate = useNavigate();
-  const [requests] = useState(initialRequests);
+  const [requests, setRequests] = useState(initialRequests);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(requests.length / ITEMS_PER_PAGE);
-  const currentRequests = requests.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const [hoveredRowIndex, setHoveredRowIndex] = useState(null);
+  const [hoveredPage, setHoveredPage] = useState(null);
+  const [hoveredArrow, setHoveredArrow] = useState(null);
+
+  const itemsPerPage = 10;
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const requestsToDisplay = requests.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(requests.length / itemsPerPage);
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
 
   const handleNavigate = (id) => navigate(`/request-details-programhead/${id}`);
 
@@ -31,6 +40,20 @@ const RequestProgHeadPage = () => {
       display: 'flex',
       minHeight: '100vh',
       fontFamily: 'Poppins, sans-serif',
+    },
+    sidebar: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '240px',
+      height: '100vh',
+      backgroundColor: '#8A1F2B',
+      color: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      padding: '2rem 0rem 0rem 0rem',
+      zIndex: 1000,
     },
     main: {
       marginLeft: '240px',
@@ -55,16 +78,15 @@ const RequestProgHeadPage = () => {
       textAlign: 'center',
       borderBottom: '1px solid #ddd',
     },
+    rowHover: {
+      cursor: 'pointer',
+    },
     theadCell: {
       padding: '1.1rem 1rem',
       textAlign: 'center',
       backgroundColor: '#a52a2a',
       color: 'white',
       fontWeight: 600,
-    },
-    rowHover: {
-      cursor: 'pointer',
-      transition: 'background-color 0.2s ease',
     },
     statusBadge: {
       padding: '0.4rem 1rem',
@@ -80,18 +102,11 @@ const RequestProgHeadPage = () => {
       backgroundColor: '#f5c518',
       color: '#000',
     },
-    topRow: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginTop: '1.3rem',
-      marginBottom: '-0.3rem',
-    },
-    pagination: {
+    paginationContainer: {
       display: 'flex',
       justifyContent: 'center',
+      marginTop: '2rem',
       alignItems: 'center',
-      marginTop: '1.5rem',
       gap: '0.5rem',
       flexWrap: 'wrap',
     },
@@ -102,17 +117,33 @@ const RequestProgHeadPage = () => {
       border: '1px solid #8A1F2B',
       backgroundColor: active ? '#8A1F2B' : '#fff',
       color: active ? '#fff' : '#8A1F2B',
-      fontWeight: 600,
+      fontWeight: 500,
       fontSize: '14px',
       textAlign: 'center',
       cursor: 'pointer',
       transition: 'all 0.2s ease-in-out',
+      fontFamily: 'Poppins, sans-serif',
     }),
-    disabledButton: {
-      backgroundColor: '#f0f0f0',
-      color: '#aaa',
-      cursor: 'not-allowed',
-      border: '2px solid #ddd',
+    navButton: (disabled) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      backgroundColor: disabled ? '#ccc' : '#8A1F2B',
+      border: 'none',
+      color: 'white',
+      fontSize: '14px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      transition: 'background-color 0.2s ease',
+    }),
+    headerRow: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: '1.3rem',
+      marginBottom: '-0.3rem',
     },
     header: { marginBottom: '20px' },
     headerTitle: { margin: 0 },
@@ -140,12 +171,11 @@ const RequestProgHeadPage = () => {
             <div style={styles.legendItem}><span style={{ ...styles.legendCircle, backgroundColor: '#f2c744' }}></span> On-going Request</div>
           </div>
         </div>
-        <div style={styles.topRow}>
+        <div style={styles.headerRow}>
           <h3 style={{ fontWeight: '600' }}>3 New Requests</h3>
-          <span style={{ fontSize: '15px' }}>
-            Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}–
-            {(currentPage - 1) * ITEMS_PER_PAGE + currentRequests.length} out of {requests.length}
-          </span>
+          <div style={{ fontSize: '15px', color: '#444', fontWeight: 500 }}>
+            Showing {indexOfFirstItem + 1}–{Math.min(indexOfLastItem, requests.length)} out of {requests.length}
+          </div>
         </div>
 
         <table style={styles.table}>
@@ -160,77 +190,84 @@ const RequestProgHeadPage = () => {
             </tr>
           </thead>
           <tbody>
-            {currentRequests.map((req, idx) => (
-              <tr
-                key={idx}
-                onClick={() => handleNavigate(req.requestId)}
-                style={{
-                  ...styles.rowHover,
-                  backgroundColor: idx % 2 === 0 ? 'white' : '#f9f9f9',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ffe6e9')}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = idx % 2 === 0 ? 'white' : '#f9f9f9')}
-              >
-                <td style={styles.thtd}>{(currentPage - 1) * ITEMS_PER_PAGE + idx + 1}</td>
-                <td style={styles.thtd}>{req.requestId}</td>
-                <td style={styles.thtd}>{req.name}</td>
-                <td style={styles.thtd}>{req.courseId}</td>
-                <td style={styles.thtd}>{req.requestDate}</td>
-                <td style={styles.thtd}>
-                  <span
-                    style={{
-                      ...styles.statusBadge,
-                      ...(req.status === 'New' ? styles.newreq : styles.ongoingreq),
-                    }}
-                  >
-                    {req.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
+            {requestsToDisplay.map((req, idx) => {
+              const rowIndex = indexOfFirstItem + idx;
+              const isHovered = hoveredRowIndex === rowIndex;
+
+              return (
+                <tr
+                  key={rowIndex}
+                  onClick={() => handleNavigate(req.requestId)}
+                  onMouseEnter={() => setHoveredRowIndex(rowIndex)}
+                  onMouseLeave={() => setHoveredRowIndex(null)}
+                  style={{
+                    ...styles.rowHover,
+                    backgroundColor: isHovered ? '#ffe6e9' : idx % 2 === 0 ? 'white' : '#f9f9f9',
+                    transition: 'background-color 0.2s ease',
+                  }}
+                >
+                  <td style={styles.thtd}>{rowIndex + 1}</td>
+                  <td style={styles.thtd}>{req.requestId}</td>
+                  <td style={styles.thtd}>{req.name}</td>
+                  <td style={styles.thtd}>{req.courseId}</td>
+                  <td style={styles.thtd}>{req.requestDate}</td>
+                  <td style={styles.thtd}>
+                    <span
+                      style={{
+                        ...styles.statusBadge,
+                        ...(req.status === 'New' ? styles.newreq : styles.ongoingreq),
+                      }}
+                    >
+                      {req.status}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
-        <div style={styles.pagination}>
+        <div style={styles.paginationContainer}>
           <button
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            onClick={handlePrevPage}
             disabled={currentPage === 1}
+            onMouseEnter={() => setHoveredArrow('left')}
+            onMouseLeave={() => setHoveredArrow(null)}
             style={{
-              ...styles.pageButton(false),
-              ...(currentPage === 1 && styles.disabledButton),
+              ...styles.navButton(currentPage === 1),
+              ...(hoveredArrow === 'left' && currentPage !== 1 ? { backgroundColor: '#a22c38' } : {}),
             }}
           >
             <FaChevronLeft />
           </button>
 
-          {Array.from({ length: totalPages }).map((_, i) => (
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
             <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              style={styles.pageButton(currentPage === i + 1)}
-              onMouseEnter={(e) => {
-                if (currentPage !== i + 1) {
-                  e.currentTarget.style.backgroundColor = '#fbe9eb';
-                  e.currentTarget.style.borderColor = '#8A1F2B';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (currentPage !== i + 1) {
-                  e.currentTarget.style.backgroundColor = '#fff';
-                  e.currentTarget.style.borderColor = '#ccc';
-                }
+              key={num}
+              onClick={() => setCurrentPage(num)}
+              onMouseEnter={() => setHoveredPage(num)}
+              onMouseLeave={() => setHoveredPage(null)}
+              style={{
+                ...styles.pageButton(num === currentPage),
+                ...(hoveredPage === num && num !== currentPage
+                  ? { backgroundColor: '#8A1F2B', color: '#fff' }
+                  : {}),
               }}
             >
-              {i + 1}
+              {num}
             </button>
           ))}
 
           <button
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={handleNextPage}
             disabled={currentPage === totalPages}
+            onMouseEnter={() => setHoveredArrow('right')}
+            onMouseLeave={() => setHoveredArrow(null)}
             style={{
-              ...styles.pageButton(false),
-              ...(currentPage === totalPages && styles.disabledButton),
+              ...styles.navButton(currentPage === totalPages),
+              ...(hoveredArrow === 'right' && currentPage !== totalPages
+                ? { backgroundColor: '#a22c38' }
+                : {}),
             }}
           >
             <FaChevronRight />
