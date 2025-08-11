@@ -133,6 +133,19 @@ const RequestApprovedAdmin = () => {
       fontSize: '0.9rem',
       transition: 'all 0.3s ease',
     },
+    completedButtonDisabled: {
+      backgroundColor: '#c58b8b', // muted reddish
+      color: '#fff',
+      padding: '14px 24px',
+      borderRadius: '50px',
+      border: 'none',
+      float: 'right',
+      marginTop: '2rem',
+      cursor: 'not-allowed',
+      fontFamily: 'inherit',
+      fontSize: '0.9rem',
+      opacity: 0.6,
+    },
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -146,6 +159,9 @@ const RequestApprovedAdmin = () => {
   ];
 
   const [itemStatuses, setItemStatuses] = useState(borrowedItems.map(() => 'Reserved'));
+
+  // check if all items are returned
+  const allReturned = itemStatuses.every(status => status === 'Returned');
 
   const getSelectStyle = (status) => {
     const baseStyle = { ...styles.selectBase };
@@ -332,14 +348,18 @@ const RequestApprovedAdmin = () => {
         </table>
 
         <button
-          style={{
-            ...styles.completedButton,
-            backgroundColor: hoveringTransaction ? '#731923' : '#8A1F2B',
-            opacity: hoveringTransaction ? 0.9 : 1,
+          style={allReturned
+            ? { ...styles.completedButton, backgroundColor: hoveringTransaction ? '#731923' : '#8A1F2B', opacity: hoveringTransaction ? 0.9 : 1 }
+            : styles.completedButtonDisabled
+          }
+          disabled={!allReturned}
+          onMouseOver={() => allReturned && setHoveringTransaction(true)}
+          onMouseOut={() => allReturned && setHoveringTransaction(false)}
+          onClick={() => {
+            if (allReturned) {
+              setShowModal(true);
+            }
           }}
-          onMouseOver={() => setHoveringTransaction(true)}
-          onMouseOut={() => setHoveringTransaction(false)}
-          onClick={() => setShowModal(true)}
         >
           Transaction Completed
         </button>
