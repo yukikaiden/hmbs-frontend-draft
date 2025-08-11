@@ -193,7 +193,7 @@ const RequestApprovedAdmin = () => {
         <div style={styles.header}>
           <h1>Request No. 000001234</h1>
           <a
-            href="#"
+            href="/requests-admin"
             style={{
               ...styles.goBack,
               opacity: hoveringBack ? 0.8 : 1,
