@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
-import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
+import { FaFileAlt, FaBoxOpen, FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
 import { SquarePen, Trash2 } from 'lucide-react';
 import SpoonImage from '../assets/images/spoon.png';
@@ -8,6 +8,8 @@ import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryA
 import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
 import InventoryItemDeletedModal from '../components/AdminModal/InventoryItemDeletedModal';
 import { useNavigate } from 'react-router-dom';
+
+const ITEMS_PER_PAGE = 10;
 
 const CRUDInventoryPage = () => {
   const navigate = useNavigate();
@@ -17,7 +19,6 @@ const CRUDInventoryPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('Recommended');
-  const itemsPerPage = 10;
 
   const inventoryData = [
     { id: 1, name: 'Spoon', category: 'Pantry Tools', location: 'CBA 404', qty: 20, unit: 'Pcs', price: '₱25', status: 'Available' },
@@ -49,10 +50,10 @@ const CRUDInventoryPage = () => {
     filteredData.sort((a, b) => b.qty - a.qty);
   }
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const startIdx = (currentPage - 1) * itemsPerPage;
-  const endIdx = startIdx + itemsPerPage;
-  const currentItems = filteredData.slice(startIdx, endIdx);
+  const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+
+  const getPaginated = (page) =>
+    filteredData.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
   const styles = {
     layout: { display: 'flex', fontFamily: 'Poppins, sans-serif' },
@@ -69,6 +70,36 @@ const CRUDInventoryPage = () => {
     statusUnavailable: { backgroundColor: '#DC2626', color: 'white', padding: '0.3rem 0.8rem', borderRadius: '20px', fontSize: '0.8rem', textAlign: 'center', fontWeight: '500', display: 'inline-block', width: '100px' },
     actionIcons: { display: 'flex', gap: '0.6rem', fontSize: '1rem', cursor: 'pointer' },
     roundedCard: { border: '1px solid #991F1F', borderRadius: '12px', padding: '1rem' },
+    pagination: { display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '1rem' },
+    pageButton: (active) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      border: '1px solid #991F1F',
+      backgroundColor: active ? '#991F1F' : '#fff',
+      color: active ? '#fff' : '#991F1F',
+      fontWeight: 500,
+      fontFamily: 'Poppins, sans-serif',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      cursor: 'pointer',
+    }),
+    navIconButton: (disabled) => ({
+      width: '35px',
+      height: '35px',
+      borderRadius: '50%',
+      border: '1px solid #991F1F',
+      backgroundColor: '#991F1F',
+      color: '#fff',
+      fontWeight: 500,
+      fontFamily: 'Poppins, sans-serif',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: disabled ? 0.5 : 1,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+    }),
   };
 
   return (
@@ -154,9 +185,9 @@ const CRUDInventoryPage = () => {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((item, idx) => (
+              {getPaginated(currentPage).map((item, idx) => (
                 <tr key={item.id}>
-                  <td style={styles.td}>{startIdx + idx + 1}</td>
+                  <td style={styles.td}>{(currentPage - 1) * ITEMS_PER_PAGE + idx + 1}</td>
                   <td style={styles.td}><img src={SpoonImage} alt="Item" style={{ width: '40px', height: '40px' }} /></td>
                   <td style={styles.td}>{item.name}</td>
                   <td style={styles.td}>{item.category}</td>
@@ -178,10 +209,31 @@ const CRUDInventoryPage = () => {
             </tbody>
           </table>
 
-          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-            <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}>◀</button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>▶</button>
+          {/* Pagination */}
+          <div style={styles.pagination}>
+            <button
+              style={styles.navIconButton(currentPage === 1)}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <FaChevronLeft />
+            </button>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <button
+                key={index}
+                style={styles.pageButton(currentPage === index + 1)}
+                onClick={() => setCurrentPage(index + 1)}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              style={styles.navIconButton(currentPage === totalPages)}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+            >
+              <FaChevronRight />
+            </button>
           </div>
         </div>
 
