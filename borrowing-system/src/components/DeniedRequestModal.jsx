@@ -48,7 +48,7 @@ const DeniedRequestModal = ({ onClose }) => {
     padding: '8px 29px',
     borderRadius: '24px',
     border: '1px solid #991F1F',
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontSize: '16px',
     cursor: 'pointer',
     //transition: 'all 0.2s ease',

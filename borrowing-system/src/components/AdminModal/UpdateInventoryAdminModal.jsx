@@ -347,7 +347,7 @@ const styles = {
     border: '1.5px solid #991F1F',
     color: '#991F1F',
     background: 'white',
-    borderRadius: '999px',
+    borderRadius: '1000px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
   },

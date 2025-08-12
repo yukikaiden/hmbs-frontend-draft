@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { SquarePen, ChevronDown } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
-import { FaUserCircle, FaFileAlt, FaBoxOpen, FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import {
+  FaFileAlt,
+  FaBoxOpen,
+  FaClipboardList,
+  FaChevronLeft,
+  FaChevronRight
+} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const RequestAdminPage = () => {
   const navigate = useNavigate();
 
+  // --- Data (same generator you provided) ---
   const data = Array.from({ length: 60 }, (_, index) => {
     let status = '';
     if (index % 4 === 0) status = 'New';
-    else if (index % 4 === 1) status = 'On-going';
+    else if (index % 4 === 1) status = 'On-Going';
     else if (index % 4 === 2) status = 'Declined';
     else status = 'Completed';
 
@@ -26,31 +33,66 @@ const RequestAdminPage = () => {
 
   const handleNavigate = (id) => navigate(`/request-details-admin/${id}`);
 
+  // split lists
   const allRequests = data.filter(d => d.status !== 'Completed');
   const pastTransactions = data.filter(d => d.status === 'Completed');
+
+  // --- UI state ---
+  const [statusFilter, setStatusFilter] = useState('All Status');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const [allPage, setAllPage] = useState(1);
   const [pastPage, setPastPage] = useState(1);
   const [hoveredPage, setHoveredPage] = useState(null);
   const [hoveredArrow, setHoveredArrow] = useState(null);
+  const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
+
   const entriesPerPage = 10;
 
-  const paginatedAll = allRequests.slice((allPage - 1) * entriesPerPage, allPage * entriesPerPage);
+  // close dropdown when clicking outside
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocClick);
+    return () => document.removeEventListener('mousedown', onDocClick);
+  }, []);
+
+  // Filtered all requests (All Requests table responds to this)
+  const filteredAllRequests = allRequests.filter(d =>
+    statusFilter === 'All Status' ? true : d.status === statusFilter
+  );
+
+  // pagination slices
+  const paginatedAll = filteredAllRequests.slice((allPage - 1) * entriesPerPage, allPage * entriesPerPage);
   const paginatedPast = pastTransactions.slice((pastPage - 1) * entriesPerPage, pastPage * entriesPerPage);
 
-  const totalAllPages = Math.ceil(allRequests.length / entriesPerPage);
-  const totalPastPages = Math.ceil(pastTransactions.length / entriesPerPage);
+  const totalAllPages = Math.max(1, Math.ceil(filteredAllRequests.length / entriesPerPage));
+  const totalPastPages = Math.max(1, Math.ceil(pastTransactions.length / entriesPerPage));
+
+  // showing X-Y of Z
+  const allTotal = filteredAllRequests.length;
+  const allStart = allTotal === 0 ? 0 : (allPage - 1) * entriesPerPage + 1;
+  const allEnd = Math.min(allTotal, allPage * entriesPerPage);
+
+  const pastTotal = pastTransactions.length;
+  const pastStart = pastTotal === 0 ? 0 : (pastPage - 1) * entriesPerPage + 1;
+  const pastEnd = Math.min(pastTotal, pastPage * entriesPerPage);
 
   const getStatusColor = (status) => {
     switch (status) {
       case 'New': return '#2D9CDB';
       case 'Declined': return '#DC2626';
-      case 'On-going': return '#F2C94C';
+      case 'On-Going': return '#F2C94C';
       case 'Completed': return '#27AE60';
       default: return '#999';
     }
   };
 
+  // --- Styles (kept and extended from your original) ---
   const styles = {
     adminPage: {
       display: 'flex',
@@ -86,7 +128,7 @@ const RequestAdminPage = () => {
       background: 'transparent',
       border: '1px solid #991f1f',
       borderRadius: '5px',
-      padding: '0.5rem 1rem',
+      padding: '0.5rem 0.8rem',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
@@ -94,6 +136,26 @@ const RequestAdminPage = () => {
       fontSize: '14px',
       marginBottom: '12px',
       fontFamily: 'Poppins, sans-serif',
+      gap: '8px'
+    },
+    dropdownMenu: {
+      position: 'absolute',
+      right: 0,
+      top: 'calc(100% + 8px)',
+      background: '#fff',
+      border: '1px solid #991f1f',
+      borderRadius: '6px',
+      boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+      minWidth: '160px',
+      zIndex: 40,
+      overflow: 'hidden'
+    },
+    dropdownItem: {
+      padding: '10px 12px',
+      fontSize: '14px',
+      cursor: 'pointer',
+      color: '#333',
+      userSelect: 'none'
     },
     tableWrapper: {
       borderLeft: '1px solid #991F1F',
@@ -122,7 +184,7 @@ const RequestAdminPage = () => {
       backgroundColor: 'transparent'
     },
     narrowHeaderCell: {
-      padding: '0 25px 0 18PX',
+      padding: '0 25px 0 18px',
       fontSize: '16px',
       textAlign: 'center',
       verticalAlign: 'middle'
@@ -135,11 +197,11 @@ const RequestAdminPage = () => {
       backgroundColor: 'transparent'
     },
     statusTag: {
-      width: '130px',
-      height: '30px',
+      width: '115px',
+      height: '32px',
       lineHeight: '30px',
       textAlign: 'center',
-      borderRadius: '15px',
+      borderRadius: '99px',
       color: '#fff',
       fontSize: '14px',
       display: 'inline-block'
@@ -148,15 +210,25 @@ const RequestAdminPage = () => {
       background: '#991f1f',
       border: '1px solid #991f1f',
       borderRadius: '999px',
-      padding: '7px 25px',
+      padding: '8px 25px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       color: '#ffffff',
       fontSize: '14px',
-      fontWeight: 600,
+      fontWeight: 500,
       marginBottom: '12px',
       fontFamily: 'Poppins, sans-serif',
+    },
+    showingWrapper: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '12px',
+      marginBottom: '-10px' /* large gap after showing text, per your request */
+    },
+    showingText: {
+      fontSize: '15px',
+      color: '#333',
     },
     paginationContainer: {
       display: 'flex',
@@ -197,6 +269,7 @@ const RequestAdminPage = () => {
     }),
   };
 
+  // Render pagination bar (only numbers + nav)
   const renderPagination = (currentPage, totalPages, setPage) => (
     <div style={styles.paginationContainer}>
       <button
@@ -246,6 +319,9 @@ const RequestAdminPage = () => {
     </div>
   );
 
+  // Dropdown options
+  const dropdownOptions = ['All Status', 'New', 'On-Going', 'Declined'];
+
   return (
     <div style={styles.adminPage}>
       <Sidebar
@@ -276,9 +352,48 @@ const RequestAdminPage = () => {
           <div style={styles.tableHeader}>
             <div>
               <h3 style={{ margin: 0, fontSize: '22px' }}>All Requests</h3>
-              <p style={styles.totalRequests}>Total Requests: {allRequests.length}</p>
+              <p style={styles.totalRequests}>Total Requests: {filteredAllRequests.length}</p>
             </div>
-            <button style={styles.sortBtn}>Sort by <ChevronDown size={14} style={{ marginLeft: '5px' }} /></button>
+
+            {/* Dropdown (styled like your button) */}
+            <div style={{ position: 'relative' }} ref={dropdownRef}>
+              <button
+                type="button"
+                style={styles.sortBtn}
+                onClick={() => {
+                  setDropdownOpen(prev => !prev);
+                }}
+                aria-haspopup="true"
+                aria-expanded={dropdownOpen}
+              >
+                {statusFilter}
+                <ChevronDown size={14} style={{ marginLeft: '6px', color: '#991f1f' }} />
+              </button>
+
+              {dropdownOpen && (
+                <div style={styles.dropdownMenu}>
+                  {dropdownOptions.map(option => (
+                    <div
+                      key={option}
+                      onClick={() => {
+                        setStatusFilter(option);
+                        setAllPage(1);
+                        setDropdownOpen(false);
+                      }}
+                      onMouseEnter={() => setHoveredMenuItem(option)}
+                      onMouseLeave={() => setHoveredMenuItem(null)}
+                      style={{
+                        ...styles.dropdownItem,
+                        backgroundColor: hoveredMenuItem === option ? '#fafafa' : '#fff',
+                        fontWeight: option === statusFilter ? 600 : 400,
+                      }}
+                    >
+                      {option}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div style={styles.tableWrapper}>
@@ -314,9 +429,27 @@ const RequestAdminPage = () => {
                     </td>
                   </tr>
                 ))}
+
+                {/* When there are no rows, keep table spacing consistent */}
+                {paginatedAll.length === 0 && (
+                  <tr>
+                    <td colSpan={7} style={{ ...styles.tableCell, padding: '30px 10px', color: '#666' }}>
+                      No requests found.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Showing text — close to the table, large gap before pagination */}
+          <div style={styles.showingWrapper}>
+            <div style={styles.showingText}>
+              Showing {allStart}–{allEnd} of {allTotal} entries
+            </div>
+          </div>
+
+          {/* Pagination (further down because of the large bottom margin on showingWrapper) */}
           {renderPagination(allPage, totalAllPages, setAllPage)}
         </div>
 
@@ -355,9 +488,25 @@ const RequestAdminPage = () => {
                     </td>
                   </tr>
                 ))}
+
+                {paginatedPast.length === 0 && (
+                  <tr>
+                    <td colSpan={6} style={{ ...styles.tableCell, padding: '30px 10px', color: '#666' }}>
+                      No past transactions.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
+
+          {/* Showing text for past (close to the table) */}
+          <div style={styles.showingWrapper}>
+            <div style={styles.showingText}>
+              Showing {pastStart}–{pastEnd} of {pastTotal} entries
+            </div>
+          </div>
+
           {renderPagination(pastPage, totalPastPages, setPastPage)}
         </div>
       </main>

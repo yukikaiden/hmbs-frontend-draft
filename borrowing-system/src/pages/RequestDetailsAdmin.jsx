@@ -155,7 +155,7 @@ const RequestDetailsAdmin = () => {
           <button style={styles.goBackBtn} onClick={() => navigate('/requests-admin')}>Go Back</button>
         </div>
 
-         <p style={{ fontSize: '16px'}}>
+        <p style={{ fontSize: '16px' }}>
           Status: <span style={styles.status}>New Request</span>
         </p>
 
@@ -253,7 +253,7 @@ const RequestDetailsAdmin = () => {
                 <td style={styles.td}>Pantry Tools</td>
                 <td style={styles.td}>4</td>
                 <td style={styles.td}>Pcs</td>
-                 <td style={styles.td}>₱25.00</td>
+                <td style={styles.td}>₱25.00</td>
               </tr>
             ))}
           </tbody>
