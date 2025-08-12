@@ -276,6 +276,7 @@ const styles = {
     borderRadius: '10px',
     fontSize: '14px',
     outline: 'none',
+    fontFamily: 'Poppins, Sans-Serif'
   },
   inputFocused: {
     border: '2px solid #1A1A1A',
@@ -292,6 +293,7 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 1rem center',
     backgroundSize: '1.5rem',
+    fontFamily: 'Poppins, Sans-serif'
   },
   selectFocused: {
     border: '2px solid #000',
@@ -331,6 +333,7 @@ const styles = {
     fontWeight: '500',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
+    fontFamily: 'Poppins, Sans-serif'
   },
   uploadBtnHover: {
     backgroundColor: '#991F1F',
@@ -350,6 +353,7 @@ const styles = {
     borderRadius: '1000px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
+    fontFamily: 'Poppins, Sans-serif'
   },
   cancelBtnHover: {
     backgroundColor: '#991F1F',
