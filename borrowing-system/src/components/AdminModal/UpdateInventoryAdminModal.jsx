@@ -366,6 +366,7 @@ const styles = {
     border: 'none',
     borderRadius: '999px',
     cursor: 'pointer',
+    fontFamily: 'Poppins, Sans-serif'
   },
   errorText: {
     color: 'red',
