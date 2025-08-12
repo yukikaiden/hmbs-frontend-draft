@@ -364,8 +364,9 @@ const styles = {
     backgroundColor: '#991F1F',
     color: '#fff',
     border: 'none',
-    borderRadius: '999px',
+    borderRadius: '9999px',
     cursor: 'pointer',
+    fontFamily: 'Poppins, Sans-serif'
   },
   errorText: {
     color: 'red',
