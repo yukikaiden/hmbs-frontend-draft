@@ -3,16 +3,23 @@ import { MdErrorOutline } from 'react-icons/md';
 import InventoryUpdatedAdminModal from './InventoryUpdatedAdminModal';
 import uploadFileIcon from '../../assets/upload-file.svg'; // ✅ SVG icon
 
-const maroonDropdownIcon = "url(\"data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>\")";
+const maroonDropdownIcon =
+  "url(\"data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>\")";
+
+const mechanicalElectricCategories = ['Mechanical Equipment', 'Electrical Equipment'];
 
 const UpdateInventoryAdminModal = ({ onClose }) => {
   const [showUpdatedModal, setShowUpdatedModal] = useState(false);
   const [status, setStatus] = useState('');
+  const [disposalTag, setDisposalTag] = useState(''); // ✅ New state
   const [imageFile, setImageFile] = useState(null);
   const [statusError, setStatusError] = useState('');
   const [focusedInput, setFocusedInput] = useState('');
   const [isBrowseHover, setIsBrowseHover] = useState(false);
   const [isCancelHover, setIsCancelHover] = useState(false);
+
+  // New controlled state for category
+  const [category, setCategory] = useState('');
 
   const handleSave = () => {
     if (!status) {
@@ -34,6 +41,9 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     onClose();
   };
 
+  // Disable disposal tagging if category is NOT mechanical/electrical
+  const isDisposalTagDisabled = !mechanicalElectricCategories.includes(category);
+
   return (
     <>
       {!showUpdatedModal && (
@@ -41,7 +51,9 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
           <div style={styles.modal}>
             <div style={styles.header}>
               <h2 style={styles.title}>Edit Item</h2>
-              <button style={styles.closeBtn} onClick={onClose}>✕</button>
+              <button style={styles.closeBtn} onClick={onClose}>
+                ✕
+              </button>
             </div>
             <p style={styles.subtitle}>Edit item details below</p>
 
@@ -50,7 +62,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               <input
                 style={{
                   ...styles.input,
-                  ...(focusedInput === 'itemName' && styles.inputFocused)
+                  ...(focusedInput === 'itemName' && styles.inputFocused),
                 }}
                 placeholder="Enter item name"
                 onFocus={() => setFocusedInput('itemName')}
@@ -65,15 +77,24 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                   style={{
                     ...styles.select,
                     backgroundImage: maroonDropdownIcon,
-                    ...(focusedInput === 'category' && styles.selectFocused)
+                    ...(focusedInput === 'category' && styles.selectFocused),
                   }}
                   onFocus={() => setFocusedInput('category')}
                   onBlur={() => setFocusedInput('')}
+                  value={category}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                    if (!mechanicalElectricCategories.includes(e.target.value)) {
+                      setDisposalTag('');
+                    }
+                  }}
                 >
-                  <option>Select category</option>
+                  <option value="">Select category</option>
                   <option>Pantry Tools</option>
                   <option>Cleaning Tools</option>
                   <option>Kitchenware</option>
+                  <option>Mechanical Equipment</option>
+                  <option>Electrical Equipment</option>
                 </select>
               </div>
               <div style={styles.formGroup}>
@@ -81,7 +102,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                 <input
                   style={{
                     ...styles.input,
-                    ...(focusedInput === 'location' && styles.inputFocused)
+                    ...(focusedInput === 'location' && styles.inputFocused),
                   }}
                   placeholder="Enter location"
                   onFocus={() => setFocusedInput('location')}
@@ -98,7 +119,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                   min="0"
                   style={{
                     ...styles.input,
-                    ...(focusedInput === 'quantity' && styles.inputFocused)
+                    ...(focusedInput === 'quantity' && styles.inputFocused),
                   }}
                   placeholder="Enter quantity"
                   onFocus={() => setFocusedInput('quantity')}
@@ -111,12 +132,12 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                   style={{
                     ...styles.select,
                     backgroundImage: maroonDropdownIcon,
-                    ...(focusedInput === 'unit' && styles.selectFocused)
+                    ...(focusedInput === 'unit' && styles.selectFocused),
                   }}
                   onFocus={() => setFocusedInput('unit')}
                   onBlur={() => setFocusedInput('')}
                 >
-                  <option>Select unit</option>
+                  <option value="">Select unit</option>
                   <option>Pcs</option>
                   <option>Boxes</option>
                   <option>Liters</option>
@@ -130,7 +151,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                 <input
                   style={{
                     ...styles.input,
-                    ...(focusedInput === 'price' && styles.inputFocused)
+                    ...(focusedInput === 'price' && styles.inputFocused),
                   }}
                   placeholder="Enter price"
                   onFocus={() => setFocusedInput('price')}
@@ -138,7 +159,9 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                 />
               </div>
               <div style={styles.formGroup}>
-                <label style={styles.label}>Status <span style={{ color: 'red' }}>*</span></label>
+                <label style={styles.label}>
+                  Status <span style={{ color: 'red' }}>*</span>
+                </label>
                 <select
                   style={{
                     ...styles.select,
@@ -146,8 +169,8 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                     border: statusError
                       ? '2px solid red'
                       : focusedInput === 'status'
-                        ? styles.selectFocused.border
-                        : styles.select.border
+                      ? styles.selectFocused.border
+                      : styles.select.border,
                   }}
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
@@ -167,6 +190,28 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
             </div>
 
+            {/* Disposal Tagging */}
+            <div style={styles.formGroup}>
+              <label style={styles.label}>Disposal Tagging</label>
+              <select
+                style={{
+                  ...styles.select,
+                  backgroundImage: maroonDropdownIcon,
+                  ...(focusedInput === 'disposalTag' && styles.selectFocused),
+                }}
+                value={disposalTag}
+                onChange={(e) => setDisposalTag(e.target.value)}
+                onFocus={() => setFocusedInput('disposalTag')}
+                onBlur={() => setFocusedInput('')}
+                disabled={isDisposalTagDisabled}
+              >
+                <option value="">Select disposal tag</option>
+                <option>For Disposal</option>
+                <option>For Repair</option>
+                <option>Good Condition</option>
+              </select>
+            </div>
+
             <div style={styles.formGroup}>
               <label style={styles.label}>Upload Image *</label>
               <div style={styles.uploadBox}>
@@ -177,7 +222,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                   htmlFor="file-upload"
                   style={{
                     ...styles.uploadBtn,
-                    ...(isBrowseHover && styles.uploadBtnHover)
+                    ...(isBrowseHover && styles.uploadBtnHover),
                   }}
                   onMouseEnter={() => setIsBrowseHover(true)}
                   onMouseLeave={() => setIsBrowseHover(false)}
@@ -198,7 +243,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               <button
                 style={{
                   ...styles.cancelBtn,
-                  ...(isCancelHover && styles.cancelBtnHover)
+                  ...(isCancelHover && styles.cancelBtnHover),
                 }}
                 onMouseEnter={() => setIsCancelHover(true)}
                 onMouseLeave={() => setIsCancelHover(false)}
@@ -206,7 +251,9 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               >
                 Cancel
               </button>
-              <button style={styles.saveBtn} onClick={handleSave}>Save Changes</button>
+              <button style={styles.saveBtn} onClick={handleSave}>
+                Save Changes
+              </button>
             </div>
           </div>
         </div>
@@ -243,7 +290,7 @@ const styles = {
     fontSize: '24px',
     fontWeight: 'bold',
     color: '#1A1A1A',
-    marginBottom: '-6px'
+    marginBottom: '-6px',
   },
   closeBtn: {
     background: 'none',
@@ -276,7 +323,7 @@ const styles = {
     borderRadius: '10px',
     fontSize: '14px',
     outline: 'none',
-    fontFamily: 'Poppins, Sans-Serif'
+    fontFamily: 'Poppins, Sans-Serif',
   },
   inputFocused: {
     border: '2px solid #1A1A1A',
@@ -293,7 +340,7 @@ const styles = {
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right 1rem center',
     backgroundSize: '1.5rem',
-    fontFamily: 'Poppins, Sans-serif'
+    fontFamily: 'Poppins, Sans-serif',
   },
   selectFocused: {
     border: '2px solid #000',
@@ -305,7 +352,7 @@ const styles = {
     textAlign: 'center',
     color: '#666',
     position: 'relative',
-    marginTop: '8px'
+    marginTop: '8px',
   },
   uploadIcon: {
     width: '40px',
@@ -316,7 +363,7 @@ const styles = {
     fontSize: '1rem',
     fontWeight: '530',
     color: '#2F2F2F',
-    marginBottom: '4px'
+    marginBottom: '4px',
   },
   uploadInfo: {
     fontSize: '0.875rem',
@@ -333,7 +380,7 @@ const styles = {
     fontWeight: '500',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
-    fontFamily: 'Poppins, Sans-serif'
+    fontFamily: 'Poppins, Sans-serif',
   },
   uploadBtnHover: {
     backgroundColor: '#991F1F',
@@ -353,7 +400,7 @@ const styles = {
     borderRadius: '1000px',
     cursor: 'pointer',
     transition: 'all 0.2s ease',
-    fontFamily: 'Poppins, Sans-serif'
+    fontFamily: 'Poppins, Sans-serif',
   },
   cancelBtnHover: {
     backgroundColor: '#991F1F',
@@ -366,7 +413,7 @@ const styles = {
     border: 'none',
     borderRadius: '9999px',
     cursor: 'pointer',
-    fontFamily: 'Poppins, Sans-serif'
+    fontFamily: 'Poppins, Sans-serif',
   },
   errorText: {
     color: 'red',
