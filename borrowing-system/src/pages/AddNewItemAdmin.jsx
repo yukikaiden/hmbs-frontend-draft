@@ -31,13 +31,11 @@ const AddNewItemAdmin = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: name === 'image' ? files[0] : value,
       ...(name === 'category' && !mechanicalElectricCategories.includes(value) ? { tagging: '' } : {}),
     }));
-
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
@@ -49,12 +47,9 @@ const AddNewItemAdmin = () => {
     if (!formData.unit.trim()) newErrors.unit = 'Unit is required';
     if (!formData.price || formData.price < 0) newErrors.price = 'Price is required';
     if (!formData.status.trim()) newErrors.status = 'Status is required';
-
     if (mechanicalElectricCategories.includes(formData.category) && !formData.tagging.trim())
       newErrors.tagging = 'Disposal tagging is required';
-
     if (!formData.image) newErrors.image = 'Image upload is required';
-
     return newErrors;
   };
 
@@ -68,6 +63,23 @@ const AddNewItemAdmin = () => {
     setIsItemAddedModalOpen(true);
   };
 
+  const selectWrapper = (hasError, children) => (
+    <div style={{ position: 'relative', width: '100%' }}>
+      {children}
+      <ChevronDown
+        size={20}
+        style={{
+          position: 'absolute',
+          right: '12px',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          pointerEvents: 'none',
+          color: '#991f1f',
+        }}
+      />
+    </div>
+  );
+
   const inputStyle = (hasError) => ({
     width: '100%',
     padding: '0.75rem 1rem',
@@ -76,49 +88,21 @@ const AddNewItemAdmin = () => {
     fontSize: '1rem',
     outline: 'none',
     fontFamily: 'Poppins, sans-serif',
-    appearance: 'none', // hides native arrow
-    background: 'transparent',
+    appearance: 'none',
+    WebkitAppearance: 'none',
+    MozAppearance: 'none',
+    backgroundColor: 'white',
   });
 
-  const selectWrapperStyle = {
-    position: 'relative',
-    width: '100%',
-  };
-
-  const chevronStyle = {
-    position: 'absolute',
-    right: '1rem',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    pointerEvents: 'none',
-    color: '#555',
-  };
-
   const errorMessage = (msg) => (
-    <div
-      style={{
-        color: '#e53935',
-        marginTop: '0.35rem',
-        display: 'flex',
-        alignItems: 'center',
-        fontSize: '0.85rem',
-        fontFamily: 'Poppins, sans-serif',
-      }}
-    >
+    <div style={{ color: '#e53935', marginTop: '0.35rem', display: 'flex', alignItems: 'center', fontSize: '0.85rem', fontFamily: 'Poppins, sans-serif' }}>
       <MdErrorOutline size={16} style={{ marginRight: '0.3rem' }} />
       {msg}
     </div>
   );
 
   const label = (text, required) => (
-    <label
-      style={{
-        fontWeight: 500,
-        marginBottom: '0.3rem',
-        display: 'block',
-        fontFamily: 'Poppins, sans-serif',
-      }}
-    >
+    <label style={{ fontWeight: 500, marginBottom: '0.3rem', display: 'block', fontFamily: 'Poppins, sans-serif' }}>
       {text} {required && <span style={{ color: '#e53935' }}>*</span>}
     </label>
   );
@@ -138,34 +122,17 @@ const AddNewItemAdmin = () => {
         ]}
       />
 
-      <main
-        style={{
-          marginLeft: '240px',
-          padding: '2rem',
-          flex: 1,
-          backgroundColor: '#fff',
-          minHeight: '100vh',
-        }}
-      >
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
+      <main style={{ marginLeft: '240px', padding: '2rem', flex: 1, backgroundColor: '#fff', minHeight: '100vh', fontFamily: 'Poppins, sans-serif' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
           <div>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Add New Item</h2>
-            <p style={{ color: '#666', fontSize: '1.1rem', marginTop: '-0.2rem' }}>
+            <p style={{ color: '#666', fontSize: '1.1rem', marginTop: '-0.2rem', marginBottom: '-0.5rem' }}>
               Add a new item to the inventory list
             </p>
           </div>
           <button
             onClick={() => setIsImportModalOpen(true)}
-            style={{
-              backgroundColor: '#8A1F2B',
-              color: '#fff',
-              border: 'none',
-              padding: '0.6rem 1.25rem',
-              borderRadius: '20px',
-              fontWeight: 500,
-              cursor: 'pointer',
-            }}
+            style={{ backgroundColor: '#8A1F2B', color: '#fff', border: 'none', padding: '0.6rem 1.25rem', borderRadius: '20px', fontWeight: 500, cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}
           >
             Import CSV File
           </button>
@@ -174,31 +141,17 @@ const AddNewItemAdmin = () => {
         <hr style={{ border: 'none', borderTop: '1.5px solid rgba(97, 97, 97, 0.3)', marginBottom: '1.3rem' }} />
 
         <form onSubmit={handleSubmit}>
-          {/* Item Name */}
           <div style={{ marginBottom: '1.25rem' }}>
             {label('Item Name', true)}
-            <input
-              type="text"
-              name="itemName"
-              placeholder="Enter item name"
-              style={inputStyle(errors.itemName)}
-              value={formData.itemName}
-              onChange={handleChange}
-            />
+            <input type="text" name="itemName" placeholder="Enter item name" style={inputStyle(errors.itemName)} value={formData.itemName} onChange={handleChange} />
             {errors.itemName && errorMessage(errors.itemName)}
           </div>
 
-          {/* Category & Location */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Category', true)}
-              <div style={selectWrapperStyle}>
-                <select
-                  name="category"
-                  style={inputStyle(errors.category)}
-                  value={formData.category}
-                  onChange={handleChange}
-                >
+              {selectWrapper(errors.category, (
+                <select name="category" style={inputStyle(errors.category)} value={formData.category} onChange={handleChange}>
                   <option value="">Select category</option>
                   <option>Pantry Tools</option>
                   <option>Cleaning Tools</option>
@@ -206,192 +159,87 @@ const AddNewItemAdmin = () => {
                   <option>Mechanical Equipment</option>
                   <option>Electrical Equipment</option>
                 </select>
-                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
-              </div>
+              ))}
               {errors.category && errorMessage(errors.category)}
             </div>
             <div style={{ flex: 1 }}>
               {label('Location', true)}
-              <input
-                type="text"
-                name="location"
-                placeholder="Enter location"
-                style={inputStyle(errors.location)}
-                value={formData.location}
-                onChange={handleChange}
-              />
+              <input type="text" name="location" placeholder="Enter location" style={inputStyle(errors.location)} value={formData.location} onChange={handleChange} />
               {errors.location && errorMessage(errors.location)}
             </div>
           </div>
 
-          {/* Quantity & Unit */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Available Quantity', true)}
-              <input
-                type="number"
-                name="quantity"
-                min="0"
-                placeholder="Enter quantity"
-                style={inputStyle(errors.quantity)}
-                value={formData.quantity}
-                onChange={handleChange}
-              />
+              <input type="number" name="quantity" min="0" placeholder="Enter quantity" style={inputStyle(errors.quantity)} value={formData.quantity} onChange={handleChange} />
               {errors.quantity && errorMessage(errors.quantity)}
             </div>
             <div style={{ flex: 1 }}>
               {label('Unit', true)}
-              <div style={selectWrapperStyle}>
-                <select
-                  name="unit"
-                  style={inputStyle(errors.unit)}
-                  value={formData.unit}
-                  onChange={handleChange}
-                >
+              {selectWrapper(errors.unit, (
+                <select name="unit" style={inputStyle(errors.unit)} value={formData.unit} onChange={handleChange}>
                   <option value="">Select unit</option>
                   <option>Pcs</option>
                   <option>Boxes</option>
                   <option>Liters</option>
                 </select>
-                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
-              </div>
+              ))}
               {errors.unit && errorMessage(errors.unit)}
             </div>
           </div>
 
-          {/* Price & Status */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Price', true)}
-              <input
-                type="number"
-                name="price"
-                placeholder="Enter price"
-                min="0"
-                step="0.01"
-                style={inputStyle(errors.price)}
-                value={formData.price}
-                onChange={handleChange}
-              />
+              <input type="number" name="price" placeholder="Enter price" min="0" step="0.01" style={inputStyle(errors.price)} value={formData.price} onChange={handleChange} />
               {errors.price && errorMessage(errors.price)}
             </div>
             <div style={{ flex: 1 }}>
               {label('Status', true)}
-              <div style={selectWrapperStyle}>
-                <select
-                  name="status"
-                  style={inputStyle(errors.status)}
-                  value={formData.status}
-                  onChange={handleChange}
-                >
+              {selectWrapper(errors.status, (
+                <select name="status" style={inputStyle(errors.status)} value={formData.status} onChange={handleChange}>
                   <option value="">Select status</option>
                   <option>Available</option>
                   <option>Unavailable</option>
                 </select>
-                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
-              </div>
+              ))}
               {errors.status && errorMessage(errors.status)}
             </div>
           </div>
 
-          {/* Disposal Tagging */}
           <div style={{ marginBottom: '1.25rem' }}>
             {label('Disposal Tagging', mechanicalElectricCategories.includes(formData.category))}
-            <div style={selectWrapperStyle}>
-              <select
-                name="tagging"
-                style={inputStyle(errors.tagging)}
-                value={formData.tagging}
-                onChange={handleChange}
-                disabled={isTaggingDisabled}
-              >
-                <option value="">Select tagging</option>
+            {selectWrapper(errors.tagging, (
+              <select name="tagging" style={inputStyle(errors.tagging)} value={formData.tagging} onChange={handleChange} disabled={isTaggingDisabled}>
+                <option value="">Select disposal tagging</option>
                 <option value="Good Condition">Good Condition</option>
                 <option value="For Repair">For Repair</option>
                 <option value="For Disposal">For Disposal</option>
               </select>
-              <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
-            </div>
+            ))}
             {errors.tagging && errorMessage(errors.tagging)}
           </div>
 
-          {/* Upload Image */}
           <div style={{ marginBottom: '2rem' }}>
             {label('Upload Image', true)}
-            <div
-              style={{
-                border: errors.image ? '2px solid #e53935' : '2px dashed #8A1F2B',
-                padding: '7rem 1rem',
-                borderRadius: '12px',
-                textAlign: 'center',
-                color: '#666',
-                position: 'relative',
-              }}
-            >
+            <div style={{ border: errors.image ? '2px solid #e53935' : '2px dashed #8A1F2B', padding: '7rem 1rem', borderRadius: '12px', textAlign: 'center', color: '#666', position: 'relative', fontFamily: 'Poppins, sans-serif' }}>
               <img src={UploadIcon} alt="Upload" style={{ width: '3rem', marginBottom: '0.5rem' }} />
               <p>Choose a file or drag & drop it here</p>
-              <p style={{ fontSize: '0.875rem', marginTop: '0.2rem' }}>
-                JPG, JPEG, PNG, PDF, DOC, DOCX formats, up to 10MB
-              </p>
-              <input
-                type="file"
-                name="image"
-                accept=".jpg,.jpeg,.png,.pdf,.doc,.docx"
-                onChange={handleChange}
-                style={{ display: 'none' }}
-                id="uploadFile"
-              />
-              <label
-                htmlFor="uploadFile"
-                style={{
-                  marginTop: '1rem',
-                  display: 'inline-block',
-                  padding: '0.5rem 1.25rem',
-                  borderRadius: '999px',
-                  backgroundColor: 'white',
-                  border: '1.5px solid #8A1F2B',
-                  fontWeight: 500,
-                  color: '#8A1F2B',
-                  cursor: 'pointer',
-                }}
-              >
+              <p style={{ fontSize: '0.875rem', marginTop: '0.2rem' }}>JPG, JPEG, PNG, PDF, DOC, DOCX formats, up to 10MB</p>
+              <input type="file" name="image" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx" onChange={handleChange} style={{ display: 'none' }} id="uploadFile" />
+              <label htmlFor="uploadFile" style={{ marginTop: '1rem', display: 'inline-block', padding: '0.5rem 1.25rem', borderRadius: '999px', backgroundColor: 'white', border: '1.5px solid #8A1F2B', fontWeight: 500, color: '#8A1F2B', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
                 Browse File
               </label>
             </div>
             {errors.image && errorMessage(errors.image)}
           </div>
 
-          {/* Buttons */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
-            <button
-              type="button"
-              onClick={() => navigate('/inventory')}
-              style={{
-                fontSize: '0.9rem',
-                padding: '0.5rem 1rem',
-                border: '1.5px solid #8A1F2B',
-                borderRadius: '999px',
-                fontWeight: 500,
-                backgroundColor: 'white',
-                color: '#8A1F2B',
-                cursor: 'pointer',
-              }}
-            >
+            <button type="button" onClick={() => navigate('/inventory')} style={{ fontSize: '0.9rem', padding: '0.5rem 1rem', border: '1.5px solid #8A1F2B', borderRadius: '999px', fontWeight: 500, backgroundColor: 'white', color: '#8A1F2B', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}>
               Cancel
             </button>
-            <button
-              type="submit"
-              style={{
-                backgroundColor: '#8A1F2B',
-                color: '#fff',
-                padding: '0.5rem 1rem',
-                border: 'none',
-                borderRadius: '999px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                fontSize: '0.9rem',
-              }}
-            >
+            <button type="submit" style={{ backgroundColor: '#8A1F2B', color: '#fff', padding: '0.5rem 1rem', border: 'none', borderRadius: '999px', fontWeight: 500, cursor: 'pointer', fontSize: '0.9rem', fontFamily: 'Poppins, sans-serif' }}>
               Submit Item
             </button>
           </div>
