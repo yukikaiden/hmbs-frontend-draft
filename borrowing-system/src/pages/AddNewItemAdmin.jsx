@@ -21,17 +21,23 @@ const AddNewItemAdmin = () => {
     unit: '',
     price: '',
     status: '',
+    tagging: '',
     image: null,
   });
 
   const [errors, setErrors] = useState({});
 
+  const mechanicalElectricCategories = ['Mechanical Equipment', 'Electrical Equipment'];
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: name === 'image' ? files[0] : value,
+      ...(name === 'category' && !mechanicalElectricCategories.includes(value) ? { tagging: '' } : {}),
     }));
+
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
@@ -39,12 +45,16 @@ const AddNewItemAdmin = () => {
     const newErrors = {};
     if (!formData.itemName.trim()) newErrors.itemName = 'Item name is required';
     if (!formData.category.trim()) newErrors.category = 'Category is required';
-    if (!formData.location.trim()) newErrors.location = 'Location is required';
-    if (!formData.quantity || formData.quantity < 0) newErrors.quantity = 'Quantity is required';
+    if (formData.quantity === '' || formData.quantity < 0) newErrors.quantity = 'Quantity is required';
     if (!formData.unit.trim()) newErrors.unit = 'Unit is required';
     if (!formData.price || formData.price < 0) newErrors.price = 'Price is required';
     if (!formData.status.trim()) newErrors.status = 'Status is required';
+
+    if (mechanicalElectricCategories.includes(formData.category) && !formData.tagging.trim())
+      newErrors.tagging = 'Disposal tagging is required';
+
     if (!formData.image) newErrors.image = 'Image upload is required';
+
     return newErrors;
   };
 
@@ -66,45 +76,54 @@ const AddNewItemAdmin = () => {
     fontSize: '1rem',
     outline: 'none',
     fontFamily: 'Poppins, sans-serif',
-    background: 'none',
-    appearance: 'none', // remove native dropdown arrow
+    appearance: 'none', // hides native arrow
+    background: 'transparent',
   });
 
-  const selectWrapperStyle = (hasError) => ({
+  const selectWrapperStyle = {
     position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
     width: '100%',
-    borderRadius: '8px',
-    border: hasError ? '2px solid #e53935' : '1.5px solid #000',
-    paddingRight: '2.5rem',
-    backgroundColor: '#fff',
-  });
+  };
+
+  const chevronStyle = {
+    position: 'absolute',
+    right: '1rem',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    pointerEvents: 'none',
+    color: '#555',
+  };
 
   const errorMessage = (msg) => (
-    <div style={{
-      color: '#e53935',
-      marginTop: '0.35rem',
-      display: 'flex',
-      alignItems: 'center',
-      fontSize: '0.85rem',
-      fontFamily: 'Poppins, sans-serif',
-    }}>
+    <div
+      style={{
+        color: '#e53935',
+        marginTop: '0.35rem',
+        display: 'flex',
+        alignItems: 'center',
+        fontSize: '0.85rem',
+        fontFamily: 'Poppins, sans-serif',
+      }}
+    >
       <MdErrorOutline size={16} style={{ marginRight: '0.3rem' }} />
       {msg}
     </div>
   );
 
   const label = (text, required) => (
-    <label style={{
-      fontWeight: 500,
-      marginBottom: '0.3rem',
-      display: 'block',
-      fontFamily: 'Poppins, sans-serif'
-    }}>
+    <label
+      style={{
+        fontWeight: 500,
+        marginBottom: '0.3rem',
+        display: 'block',
+        fontFamily: 'Poppins, sans-serif',
+      }}
+    >
       {text} {required && <span style={{ color: '#e53935' }}>*</span>}
     </label>
   );
+
+  const isTaggingDisabled = !mechanicalElectricCategories.includes(formData.category);
 
   return (
     <div style={{ display: 'flex', fontFamily: 'Poppins, sans-serif' }}>
@@ -119,28 +138,20 @@ const AddNewItemAdmin = () => {
         ]}
       />
 
-      <main style={{
-        marginLeft: '240px',
-        padding: '2rem',
-        flex: 1,
-        backgroundColor: '#fff',
-        minHeight: '100vh',
-        fontFamily: 'Poppins, sans-serif'
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '2rem'
-        }}>
+      <main
+        style={{
+          marginLeft: '240px',
+          padding: '2rem',
+          flex: 1,
+          backgroundColor: '#fff',
+          minHeight: '100vh',
+        }}
+      >
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
           <div>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Add New Item</h2>
-            <p style={{
-              color: '#666',
-              fontSize: '1.1rem',
-              marginTop: '-0.2rem',
-              marginBottom: '-0.5rem'
-            }}>
+            <p style={{ color: '#666', fontSize: '1.1rem', marginTop: '-0.2rem' }}>
               Add a new item to the inventory list
             </p>
           </div>
@@ -154,7 +165,6 @@ const AddNewItemAdmin = () => {
               borderRadius: '20px',
               fontWeight: 500,
               cursor: 'pointer',
-              fontFamily: 'Poppins, sans-serif'
             }}
           >
             Import CSV File
@@ -164,6 +174,7 @@ const AddNewItemAdmin = () => {
         <hr style={{ border: 'none', borderTop: '1.5px solid rgba(97, 97, 97, 0.3)', marginBottom: '1.3rem' }} />
 
         <form onSubmit={handleSubmit}>
+          {/* Item Name */}
           <div style={{ marginBottom: '1.25rem' }}>
             {label('Item Name', true)}
             <input
@@ -177,13 +188,14 @@ const AddNewItemAdmin = () => {
             {errors.itemName && errorMessage(errors.itemName)}
           </div>
 
+          {/* Category & Location */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Category', true)}
-              <div style={selectWrapperStyle(errors.category)}>
+              <div style={selectWrapperStyle}>
                 <select
                   name="category"
-                  style={{ ...inputStyle(errors.category), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  style={inputStyle(errors.category)}
                   value={formData.category}
                   onChange={handleChange}
                 >
@@ -191,8 +203,10 @@ const AddNewItemAdmin = () => {
                   <option>Pantry Tools</option>
                   <option>Cleaning Tools</option>
                   <option>Kitchenware</option>
+                  <option>Mechanical Equipment</option>
+                  <option>Electrical Equipment</option>
                 </select>
-                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
               </div>
               {errors.category && errorMessage(errors.category)}
             </div>
@@ -210,6 +224,7 @@ const AddNewItemAdmin = () => {
             </div>
           </div>
 
+          {/* Quantity & Unit */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Available Quantity', true)}
@@ -226,10 +241,10 @@ const AddNewItemAdmin = () => {
             </div>
             <div style={{ flex: 1 }}>
               {label('Unit', true)}
-              <div style={selectWrapperStyle(errors.unit)}>
+              <div style={selectWrapperStyle}>
                 <select
                   name="unit"
-                  style={{ ...inputStyle(errors.unit), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  style={inputStyle(errors.unit)}
                   value={formData.unit}
                   onChange={handleChange}
                 >
@@ -238,12 +253,13 @@ const AddNewItemAdmin = () => {
                   <option>Boxes</option>
                   <option>Liters</option>
                 </select>
-                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
               </div>
               {errors.unit && errorMessage(errors.unit)}
             </div>
           </div>
 
+          {/* Price & Status */}
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Price', true)}
@@ -261,10 +277,10 @@ const AddNewItemAdmin = () => {
             </div>
             <div style={{ flex: 1 }}>
               {label('Status', true)}
-              <div style={selectWrapperStyle(errors.status)}>
+              <div style={selectWrapperStyle}>
                 <select
                   name="status"
-                  style={{ ...inputStyle(errors.status), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  style={inputStyle(errors.status)}
                   value={formData.status}
                   onChange={handleChange}
                 >
@@ -272,12 +288,34 @@ const AddNewItemAdmin = () => {
                   <option>Available</option>
                   <option>Unavailable</option>
                 </select>
-                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+                <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
               </div>
               {errors.status && errorMessage(errors.status)}
             </div>
           </div>
 
+          {/* Disposal Tagging */}
+          <div style={{ marginBottom: '1.25rem' }}>
+            {label('Disposal Tagging', mechanicalElectricCategories.includes(formData.category))}
+            <div style={selectWrapperStyle}>
+              <select
+                name="tagging"
+                style={inputStyle(errors.tagging)}
+                value={formData.tagging}
+                onChange={handleChange}
+                disabled={isTaggingDisabled}
+              >
+                <option value="">Select tagging</option>
+                <option value="Good Condition">Good Condition</option>
+                <option value="For Repair">For Repair</option>
+                <option value="For Disposal">For Disposal</option>
+              </select>
+              <ChevronDown style={chevronStyle} size={20} color='#991f1f' />
+            </div>
+            {errors.tagging && errorMessage(errors.tagging)}
+          </div>
+
+          {/* Upload Image */}
           <div style={{ marginBottom: '2rem' }}>
             {label('Upload Image', true)}
             <div
@@ -288,7 +326,6 @@ const AddNewItemAdmin = () => {
                 textAlign: 'center',
                 color: '#666',
                 position: 'relative',
-                fontFamily: 'Poppins, sans-serif'
               }}
             >
               <img src={UploadIcon} alt="Upload" style={{ width: '3rem', marginBottom: '0.5rem' }} />
@@ -316,7 +353,6 @@ const AddNewItemAdmin = () => {
                   fontWeight: 500,
                   color: '#8A1F2B',
                   cursor: 'pointer',
-                  fontFamily: 'Poppins, sans-serif'
                 }}
               >
                 Browse File
@@ -325,6 +361,7 @@ const AddNewItemAdmin = () => {
             {errors.image && errorMessage(errors.image)}
           </div>
 
+          {/* Buttons */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.6rem' }}>
             <button
               type="button"
@@ -338,7 +375,6 @@ const AddNewItemAdmin = () => {
                 backgroundColor: 'white',
                 color: '#8A1F2B',
                 cursor: 'pointer',
-                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Cancel
@@ -354,7 +390,6 @@ const AddNewItemAdmin = () => {
                 fontWeight: 500,
                 cursor: 'pointer',
                 fontSize: '0.9rem',
-                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Submit Item
