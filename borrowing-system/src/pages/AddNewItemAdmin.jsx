@@ -5,6 +5,7 @@ import NewItemAddedModal from '../components/AdminModal/NewItemAddedModal';
 import { useNavigate } from 'react-router-dom';
 import { FaFileAlt, FaBoxOpen, FaClipboardList } from 'react-icons/fa';
 import { MdErrorOutline } from 'react-icons/md';
+import { ChevronDown } from 'lucide-react';
 import UploadIcon from '../assets/upload-file.svg';
 
 const AddNewItemAdmin = () => {
@@ -20,23 +21,17 @@ const AddNewItemAdmin = () => {
     unit: '',
     price: '',
     status: '',
-    tagging: '', // Disposal tagging
     image: null,
   });
 
   const [errors, setErrors] = useState({});
 
-  const mechanicalElectricCategories = ['Mechanical Equipment', 'Electrical Equipment'];
-
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: name === 'image' ? files[0] : value,
-      ...(name === 'category' && !mechanicalElectricCategories.includes(value) ? { tagging: '' } : {}),
     }));
-
     setErrors((prev) => ({ ...prev, [name]: '' }));
   };
 
@@ -44,17 +39,12 @@ const AddNewItemAdmin = () => {
     const newErrors = {};
     if (!formData.itemName.trim()) newErrors.itemName = 'Item name is required';
     if (!formData.category.trim()) newErrors.category = 'Category is required';
-    if (formData.quantity === '' || formData.quantity < 0) newErrors.quantity = 'Quantity is required';
+    if (!formData.location.trim()) newErrors.location = 'Location is required';
+    if (!formData.quantity || formData.quantity < 0) newErrors.quantity = 'Quantity is required';
     if (!formData.unit.trim()) newErrors.unit = 'Unit is required';
     if (!formData.price || formData.price < 0) newErrors.price = 'Price is required';
     if (!formData.status.trim()) newErrors.status = 'Status is required';
-
-    // Tagging required only for mechanical/electrical categories
-    if (mechanicalElectricCategories.includes(formData.category) && !formData.tagging.trim())
-      newErrors.tagging = 'Disposal tagging is required';
-
     if (!formData.image) newErrors.image = 'Image upload is required';
-
     return newErrors;
   };
 
@@ -76,39 +66,45 @@ const AddNewItemAdmin = () => {
     fontSize: '1rem',
     outline: 'none',
     fontFamily: 'Poppins, sans-serif',
+    background: 'none',
+    appearance: 'none', // remove native dropdown arrow
+  });
+
+  const selectWrapperStyle = (hasError) => ({
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: '8px',
+    border: hasError ? '2px solid #e53935' : '1.5px solid #000',
+    paddingRight: '2.5rem',
+    backgroundColor: '#fff',
   });
 
   const errorMessage = (msg) => (
-    <div
-      style={{
-        color: '#e53935',
-        marginTop: '0.35rem',
-        display: 'flex',
-        alignItems: 'center',
-        fontSize: '0.85rem',
-        fontFamily: 'Poppins, sans-serif',
-      }}
-    >
+    <div style={{
+      color: '#e53935',
+      marginTop: '0.35rem',
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: '0.85rem',
+      fontFamily: 'Poppins, sans-serif',
+    }}>
       <MdErrorOutline size={16} style={{ marginRight: '0.3rem' }} />
       {msg}
     </div>
   );
 
   const label = (text, required) => (
-    <label
-      style={{
-        fontWeight: 500,
-        marginBottom: '0.3rem',
-        display: 'block',
-        fontFamily: 'Poppins, sans-serif',
-      }}
-    >
+    <label style={{
+      fontWeight: 500,
+      marginBottom: '0.3rem',
+      display: 'block',
+      fontFamily: 'Poppins, sans-serif'
+    }}>
       {text} {required && <span style={{ color: '#e53935' }}>*</span>}
     </label>
   );
-
-  // Disable tagging select if category is NOT mechanical or electrical equipment
-  const isTaggingDisabled = !mechanicalElectricCategories.includes(formData.category);
 
   return (
     <div style={{ display: 'flex', fontFamily: 'Poppins, sans-serif' }}>
@@ -123,34 +119,28 @@ const AddNewItemAdmin = () => {
         ]}
       />
 
-      <main
-        style={{
-          marginLeft: '240px',
-          padding: '2rem',
-          flex: 1,
-          backgroundColor: '#fff',
-          minHeight: '100vh',
-          fontFamily: 'Poppins, sans-serif',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '2rem',
-          }}
-        >
+      <main style={{
+        marginLeft: '240px',
+        padding: '2rem',
+        flex: 1,
+        backgroundColor: '#fff',
+        minHeight: '100vh',
+        fontFamily: 'Poppins, sans-serif'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '2rem'
+        }}>
           <div>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 700 }}>Add New Item</h2>
-            <p
-              style={{
-                color: '#666',
-                fontSize: '1.1rem',
-                marginTop: '-0.2rem',
-                marginBottom: '-0.5rem',
-              }}
-            >
+            <p style={{
+              color: '#666',
+              fontSize: '1.1rem',
+              marginTop: '-0.2rem',
+              marginBottom: '-0.5rem'
+            }}>
               Add a new item to the inventory list
             </p>
           </div>
@@ -164,20 +154,14 @@ const AddNewItemAdmin = () => {
               borderRadius: '20px',
               fontWeight: 500,
               cursor: 'pointer',
-              fontFamily: 'Poppins, sans-serif',
+              fontFamily: 'Poppins, sans-serif'
             }}
           >
             Import CSV File
           </button>
         </div>
 
-        <hr
-          style={{
-            border: 'none',
-            borderTop: '1.5px solid rgba(97, 97, 97, 0.3)',
-            marginBottom: '1.3rem',
-          }}
-        />
+        <hr style={{ border: 'none', borderTop: '1.5px solid rgba(97, 97, 97, 0.3)', marginBottom: '1.3rem' }} />
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: '1.25rem' }}>
@@ -196,19 +180,20 @@ const AddNewItemAdmin = () => {
           <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem' }}>
             <div style={{ flex: 1 }}>
               {label('Category', true)}
-              <select
-                name="category"
-                style={inputStyle(errors.category)}
-                value={formData.category}
-                onChange={handleChange}
-              >
-                <option value="">Select category</option>
-                <option>Pantry Tools</option>
-                <option>Cleaning Tools</option>
-                <option>Kitchenware</option>
-                <option>Mechanical Equipment</option>
-                <option>Electrical Equipment</option>
-              </select>
+              <div style={selectWrapperStyle(errors.category)}>
+                <select
+                  name="category"
+                  style={{ ...inputStyle(errors.category), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  value={formData.category}
+                  onChange={handleChange}
+                >
+                  <option value="">Select category</option>
+                  <option>Pantry Tools</option>
+                  <option>Cleaning Tools</option>
+                  <option>Kitchenware</option>
+                </select>
+                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+              </div>
               {errors.category && errorMessage(errors.category)}
             </div>
             <div style={{ flex: 1 }}>
@@ -241,17 +226,20 @@ const AddNewItemAdmin = () => {
             </div>
             <div style={{ flex: 1 }}>
               {label('Unit', true)}
-              <select
-                name="unit"
-                style={inputStyle(errors.unit)}
-                value={formData.unit}
-                onChange={handleChange}
-              >
-                <option value="">Select unit</option>
-                <option>Pcs</option>
-                <option>Boxes</option>
-                <option>Liters</option>
-              </select>
+              <div style={selectWrapperStyle(errors.unit)}>
+                <select
+                  name="unit"
+                  style={{ ...inputStyle(errors.unit), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  value={formData.unit}
+                  onChange={handleChange}
+                >
+                  <option value="">Select unit</option>
+                  <option>Pcs</option>
+                  <option>Boxes</option>
+                  <option>Liters</option>
+                </select>
+                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+              </div>
               {errors.unit && errorMessage(errors.unit)}
             </div>
           </div>
@@ -273,35 +261,21 @@ const AddNewItemAdmin = () => {
             </div>
             <div style={{ flex: 1 }}>
               {label('Status', true)}
-              <select
-                name="status"
-                style={inputStyle(errors.status)}
-                value={formData.status}
-                onChange={handleChange}
-              >
-                <option value="">Select status</option>
-                <option>Available</option>
-                <option>Unavailable</option>
-              </select>
+              <div style={selectWrapperStyle(errors.status)}>
+                <select
+                  name="status"
+                  style={{ ...inputStyle(errors.status), border: 'none', padding: '0.75rem 1rem', flex: 1 }}
+                  value={formData.status}
+                  onChange={handleChange}
+                >
+                  <option value="">Select status</option>
+                  <option>Available</option>
+                  <option>Unavailable</option>
+                </select>
+                <ChevronDown size={14} style={{ position: 'absolute', right: '0.75rem', color: '#991f1f', pointerEvents: 'none' }} />
+              </div>
               {errors.status && errorMessage(errors.status)}
             </div>
-          </div>
-
-          {/* Disposal Tagging */}
-          <div style={{ marginBottom: '1.25rem' }}>
-            {label('Disposal Tagging', mechanicalElectricCategories.includes(formData.category))}
-            <select
-              name="tagging"
-              style={inputStyle(errors.tagging)}
-              value={formData.tagging}
-              onChange={handleChange}
-              disabled={isTaggingDisabled}
-            >
-              <option value="Good Condition">Good Condition</option>
-              <option value="For Repair">For Repair</option>
-              <option value="For Disposal">For Disposal</option>
-            </select>
-            {errors.tagging && errorMessage(errors.tagging)}
           </div>
 
           <div style={{ marginBottom: '2rem' }}>
@@ -314,7 +288,7 @@ const AddNewItemAdmin = () => {
                 textAlign: 'center',
                 color: '#666',
                 position: 'relative',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               <img src={UploadIcon} alt="Upload" style={{ width: '3rem', marginBottom: '0.5rem' }} />
@@ -342,7 +316,7 @@ const AddNewItemAdmin = () => {
                   fontWeight: 500,
                   color: '#8A1F2B',
                   cursor: 'pointer',
-                  fontFamily: 'Poppins, sans-serif',
+                  fontFamily: 'Poppins, sans-serif'
                 }}
               >
                 Browse File
@@ -364,7 +338,7 @@ const AddNewItemAdmin = () => {
                 backgroundColor: 'white',
                 color: '#8A1F2B',
                 cursor: 'pointer',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Cancel
@@ -380,7 +354,7 @@ const AddNewItemAdmin = () => {
                 fontWeight: 500,
                 cursor: 'pointer',
                 fontSize: '0.9rem',
-                fontFamily: 'Poppins, sans-serif',
+                fontFamily: 'Poppins, sans-serif'
               }}
             >
               Submit Item

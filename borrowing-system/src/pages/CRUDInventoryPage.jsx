@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import { FaFileAlt, FaBoxOpen, FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { FiPlus } from 'react-icons/fi';
-import { SquarePen, Trash2 } from 'lucide-react';
+import { SquarePen, Trash2, ChevronDown } from 'lucide-react';
 import SpoonImage from '../assets/images/spoon.png';
 import UpdateInventoryAdminModal from '../components/AdminModal/UpdateInventoryAdminModal';
 import InventoryDeletionModal from '../components/AdminModal/InventoryDeletionModal';
@@ -100,6 +100,38 @@ const CRUDInventoryPage = () => {
       opacity: disabled ? 0.5 : 1,
       cursor: disabled ? 'not-allowed' : 'pointer',
     }),
+
+    /* --- New: dropdown wrapper + input (matches AddNewItemAdmin) --- */
+    selectWrapper: {
+      position: 'relative',
+      display: 'flex',
+      alignItems: 'center',
+      width: '170px',
+      height: '38px',
+      borderRadius: '6px',
+      border: '1px solid #991F1F',
+      paddingRight: '1.5rem', // ensure space for the icon
+      backgroundColor: '#fff',
+    },
+    selectInput: {
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: '14px',
+      width: '100%',
+      height: '100%',
+      padding: '0.5rem 0.75rem',
+      border: 'none',
+      outline: 'none',
+      background: 'transparent',
+      color: '#991f1f',
+      cursor: 'pointer',
+      appearance: 'none', // remove native arrow
+    },
+    selectChevron: {
+      position: 'absolute',
+      right: '0.75rem',
+      color: '#991f1f',
+      pointerEvents: 'none',
+    },
   };
 
   return (
@@ -132,33 +164,21 @@ const CRUDInventoryPage = () => {
             value={searchTerm}
             onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
           />
-          <select
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '14px',
-              padding: '5px 10px',
-              width: '170px',
-              height: '38px',
-              borderRadius: '6px',
-              border: '1px solid #991F1F',
-              backgroundColor: '#fff',
-              color: '#333',
-              cursor: 'pointer',
-              appearance: 'none',
-              backgroundImage: `url("data:image/svg+xml;utf8,<svg fill='%23991F1F' xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 10px center',
-              backgroundSize: '10px',
-              paddingRight: '30px'
-            }}
-            value={sortBy}
-            onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
-          >
-            <option>Recommended</option>
-            <option>Name (A-Z)</option>
-            <option>Name (Z-A)</option>
-            <option>Quantity Available</option>
-          </select>
+
+          {/* Updated: Sorting dropdown uses wrapper + ChevronDown (uniform with RequestAdmin/AddNewItemAdmin) */}
+          <div style={styles.selectWrapper}>
+            <select
+              style={styles.selectInput}
+              value={sortBy}
+              onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
+            >
+              <option>Recommended</option>
+              <option>Name (A-Z)</option>
+              <option>Name (Z-A)</option>
+              <option>Quantity Available</option>
+            </select>
+            <ChevronDown size={14} style={styles.selectChevron} />
+          </div>
         </div>
 
         <div style={styles.roundedCard}>

@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
 import { MdErrorOutline } from 'react-icons/md';
+import { ChevronDown } from 'lucide-react';
 import InventoryUpdatedAdminModal from './InventoryUpdatedAdminModal';
-import uploadFileIcon from '../../assets/upload-file.svg'; // ✅ SVG icon
-
-const maroonDropdownIcon =
-  "url(\"data:image/svg+xml;utf8,<svg fill='%23991F1F' height='26' viewBox='0 0 24 24' width='26' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>\")";
+import uploadFileIcon from '../../assets/upload-file.svg';
 
 const mechanicalElectricCategories = ['Mechanical Equipment', 'Electrical Equipment'];
 
 const UpdateInventoryAdminModal = ({ onClose }) => {
   const [showUpdatedModal, setShowUpdatedModal] = useState(false);
   const [status, setStatus] = useState('');
-  const [disposalTag, setDisposalTag] = useState(''); // ✅ New state
+  const [disposalTag, setDisposalTag] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [statusError, setStatusError] = useState('');
   const [focusedInput, setFocusedInput] = useState('');
   const [isBrowseHover, setIsBrowseHover] = useState(false);
   const [isCancelHover, setIsCancelHover] = useState(false);
-
-  // New controlled state for category
   const [category, setCategory] = useState('');
 
   const handleSave = () => {
@@ -26,7 +22,6 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
       setStatusError('Please select a status');
       return;
     }
-
     setStatusError('');
     setShowUpdatedModal(true);
   };
@@ -41,8 +36,23 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     onClose();
   };
 
-  // Disable disposal tagging if category is NOT mechanical/electrical
   const isDisposalTagDisabled = !mechanicalElectricCategories.includes(category);
+
+  // Helper to render select with icon
+  const renderSelect = (props) => (
+    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <select {...props} style={props.style} />
+      <ChevronDown
+        size={16}
+        style={{
+          position: 'absolute',
+          right: '12px',
+          pointerEvents: 'none',
+          color: '#991F1F',
+        }}
+      />
+    </div>
+  );
 
   return (
     <>
@@ -73,29 +83,31 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             <div style={styles.row}>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Category</label>
-                <select
-                  style={{
-                    ...styles.select,
-                    backgroundImage: maroonDropdownIcon,
-                    ...(focusedInput === 'category' && styles.selectFocused),
-                  }}
-                  onFocus={() => setFocusedInput('category')}
-                  onBlur={() => setFocusedInput('')}
-                  value={category}
-                  onChange={(e) => {
+                {renderSelect({
+                  value: category,
+                  onChange: (e) => {
                     setCategory(e.target.value);
                     if (!mechanicalElectricCategories.includes(e.target.value)) {
                       setDisposalTag('');
                     }
-                  }}
-                >
-                  <option value="">Select category</option>
-                  <option>Pantry Tools</option>
-                  <option>Cleaning Tools</option>
-                  <option>Kitchenware</option>
-                  <option>Mechanical Equipment</option>
-                  <option>Electrical Equipment</option>
-                </select>
+                  },
+                  onFocus: () => setFocusedInput('category'),
+                  onBlur: () => setFocusedInput(''),
+                  style: {
+                    ...styles.select,
+                    ...(focusedInput === 'category' && styles.selectFocused),
+                  },
+                  children: (
+                    <>
+                      <option value="">Select category</option>
+                      <option>Pantry Tools</option>
+                      <option>Cleaning Tools</option>
+                      <option>Kitchenware</option>
+                      <option>Mechanical Equipment</option>
+                      <option>Electrical Equipment</option>
+                    </>
+                  ),
+                })}
               </div>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Location</label>
@@ -128,20 +140,22 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
               <div style={styles.formGroup}>
                 <label style={styles.label}>Unit</label>
-                <select
-                  style={{
+                {renderSelect({
+                  onFocus: () => setFocusedInput('unit'),
+                  onBlur: () => setFocusedInput(''),
+                  style: {
                     ...styles.select,
-                    backgroundImage: maroonDropdownIcon,
                     ...(focusedInput === 'unit' && styles.selectFocused),
-                  }}
-                  onFocus={() => setFocusedInput('unit')}
-                  onBlur={() => setFocusedInput('')}
-                >
-                  <option value="">Select unit</option>
-                  <option>Pcs</option>
-                  <option>Boxes</option>
-                  <option>Liters</option>
-                </select>
+                  },
+                  children: (
+                    <>
+                      <option value="">Select unit</option>
+                      <option>Pcs</option>
+                      <option>Boxes</option>
+                      <option>Liters</option>
+                    </>
+                  ),
+                })}
               </div>
             </div>
 
@@ -162,25 +176,27 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
                 <label style={styles.label}>
                   Status <span style={{ color: 'red' }}>*</span>
                 </label>
-                <select
-                  style={{
+                {renderSelect({
+                  value: status,
+                  onChange: (e) => setStatus(e.target.value),
+                  onFocus: () => setFocusedInput('status'),
+                  onBlur: () => setFocusedInput(''),
+                  style: {
                     ...styles.select,
-                    backgroundImage: maroonDropdownIcon,
                     border: statusError
                       ? '2px solid red'
                       : focusedInput === 'status'
-                      ? styles.selectFocused.border
-                      : styles.select.border,
-                  }}
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  onFocus={() => setFocusedInput('status')}
-                  onBlur={() => setFocusedInput('')}
-                >
-                  <option value="">Select status</option>
-                  <option>Available</option>
-                  <option>Unavailable</option>
-                </select>
+                        ? styles.selectFocused.border
+                        : styles.select.border,
+                  },
+                  children: (
+                    <>
+                      <option value="">Select status</option>
+                      <option>Available</option>
+                      <option>Unavailable</option>
+                    </>
+                  ),
+                })}
                 {statusError && (
                   <p style={styles.errorText}>
                     <MdErrorOutline style={styles.icon} />
@@ -190,26 +206,27 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Disposal Tagging */}
             <div style={styles.formGroup}>
               <label style={styles.label}>Disposal Tagging</label>
-              <select
-                style={{
+              {renderSelect({
+                value: disposalTag,
+                onChange: (e) => setDisposalTag(e.target.value),
+                onFocus: () => setFocusedInput('disposalTag'),
+                onBlur: () => setFocusedInput(''),
+                disabled: isDisposalTagDisabled,
+                style: {
                   ...styles.select,
-                  backgroundImage: maroonDropdownIcon,
                   ...(focusedInput === 'disposalTag' && styles.selectFocused),
-                }}
-                value={disposalTag}
-                onChange={(e) => setDisposalTag(e.target.value)}
-                onFocus={() => setFocusedInput('disposalTag')}
-                onBlur={() => setFocusedInput('')}
-                disabled={isDisposalTagDisabled}
-              >
-                <option value="">Select disposal tag</option>
-                <option>For Disposal</option>
-                <option>For Repair</option>
-                <option>Good Condition</option>
-              </select>
+                },
+                children: (
+                  <>
+                    <option value="">Select disposal tag</option>
+                    <option>For Disposal</option>
+                    <option>For Repair</option>
+                    <option>Good Condition</option>
+                  </>
+                ),
+              })}
             </div>
 
             <div style={styles.formGroup}>
@@ -330,16 +347,13 @@ const styles = {
   },
   select: {
     width: '100%',
-    padding: '12px 16px',
+    padding: '12px 40px 12px 16px', // space for icon
     border: '0.5px solid #1A1A1A',
     borderRadius: '10px',
     fontSize: '14px',
     outline: 'none',
     appearance: 'none',
     backgroundColor: '#fff',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 1rem center',
-    backgroundSize: '1.5rem',
     fontFamily: 'Poppins, Sans-serif',
   },
   selectFocused: {
