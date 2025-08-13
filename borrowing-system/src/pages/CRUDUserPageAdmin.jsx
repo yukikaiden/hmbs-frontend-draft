@@ -8,11 +8,35 @@ import ImportSuccessModal from '../components/AdminModal/ImportSuccessModal';
 import { FaFileAlt, FaBoxOpen, FaClipboardList, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const USERS_PER_PAGE = 5;
-const dummyUsers = Array.from({ length: 30 }, (_, index) => ({
+
+// Different dummy data for each tab
+const dummyDataByRole = {
+  Custodians: Array.from({ length: 10 }, (_, index) => ({
+    id: index + 1,
+    userId: `2022-${String(index + 1).padStart(5, '0')}`,
+    name: `Custodian User ${index + 1}`,
+    email: `custodian${index + 1}@usep.edu.ph`,
+  })),
+  'Program Heads': Array.from({ length: 20 }, (_, index) => ({
+    id: index + 1,
+    userId: `2022-${String(index + 1).padStart(5, '0')}`,
+    name: `Program Head User ${index + 1}`,
+    email: `proghead${index + 1}@usep.edu.ph`,
+  })),
+  Instructors: Array.from({ length: 30 }, (_, index) => ({
+    id: index + 1,
+    userId: `2022-${String(index + 1).padStart(5, '0')}`,
+    name: `Instructor User ${index + 1}`,
+    email: `instructor${index + 1}@usep.edu.ph`,
+  })),
+};
+
+// Dummy student list (separate)
+const dummyStudents = Array.from({ length: 15 }, (_, index) => ({
   id: index + 1,
-  userId: `2022-${String(index + 1).padStart(5, '0')}`,
-  name: `Juan Dela Cruz ${index + 1}`,
-  email: `jdc${String(index + 1).padStart(5, '0')}@usep.edu.ph`,
+  userId: `2022-STU-${String(index + 1).padStart(5, '0')}`,
+  name: `Student User ${index + 1}`,
+  email: `student${index + 1}@usep.edu.ph`,
 }));
 
 const roleTabs = ['Custodians', 'Program Heads', 'Instructors'];
@@ -119,11 +143,18 @@ const CRUDUserPageAdmin = () => {
       fontSize: '16px',
       borderTop: '1px solid #ddd',
     },
+    paginationInfo: {
+      textAlign: 'center',
+      marginTop: '0.7rem',
+      fontSize: '15px',
+      color: '#555',
+      marginBottom: '15px'
+    },
     pagination: {
       display: 'flex',
       justifyContent: 'center',
       gap: '0.5rem',
-      marginTop: '1rem',
+      marginTop: '0.5rem',
     },
     pageButton: (active) => ({
       width: '35px',
@@ -156,71 +187,79 @@ const CRUDUserPageAdmin = () => {
     }),
   };
 
-  const handlePageChange = (page, setter) => {
-    if (page >= 1 && page <= Math.ceil(dummyUsers.length / USERS_PER_PAGE)) {
+  const handlePageChange = (page, setter, totalItems) => {
+    if (page >= 1 && page <= Math.ceil(totalItems / USERS_PER_PAGE)) {
       setter(page);
     }
   };
 
-  const getPaginated = (page) =>
-    dummyUsers.slice((page - 1) * USERS_PER_PAGE, page * USERS_PER_PAGE);
+  const getPaginated = (data, page) =>
+    data.slice((page - 1) * USERS_PER_PAGE, page * USERS_PER_PAGE);
 
-  const renderTable = (users, wrapperStyle, page, setPage, roleLabel) => (
-    <>
-      <div style={wrapperStyle}>
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th style={styles.th}>#</th>
-              <th style={styles.th}>User ID</th>
-              <th style={styles.th}>Name</th>
-              <th style={styles.th}>Email</th>
-              <th style={styles.th}>Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user, index) => (
-              <tr key={user.id}>
-                <td style={styles.td}>{index + 1 + (page - 1) * USERS_PER_PAGE}</td>
-                <td style={styles.td}>{user.userId}</td>
-                <td style={styles.td}>{user.name}</td>
-                <td style={styles.td}>{user.email}</td>
-                <td style={styles.td}>{roleLabel}</td>
+  const renderTable = (data, wrapperStyle, page, setPage, roleLabel) => {
+    const totalItems = data.length;
+    const start = (page - 1) * USERS_PER_PAGE + 1;
+    const end = Math.min(start + USERS_PER_PAGE - 1, totalItems);
+
+    return (
+      <>
+        <div style={wrapperStyle}>
+          <table style={styles.table}>
+            <thead>
+              <tr>
+                <th style={styles.th}>#</th>
+                <th style={styles.th}>User ID</th>
+                <th style={styles.th}>Name</th>
+                <th style={styles.th}>Email</th>
+                <th style={styles.th}>Role</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {getPaginated(data, page).map((user, index) => (
+                <tr key={user.id}>
+                  <td style={styles.td}>{index + 1 + (page - 1) * USERS_PER_PAGE}</td>
+                  <td style={styles.td}>{user.userId}</td>
+                  <td style={styles.td}>{user.name}</td>
+                  <td style={styles.td}>{user.email}</td>
+                  <td style={styles.td}>{roleLabel}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <div style={styles.pagination}>
-        <button
-          style={styles.navIconButton(page === 1)}
-          onClick={() => handlePageChange(page - 1, setPage)}
-          disabled={page === 1}
-        >
-          <FaChevronLeft />
-        </button>
-        {Array.from({ length: Math.ceil(dummyUsers.length / USERS_PER_PAGE) }).map((_, index) => (
+        <div style={styles.paginationInfo}>
+          Showing {start} to {end} of {totalItems} entries
+        </div>
+
+        <div style={styles.pagination}>
           <button
-            key={index}
-            style={styles.pageButton(page === index + 1)}
-            onClick={() => handlePageChange(index + 1, setPage)}
+            style={styles.navIconButton(page === 1)}
+            onClick={() => handlePageChange(page - 1, setPage, totalItems)}
+            disabled={page === 1}
           >
-            {index + 1}
+            <FaChevronLeft />
           </button>
-        ))}
-        <button
-          style={styles.navIconButton(
-            page === Math.ceil(dummyUsers.length / USERS_PER_PAGE)
-          )}
-          onClick={() => handlePageChange(page + 1, setPage)}
-          disabled={page === Math.ceil(dummyUsers.length / USERS_PER_PAGE)}
-        >
-          <FaChevronRight />
-        </button>
-      </div>
-    </>
-  );
+          {Array.from({ length: Math.ceil(totalItems / USERS_PER_PAGE) }).map((_, index) => (
+            <button
+              key={index}
+              style={styles.pageButton(page === index + 1)}
+              onClick={() => handlePageChange(index + 1, setPage, totalItems)}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            style={styles.navIconButton(page === Math.ceil(totalItems / USERS_PER_PAGE))}
+            onClick={() => handlePageChange(page + 1, setPage, totalItems)}
+            disabled={page === Math.ceil(totalItems / USERS_PER_PAGE)}
+          >
+            <FaChevronRight />
+          </button>
+        </div>
+      </>
+    );
+  };
 
   return (
     <div style={styles.layout}>
@@ -263,7 +302,7 @@ const CRUDUserPageAdmin = () => {
               </div>
             ))}
           </div>
-          {renderTable(getPaginated(currentPage), styles.staffTableWrapper, currentPage, setCurrentPage, activeTab)}
+          {renderTable(dummyDataByRole[activeTab], styles.staffTableWrapper, currentPage, setCurrentPage, activeTab)}
         </div>
 
         {/* Student Section */}
@@ -272,7 +311,7 @@ const CRUDUserPageAdmin = () => {
             <p style={styles.sectionTitle}>Students</p>
             <button style={styles.button} onClick={() => setShowImportCSVModal(true)}>Import CSV File</button>
           </div>
-          {renderTable(getPaginated(studentPage), styles.studentTableWrapper, studentPage, setStudentPage, 'Student')}
+          {renderTable(dummyStudents, styles.studentTableWrapper, studentPage, setStudentPage, 'Student')}
         </div>
       </main>
 
