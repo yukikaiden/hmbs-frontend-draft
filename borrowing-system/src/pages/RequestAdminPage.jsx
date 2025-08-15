@@ -92,7 +92,6 @@ const RequestAdminPage = () => {
     }
   };
 
-  // --- Styles (kept and extended from your original) ---
   const styles = {
     adminPage: {
       display: 'flex',
@@ -111,7 +110,7 @@ const RequestAdminPage = () => {
     },
     header: { marginBottom: '20px' },
     headerTitle: { margin: 0 },
-    headerSubtitle: { margin: '-4px 0 15px', fontSize: '18px' },
+    headerSubtitle: { margin: '-4px 0 15px', fontSize: '17px' , color: '#666' },
     legend: { display: 'flex', gap: '20px', marginBottom: '10px', flexWrap: 'wrap' },
     legendItem: { display: 'flex', alignItems: 'center', fontSize: '16px', fontWeight: '600', gap: '10px' },
     legendCircle: { width: '28px', height: '27px', borderRadius: '50%', display: 'inline-block' },
@@ -224,7 +223,7 @@ const RequestAdminPage = () => {
       display: 'flex',
       justifyContent: 'center',
       marginTop: '12px',
-      marginBottom: '-10px' /* large gap after showing text, per your request */
+      marginBottom: '-10px' 
     },
     showingText: {
       fontSize: '15px',
@@ -257,15 +256,16 @@ const RequestAdminPage = () => {
       width: '35px',
       height: '35px',
       borderRadius: '50%',
-      backgroundColor: disabled ? '#ccc' : '#8A1F2B',
-      border: 'none',
-      color: 'white',
-      fontSize: '14px',
+      border: '1px solid #991F1F',
+      backgroundColor: '#991F1F',
+      color: '#fff',
+      fontWeight: 500,
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
+      alignItems: 'center',
+      opacity: disabled ? 0.5 : 1,
       cursor: disabled ? 'not-allowed' : 'pointer',
-      transition: 'background-color 0.2s ease',
+      fontFamily: 'Poppins, sans-serif',
     }),
   };
 
@@ -351,7 +351,7 @@ const RequestAdminPage = () => {
         <div style={styles.requestsTable}>
           <div style={styles.tableHeader}>
             <div>
-              <h3 style={{ margin: 0, fontSize: '22px' }}>All Requests</h3>
+              <h3 style={{ marginBottom: '-4px', fontSize: '22px' }}>All Requests</h3>
               <p style={styles.totalRequests}>Total Requests: {filteredAllRequests.length}</p>
             </div>
 
@@ -410,25 +410,30 @@ const RequestAdminPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedAll.map((item, index) => (
-                  <tr key={index}>
-                    <td style={styles.narrowCell}>{(allPage - 1) * entriesPerPage + index + 1}</td>
-                    <td style={styles.tableCell}>{item.requestId}</td>
-                    <td style={styles.tableCell}>{item.name}</td>
-                    <td style={styles.tableCell}>{item.courseId}</td>
-                    <td style={styles.tableCell}>{item.requestDate}</td>
-                    <td style={styles.tableCell}>
-                      <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
-                    </td>
-                    <td style={styles.tableCell}>
-                      <SquarePen
-                        size={16}
-                        style={{ cursor: 'pointer', color: '#333' }}
-                        onClick={() => handleNavigate(item.requestId)}
-                      />
-                    </td>
-                  </tr>
-                ))}
+                {paginatedAll.map((item, index) => {
+                  const isLastRow = index === paginatedAll.length - 1;
+                  return (
+                    <tr key={index}>
+                      <td style={{ ...styles.narrowCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>
+                        {(allPage - 1) * entriesPerPage + index + 1}
+                      </td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.requestId}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.name}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.courseId}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.requestDate}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>
+                        <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
+                      </td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>
+                        <SquarePen
+                          size={16}
+                          style={{ cursor: 'pointer', color: '#333' }}
+                          onClick={() => handleNavigate(item.requestId)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
 
                 {/* When there are no rows, keep table spacing consistent */}
                 {paginatedAll.length === 0 && (
@@ -454,10 +459,11 @@ const RequestAdminPage = () => {
         </div>
 
         {/* Past Transactions */}
-        <div style={{ ...styles.requestsTable, border: 'none' }}>
+        {/* Now using the exact same requestsTable style so widths align perfectly */}
+        <div style={styles.requestsTable}>
           <div style={styles.tableHeader}>
             <div>
-              <h3 style={{ margin: 0, fontSize: '22px' }}>Past Transactions</h3>
+              <h3 style={{ marginBottom: '-4px', fontSize: '22px' }}>Past Transactions</h3>
               <p style={styles.totalRequests}>Track completed borrow request transactions</p>
             </div>
             <button style={styles.exportBtn}>Export CSV</button>
@@ -476,18 +482,23 @@ const RequestAdminPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedPast.map((item, index) => (
-                  <tr key={index}>
-                    <td style={styles.narrowCell}>{(pastPage - 1) * entriesPerPage + index + 1}</td>
-                    <td style={styles.tableCell}>{item.requestId}</td>
-                    <td style={styles.tableCell}>{item.name}</td>
-                    <td style={styles.tableCell}>{item.courseId}</td>
-                    <td style={styles.tableCell}>{item.requestDate}</td>
-                    <td style={styles.tableCell}>
-                      <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
-                    </td>
-                  </tr>
-                ))}
+                {paginatedPast.map((item, index) => {
+                  const isLastRow = index === paginatedPast.length - 1;
+                  return (
+                    <tr key={index}>
+                      <td style={{ ...styles.narrowCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>
+                        {(pastPage - 1) * entriesPerPage + index + 1}
+                      </td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.requestId}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.name}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.courseId}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>{item.requestDate}</td>
+                      <td style={{ ...styles.tableCell, borderBottom: isLastRow ? 'none' : '1px solid #E5E7EB' }}>
+                        <span style={{ ...styles.statusTag, backgroundColor: getStatusColor(item.status) }}>{item.status}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
 
                 {paginatedPast.length === 0 && (
                   <tr>

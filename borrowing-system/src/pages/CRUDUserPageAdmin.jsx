@@ -74,7 +74,7 @@ const CRUDUserPageAdmin = () => {
       flexDirection: 'column',
     },
     title: { fontSize: '1.6rem', fontWeight: 600 },
-    subtitle: { color: '#666', fontSize: '1rem' },
+    subtitle: { color: '#666', fontSize: '17px' , marginBottom: '-0.5rem' },
     button: {
       backgroundColor: '#991F1F',
       color: '#fff',

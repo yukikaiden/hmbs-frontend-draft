@@ -17,7 +17,6 @@ function TransactionPage() {
 
   const currentStep = 0;
   const [expandedIndex, setExpandedIndex] = useState(null);
-  const [sortAsc, setSortAsc] = useState(true);
 
   const toggleExpand = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -263,169 +262,133 @@ function TransactionPage() {
               marginBottom: '60px',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '10px',
-              }}
-            >
-              <div>
-                <div style={{ fontSize: '19px', fontWeight: '600' }}>Transaction History</div>
-                <div style={{ fontSize: '15px', color: '#777', marginTop: '-4px', marginBottom: '12px' }}>
-                  Track completed equipment transactions
-                </div>
+            <div style={{ marginBottom: '10px' }}>
+              <div style={{ fontSize: '19px', fontWeight: '600' }}>Transaction History</div>
+              <div style={{ fontSize: '15px', color: '#777', marginTop: '-4px', marginBottom: '12px' }}>
+                Track completed equipment transactions
               </div>
-              <button
-                onClick={() => setSortAsc(!sortAsc)}
-                style={{
-                  backgroundColor: '#fff',
-                  color: '#333',
-                  border: '1px solid #1a1919ff',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  padding: '7px 14px',
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                  fontFamily: 'Poppins, sans-serif',
-                }}
-              >
-                Sort by{' '}
-                <FaChevronDown
-                  style={{
-                    fontSize: '12px',
-                    transform: sortAsc ? 'rotate(0deg)' : 'rotate(180deg)',
-                    transition: 'transform 0.2s ease',
-                  }}
-                />
-              </button>
             </div>
 
-            {[1, 2, 3, 4]
-              .sort((a, b) => (sortAsc ? a - b : b - a))
-              .map((num, index) => (
+            {[1, 2, 3, 4].map((num, index) => (
+              <div
+                key={num}
+                style={{
+                  border: '0.5px solid #ccc',
+                  borderRadius: '10px',
+                  marginBottom: '12px',
+                  padding: '15px 16px',
+                  backgroundColor: 'rgba(255,255,255,0.8)',
+                }}
+              >
                 <div
-                  key={num}
+                  onClick={() => toggleExpand(index)}
                   style={{
-                    border: '0.5px solid #ccc',
-                    borderRadius: '10px',
-                    marginBottom: '12px',
-                    padding: '15px 16px',
-                    backgroundColor: 'rgba(255,255,255,0.8)',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    cursor: 'pointer',
                   }}
                 >
-                  <div
-                    onClick={() => toggleExpand(index)}
+                  <div>
+                    <strong>Completed Borrowed Request</strong>
+                    <div style={{ fontSize: '13px', color: '#777' }}>Request No. 00000012{num}</div>
+                  </div>
+                  <FaChevronDown
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      cursor: 'pointer',
+                      color: '#991F1F',
+                      transform: expandedIndex === index ? 'rotate(180deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease',
+                    }}
+                  />
+                </div>
+
+                {expandedIndex === index && (
+                  <div
+                    style={{
+                      marginTop: '16px',
+                      padding: '20px',
+                      backgroundColor: '#fafafa',
+                      borderRadius: '8px',
+                      boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
+                      fontSize: '14px',
+                      color: '#333',
+                      lineHeight: '1.6',
                     }}
                   >
-                    <div>
-                      <strong>Completed Borrowed Request</strong>
-                      <div style={{ fontSize: '13px', color: '#777' }}>Request No. 00000012{num}</div>
-                    </div>
-                    <FaChevronDown
-                      style={{
-                        color: '#991F1F',
-                        transform: expandedIndex === index ? 'rotate(180deg)' : 'rotate(0deg)',
-                        transition: 'transform 0.2s ease',
-                      }}
-                    />
-                  </div>
-
-                  {expandedIndex === index && (
                     <div
                       style={{
-                        marginTop: '16px',
-                        padding: '20px',
-                        backgroundColor: '#fafafa',
-                        borderRadius: '8px',
-                        boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
-                        fontSize: '14px',
-                        color: '#333',
-                        lineHeight: '1.6',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        columnGap: '40px',
+                        rowGap: '10px',
+                        marginBottom: '18px',
                       }}
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          columnGap: '40px',
-                          rowGap: '10px',
-                          marginBottom: '18px',
-                        }}
-                      >
-                        <div style={{ flex: '1 1 45%' }}>
-                          <p><strong>Date Requested:</strong> July 10, 2025</p>
-                          <p><strong>Date Use:</strong> July 12, 2025</p>
-                          <p><strong>Time Use:</strong> 8:00 AM – 12:00 PM</p>
-                        </div>
-                        <div style={{ flex: '1 1 45%' }}>
-                          <p><strong>Course:</strong> BSIT-3A</p>
-                          <p><strong>Group Leader:</strong> Juan Dela Cruz</p>
-                          <p><strong>Group Members:</strong> Maria Santos, Ana Reyes, Pedro Tan</p>
-                        </div>
+                      <div style={{ flex: '1 1 45%' }}>
+                        <p><strong>Date Requested:</strong> July 10, 2025</p>
+                        <p><strong>Date Use:</strong> July 12, 2025</p>
+                        <p><strong>Time Use:</strong> 8:00 AM – 12:00 PM</p>
                       </div>
-
-                      <div>
-                        <p style={{ fontWeight: '600', marginBottom: '10px' }}>Borrowed Items:</p>
-                        <table
-                          style={{
-                            width: '100%',
-                            borderCollapse: 'collapse',
-                            backgroundColor: '#fff',
-                            borderRadius: '6px',
-                            overflow: 'hidden',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-                          }}
-                        >
-                          <thead style={{ backgroundColor: '#f2f2f2' }}>
-                            <tr>
-                              <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Item</th>
-                              <th style={{ textAlign: 'center', padding: '10px', fontSize: '13.5px' }}>Quantity</th>
-                              <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Unit</th>
-                              <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {[
-                              { name: 'Stone 27cm Granite Dinner Plate', qty: '12', unit: 'pcs' },
-                              { name: 'Silver 14cm Tea Spoon', qty: '12', unit: 'pcs' },
-                              { name: 'Crystal Wine Glass', qty: '6', unit: 'pcs' },
-                            ].map((item, idx) => (
-                              <tr key={idx} style={{ borderBottom: '1px solid #eee' }}>
-                                <td style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                  <img
-                                    src={itemImage}
-                                    alt="Item"
-                                    style={{
-                                      width: '36px',
-                                      height: '36px',
-                                      objectFit: 'cover',
-                                      borderRadius: '6px',
-                                      border: '1px solid #ddd',
-                                    }}
-                                  />
-                                  {item.name}
-                                </td>
-                                <td style={{ textAlign: 'center', padding: '10px' }}>{item.qty}</td>
-                                <td style={{ padding: '10px' }}>{item.unit}</td>
-                                <td style={{ padding: '10px', color: '#267326', fontWeight: '500' }}>Returned</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
+                      <div style={{ flex: '1 1 45%' }}>
+                        <p><strong>Course:</strong> BSIT-3A</p>
+                        <p><strong>Group Leader:</strong> Juan Dela Cruz</p>
+                        <p><strong>Group Members:</strong> Maria Santos, Ana Reyes, Pedro Tan</p>
                       </div>
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    <div>
+                      <p style={{ fontWeight: '600', marginBottom: '10px' }}>Borrowed Items:</p>
+                      <table
+                        style={{
+                          width: '100%',
+                          borderCollapse: 'collapse',
+                          backgroundColor: '#fff',
+                          borderRadius: '6px',
+                          overflow: 'hidden',
+                          boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+                        }}
+                      >
+                        <thead style={{ backgroundColor: '#f2f2f2' }}>
+                          <tr>
+                            <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Item</th>
+                            <th style={{ textAlign: 'center', padding: '10px', fontSize: '13.5px' }}>Quantity</th>
+                            <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Unit</th>
+                            <th style={{ textAlign: 'left', padding: '10px', fontSize: '13.5px' }}>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {[
+                            { name: 'Stone 27cm Granite Dinner Plate', qty: '12', unit: 'pcs' },
+                            { name: 'Silver 14cm Tea Spoon', qty: '12', unit: 'pcs' },
+                            { name: 'Crystal Wine Glass', qty: '6', unit: 'pcs' },
+                          ].map((item, idx) => (
+                            <tr key={idx} style={{ borderBottom: '1px solid #eee' }}>
+                              <td style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <img
+                                  src={itemImage}
+                                  alt="Item"
+                                  style={{
+                                    width: '36px',
+                                    height: '36px',
+                                    objectFit: 'cover',
+                                    borderRadius: '6px',
+                                    border: '1px solid #ddd',
+                                  }}
+                                />
+                                {item.name}
+                              </td>
+                              <td style={{ textAlign: 'center', padding: '10px' }}>{item.qty}</td>
+                              <td style={{ padding: '10px' }}>{item.unit}</td>
+                              <td style={{ padding: '10px', color: '#267326', fontWeight: '500' }}>Returned</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>

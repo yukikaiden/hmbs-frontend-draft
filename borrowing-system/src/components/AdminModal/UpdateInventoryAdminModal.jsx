@@ -54,6 +54,173 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
     </div>
   );
 
+  const styles = {
+    overlay: {
+      position: 'fixed',
+      inset: 0,
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+      fontFamily: 'Poppins, sans-serif',
+    },
+    modal: {
+      background: '#fff',
+      padding: '30px',
+      borderRadius: '16px',
+      width: '700px',
+      maxHeight: '95vh',
+      overflowY: 'auto',
+    },
+    header: {
+      display: 'flex',
+      justifyContent: 'space-between',
+    },
+    title: {
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: '#1A1A1A',
+      marginBottom: '-3px',
+    },
+    closeBtn: {
+      background: 'none',
+      border: 'none',
+      fontSize: '22px',
+      cursor: 'pointer',
+    },
+    subtitle: {
+      color: '#666',
+      fontSize: '17px',
+      marginBottom: '10px',
+    },
+    divider: {
+      border: 'none',
+      borderTop: '1.5px solid rgba(97, 97, 97, 0.3)',
+      marginBottom: '15px',
+    },
+    formGroup: {
+      marginBottom: '1.4rem',
+      flex: 1,
+    },
+    row: {
+      display: 'flex',
+      gap: '1rem',
+    },
+    label: {
+      fontWeight: 600,
+      marginBottom: '0.2rem',
+      display: 'block',
+    },
+    input: {
+      width: '100%',
+      padding: '0.8rem',
+      border: '0.5px solid #1A1A1A',
+      borderRadius: '7px',
+      fontSize: '0.9rem',
+      outline: 'none',
+      fontFamily: 'Poppins, Sans-Serif',
+    },
+    inputFocused: {
+      border: '2px solid #1A1A1A',
+    },
+    select: {
+      width: '100%',
+      padding: '12px 40px 12px 16px', // space for icon
+      border: '0.5px solid #1A1A1A',
+      borderRadius: '7px',
+      fontSize: '14px',
+      outline: 'none',
+      appearance: 'none',
+      backgroundColor: '#fff',
+      fontFamily: 'Poppins, Sans-serif',
+    },
+    selectFocused: {
+      border: '2px solid #000',
+    },
+    uploadBox: {
+      border: '2px dashed #991F1F',
+      borderRadius: '12px',
+      padding: '2.5rem 1rem',
+      textAlign: 'center',
+      color: '#666',
+      position: 'relative',
+      marginTop: '8px',
+    },
+    uploadIcon: {
+      width: '40px',
+      height: '40px',
+      marginBottom: '-0.3rem',
+    },
+    uploadText: {
+      fontSize: '1rem',
+      fontWeight: '530',
+      color: '#2F2F2F',
+      marginBottom: '4px',
+    },
+    uploadInfo: {
+      fontSize: '0.875rem',
+      color: '#6B7280',
+      marginBottom: '12px',
+    },
+    uploadBtn: {
+      padding: '6px 18px',
+      backgroundColor: '#fff',
+      border: '1px solid #991F1F',
+      color: '#991F1F',
+      borderRadius: '999px',
+      fontSize: '0.85rem',
+      fontWeight: '500',
+      cursor: 'pointer',
+      transition: 'all 0.2s ease',
+      fontFamily: 'Poppins, Sans-serif',
+    },
+    uploadBtnHover: {
+      backgroundColor: '#991F1F',
+      color: '#fff',
+    },
+    footer: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      gap: '7px',
+      marginTop: '2rem',
+    },
+    cancelBtn: {
+      padding: '0.5rem 1rem',
+      border: '1.5px solid #991F1F',
+      color: '#991F1F',
+      background: 'white',
+      borderRadius: '1000px',
+      cursor: 'pointer',
+      transition: 'all 0.2s ease',
+      fontFamily: 'Poppins, Sans-serif',
+    },
+    cancelBtnHover: {
+      backgroundColor: '#991F1F',
+      color: '#fff',
+    },
+    saveBtn: {
+      padding: '0.5rem 1rem',
+      backgroundColor: '#991F1F',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '9999px',
+      cursor: 'pointer',
+      fontFamily: 'Poppins, Sans-serif',
+    },
+    errorText: {
+      color: 'red',
+      fontSize: '0.85rem',
+      marginTop: '0.4rem',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.3rem',
+    },
+    icon: {
+      fontSize: '1.1rem',
+    },
+  };
+
   return (
     <>
       {!showUpdatedModal && (
@@ -62,10 +229,12 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             <div style={styles.header}>
               <h2 style={styles.title}>Edit Item</h2>
               <button style={styles.closeBtn} onClick={onClose}>
-                ✕
+               <span style={{ color: '#991F1F' }}>✕</span> 
               </button>
             </div>
             <p style={styles.subtitle}>Edit item details below</p>
+          
+            <hr style={styles.divider} />
 
             <div style={styles.formGroup}>
               <label style={styles.label}>Item Name</label>
@@ -230,7 +399,7 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
             </div>
 
             <div style={styles.formGroup}>
-              <label style={styles.label}>Upload Image *</label>
+              <label style={styles.label}>Upload Image <span style={{ color: 'red' }}>*</span></label>
               <div style={styles.uploadBox}>
                 <img src={uploadFileIcon} alt="Upload Icon" style={styles.uploadIcon} />
                 <p style={styles.uploadText}>Choose a file or drag & drop it here</p>
@@ -278,168 +447,6 @@ const UpdateInventoryAdminModal = ({ onClose }) => {
       {showUpdatedModal && <InventoryUpdatedAdminModal onDone={handleDone} />}
     </>
   );
-};
-
-const styles = {
-  overlay: {
-    position: 'fixed',
-    inset: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-    fontFamily: 'Poppins, sans-serif',
-  },
-  modal: {
-    background: '#fff',
-    padding: '30px',
-    borderRadius: '16px',
-    width: '640px',
-    maxHeight: '95vh',
-    overflowY: 'auto',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-  title: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#1A1A1A',
-    marginBottom: '-6px',
-  },
-  closeBtn: {
-    background: 'none',
-    border: 'none',
-    fontSize: '22px',
-    cursor: 'pointer',
-  },
-  subtitle: {
-    fontSize: '17px',
-    color: '#1a1a1a',
-    marginBottom: '22px',
-  },
-  formGroup: {
-    marginBottom: '16px',
-    flex: 1,
-  },
-  row: {
-    display: 'flex',
-    gap: '1rem',
-  },
-  label: {
-    fontWeight: '500',
-    marginBottom: '6px',
-    display: 'block',
-  },
-  input: {
-    width: '100%',
-    padding: '12px 16px',
-    border: '0.5px solid #1A1A1A',
-    borderRadius: '10px',
-    fontSize: '14px',
-    outline: 'none',
-    fontFamily: 'Poppins, Sans-Serif',
-  },
-  inputFocused: {
-    border: '2px solid #1A1A1A',
-  },
-  select: {
-    width: '100%',
-    padding: '12px 40px 12px 16px', // space for icon
-    border: '0.5px solid #1A1A1A',
-    borderRadius: '10px',
-    fontSize: '14px',
-    outline: 'none',
-    appearance: 'none',
-    backgroundColor: '#fff',
-    fontFamily: 'Poppins, Sans-serif',
-  },
-  selectFocused: {
-    border: '2px solid #000',
-  },
-  uploadBox: {
-    border: '2px dashed #991F1F',
-    borderRadius: '12px',
-    padding: '2.5rem 1rem',
-    textAlign: 'center',
-    color: '#666',
-    position: 'relative',
-    marginTop: '8px',
-  },
-  uploadIcon: {
-    width: '40px',
-    height: '40px',
-    marginBottom: '-0.3rem',
-  },
-  uploadText: {
-    fontSize: '1rem',
-    fontWeight: '530',
-    color: '#2F2F2F',
-    marginBottom: '4px',
-  },
-  uploadInfo: {
-    fontSize: '0.875rem',
-    color: '#6B7280',
-    marginBottom: '12px',
-  },
-  uploadBtn: {
-    padding: '6px 18px',
-    backgroundColor: '#fff',
-    border: '1px solid #991F1F',
-    color: '#991F1F',
-    borderRadius: '999px',
-    fontSize: '0.85rem',
-    fontWeight: '500',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: 'Poppins, Sans-serif',
-  },
-  uploadBtnHover: {
-    backgroundColor: '#991F1F',
-    color: '#fff',
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    gap: '1rem',
-    marginTop: '2rem',
-  },
-  cancelBtn: {
-    padding: '10px 26px',
-    border: '1.5px solid #991F1F',
-    color: '#991F1F',
-    background: 'white',
-    borderRadius: '1000px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    fontFamily: 'Poppins, Sans-serif',
-  },
-  cancelBtnHover: {
-    backgroundColor: '#991F1F',
-    color: '#fff',
-  },
-  saveBtn: {
-    padding: '10px 26px',
-    backgroundColor: '#991F1F',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '9999px',
-    cursor: 'pointer',
-    fontFamily: 'Poppins, Sans-serif',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: '0.85rem',
-    marginTop: '0.4rem',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.3rem',
-  },
-  icon: {
-    fontSize: '1.1rem',
-  },
 };
 
 export default UpdateInventoryAdminModal;
