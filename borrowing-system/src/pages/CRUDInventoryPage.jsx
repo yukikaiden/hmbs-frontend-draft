@@ -80,7 +80,7 @@ const CRUDInventoryPage = () => {
     padding: '0.6rem 1rem',
     border: '1.5px solid #991F1F',
     borderRadius: '8px',
-    fontSize: '14px',
+    fontSize: '15px',
     height: '45px',
     fontFamily: 'Poppins, sans-serif',
   },
