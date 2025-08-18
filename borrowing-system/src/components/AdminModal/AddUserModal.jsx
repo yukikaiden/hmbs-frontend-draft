@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MdErrorOutline } from 'react-icons/md';
+import { ChevronDown } from 'lucide-react';
 
 const AddUserModal = ({ onClose, onRegister }) => {
   const [formData, setFormData] = useState({
@@ -11,10 +12,10 @@ const AddUserModal = ({ onClose, onRegister }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const [focusedInput, setFocusedInput] = useState('');
 
   const validate = () => {
     const newErrors = {};
-
     if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
     if (!formData.studentId.trim()) newErrors.studentId = 'Student ID is required';
     else if (!/^\d+$/.test(formData.studentId.trim())) newErrors.studentId = 'Student ID must be a number';
@@ -28,9 +29,7 @@ const AddUserModal = ({ onClose, onRegister }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name === 'studentId' && value && !/^\d*$/.test(value)) return;
-
     setFormData({ ...formData, [name]: value });
 
     if (errors[name]) {
@@ -52,25 +51,74 @@ const AddUserModal = ({ onClose, onRegister }) => {
     setErrors({});
   };
 
+  // helper for input fields
   const renderInput = (label, name, type = 'text', placeholder) => (
-    <div style={styles.inputGroup}>
+    <div style={styles.formGroup}>
       <label style={styles.label}>
-        {label} <span style={styles.asterisk}>*</span>
+        {label} <span style={{ color: 'red' }}>*</span>
       </label>
       <input
         style={{
           ...styles.input,
-          border: errors[name] ? '2px solid #e53935' : '1px solid #000',
+          ...(focusedInput === name && styles.inputFocused),
+          border: errors[name] ? '2px solid #e53935' : styles.input.border,
         }}
         type={type}
         name={name}
         placeholder={placeholder}
         value={formData[name]}
         onChange={handleChange}
+        onFocus={() => setFocusedInput(name)}
+        onBlur={() => setFocusedInput('')}
       />
       {errors[name] && (
         <div style={styles.errorText}>
-          <MdErrorOutline style={styles.errorIcon} />
+          <MdErrorOutline style={styles.icon} />
+          {errors[name]}
+        </div>
+      )}
+    </div>
+  );
+
+  // helper for select dropdown with icon
+  const renderSelect = (label, name, options) => (
+    <div style={styles.formGroup}>
+      <label style={styles.label}>
+        {label} <span style={{ color: 'red' }}>*</span>
+      </label>
+      <div style={{ position: 'relative' }}>
+        <select
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          onFocus={() => setFocusedInput(name)}
+          onBlur={() => setFocusedInput('')}
+          style={{
+            ...styles.select,
+            ...(focusedInput === name && styles.selectFocused),
+            border: errors[name] ? '2px solid #e53935' : styles.select.border,
+          }}
+        >
+          <option value="">Select a Role</option>
+          {options.map((opt) => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+        <ChevronDown
+          size={16}
+          style={{
+            position: 'absolute',
+            right: '14px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            pointerEvents: 'none',
+            color: '#991F1F',
+          }}
+        />
+      </div>
+      {errors[name] && (
+        <div style={styles.errorText}>
+          <MdErrorOutline style={styles.icon} />
           {errors[name]}
         </div>
       )}
@@ -82,44 +130,28 @@ const AddUserModal = ({ onClose, onRegister }) => {
       <div style={styles.modal}>
         <div style={styles.header}>
           <h2 style={styles.title}>Add New User</h2>
-          <p style={styles.subtitle}>Input required fields to add user</p>
-          <button onClick={onClose} style={styles.closeBtn}>×</button>
+          <button onClick={onClose} style={styles.closeBtn}>✕</button>
         </div>
+        <p style={styles.subtitle}>Input required fields to add user</p>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
+        <hr style={styles.divider} />
+
+        <form onSubmit={handleSubmit}>
           {renderInput('Full Name', 'fullName', 'text', 'Enter Full Name')}
           {renderInput('Student ID', 'studentId', 'text', 'Enter ID Number')}
           {renderInput('Email', 'email', 'email', 'Enter Email')}
           {renderInput('Password', 'password', 'password', 'Enter Password')}
 
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>
-              User Role <span style={styles.asterisk}>*</span>
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              style={{
-                ...styles.input,
-                border: errors.role ? '2px solid #e53935' : '1px solid #000',
-              }}
-            >
-              <option value="">Select a Role</option>
-              <option value="Student">Student</option>
-              <option value="Instructor">Instructor</option>
-              <option value="Program Head">Program Head</option>
-              <option value="Custodian">Custodian</option>
-            </select>
-            {errors.role && (
-              <div style={styles.errorText}>
-                <MdErrorOutline style={styles.errorIcon} />
-                {errors.role}
-              </div>
-            )}
-          </div>
+          {renderSelect('User Role', 'role', [
+            'Student',
+            'Instructor',
+            'Program Head',
+            'Custodian',
+          ])}
 
-          <button type="submit" style={styles.registerBtn}>Register User</button>
+          <div style={styles.footer}>
+            <button type="submit" style={styles.registerBtn}>Register User</button>
+          </div>
         </form>
       </div>
     </div>
@@ -129,88 +161,109 @@ const AddUserModal = ({ onClose, onRegister }) => {
 const styles = {
   overlay: {
     position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
+    inset: 0,
     backgroundColor: 'rgba(0,0,0,0.3)',
     display: 'flex',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     fontFamily: 'Poppins, sans-serif',
     zIndex: 1000,
   },
   modal: {
-    backgroundColor: '#fff',
-    padding: '30px 40px',
-    width: '700px',
-    borderRadius: '12px',
-    position: 'relative',
-    fontFamily: 'Poppins, sans-serif',
+    background: '#fff',
+    padding: '30px',
+    borderRadius: '16px',
+    width: '680px',
+    maxHeight: '95vh',
+    overflowY: 'auto',
   },
   header: {
-    marginBottom: '20px',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
   title: {
-    fontSize: '22px',
+    fontSize: '24px',
     fontWeight: '600',
-    marginBottom: '4px',
+    marginBottom: '-3px',
   },
   subtitle: {
-    fontSize: '14px',
+    fontSize: '17px',
     color: '#666',
+    marginBottom: '10px',
   },
   closeBtn: {
-    position: 'absolute',
-    top: '20px',
-    right: '20px',
-    fontSize: '24px',
     background: 'none',
     border: 'none',
+    fontSize: '22px',
     cursor: 'pointer',
-    color: '#333',
+    color: '#991F1F',
   },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
+  divider: {
+    border: 'none',
+    borderTop: '1.5px solid rgba(97,97,97,0.3)',
+    marginBottom: '17px',
   },
-  inputGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '6px',
+  formGroup: {
+    marginBottom: '1.1rem',
+    flex: 1,
   },
   label: {
-    fontSize: '14px',
-    fontWeight: '500',
-  },
-  asterisk: {
-    color: 'red',
+    fontWeight: 600,
+    marginBottom: '0.2rem',
+    display: 'block',
   },
   input: {
-    padding: '10px',
+    width: '100%',
+    padding: '0.8rem',
+    border: '0.5px solid #1A1A1A',
+    borderRadius: '7px',
     fontSize: '14px',
-    borderRadius: '6px',
-    fontFamily: 'Poppins, sans-serif',
     outline: 'none',
+    fontFamily: 'Poppins, Sans-Serif',
+  },
+  inputFocused: {
+    border: '2px solid #1A1A1A',
+  },
+  select: {
+    width: '100%',
+    padding: '12px 40px 12px 16px', // extra space for dropdown icon
+    border: '0.5px solid #1A1A1A',
+    borderRadius: '7px',
+    fontSize: '14px',
+    outline: 'none',
+    appearance: 'none',
+    backgroundColor: '#fff',
+    fontFamily: 'Poppins, Sans-serif',
+  },
+  selectFocused: {
+    border: '2px solid #000',
   },
   registerBtn: {
-    marginTop: '24px',
-    backgroundColor: '#8A1F2B',
+    marginTop: '15px',
+    backgroundColor: '#991F1F',
     color: '#fff',
     padding: '12px',
-    fontWeight: '600',
+    fontWeight: '500',
     border: 'none',
-    borderRadius: '20px',
+    borderRadius: '999px', // match inputs
     cursor: 'pointer',
     fontFamily: 'Poppins, sans-serif',
+    width: '100%', // ✅ full width like text fields
+    fontSize: '15px',
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'center', // keep button aligned
   },
   errorText: {
     color: '#e53935',
     fontSize: '0.85rem',
     display: 'flex',
     alignItems: 'center',
-    marginTop: '2px',
+    marginTop: '4px',
+    gap: '0.3rem',
   },
-  errorIcon: {
-    marginRight: '4px',
+  icon: {
     fontSize: '1rem',
   },
 };
